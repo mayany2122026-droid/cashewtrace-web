@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M'day Lactation Cambodia - Print Guide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --secondary: #1e293b;
+            --text-main: #0f172a;
+            --text-light: #475569;
+            --bg-light: #f8fafc;
+            --border-color: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Hanuman', 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: #fff;
+            line-height: 1.6;
+            padding: 40px;
+            font-size: 14px;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                font-size: 13px;
+            }
+            .no-print {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            .step-card {
+                break-inside: avoid;
+            }
+        }
+
+        .header-banner {
+            background: linear-gradient(135deg, var(--primary-dark), #0f766e);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-banner h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-banner h2 {
+            font-size: 18px;
+            font-weight: 700;
+            opacity: 0.95;
+            margin-bottom: 12px;
+        }
+
+        .header-banner p {
+            font-size: 13px;
+            opacity: 0.85;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-cols: 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        @media(min-width: 768px) {
+            .grid-2 {
+                grid-template-cols: 1fr 1fr;
+            }
+        }
+
+        .info-card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .info-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 6px;
+        }
+
+        .info-card ul {
+            list-style: none;
+        }
+
+        .info-card li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-card li span.label {
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .info-card li span.val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            background-color: #fff;
+            padding: 2px 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin: 35px 0 15px 0;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .step-card.active {
+            border-color: var(--primary);
+        }
+
+        .step-num {
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .step-title-kh {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--secondary);
+            display: block;
+        }
+
+        .step-title-en {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .step-content {
+            padding-left: 42px;
+        }
+
+        .instruction-list {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .instruction-list li {
+            margin-bottom: 8px;
+        }
+
+        .strong-kh {
+            font-weight: 700;
+            color: #000;
+        }
+
+        .code-box {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .visual-diagram {
+            background-color: var(--bg-light);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .print-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2);
+            transition: all 0.2s;
+        }
+
+        .print-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .note-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .lang-split {
+            display: grid;
+            grid-template-cols: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .lang-split {
+                grid-template-cols: 1fr 1fr;
+            }
+        }
+
+        .lang-column {
+            background-color: #ffffff;
+            border-radius: 6px;
+        }
+
+        .lang-badge-kh {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .lang-badge-en {
+            background-color: #f1f5f9;
+            color: #475569;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="text-align: right; margin-bottom: 15px;">
+        <button class="print-btn" onclick="window.print()">
+            🖨️ បោះពុម្ពឯកសារណែនាំនេះ (Print Manual)
+        </button>
+        <p style="font-size: 12px; color: var(--text-light); font-style: italic;">
+            * ម៉ាស៊ីនព្រីននឹងលាក់ប៊ូតុងនេះដោយស្វ័យប្រវត្តិនៅពេលបោះពុម្ព។ / This button is hidden during print.
+        </p>
+    </div>
+
+    <!-- HEADER BANNER -->
+    <div class="header-banner">
+        <h1>M'DAY LACTATION CAMBODIA</h1>
+        <h2>សៀវភៅណែនាំអំពីការចុះបញ្ជី និងបោះពុម្ពស្ទីគ័រ QR (Traceability QR System)</h2>
+        <p>
+            សន្លឹកណែនាំបច្ចេកទេសជាជំហានៗ សម្រាប់សម្រួលការងាររបស់លោកស្រី <strong>អេង ដាលីន</strong> ក្នុងការកត់ត្រាបាច់ផលិតកម្ម និងបោះពុម្ពស្លាក QR សម្គាល់ប្រភពដើមផលិតផល។
+        </p>
+        <span class="badge">SME Operational Checklist - July 2026</span>
+    </div>
+
+    <!-- CREDENTIALS AND CONTACTS -->
+    <div class="grid-2">
+        <div class="info-card">
+            <h3>🔑 គណនីចូលប្រើប្រាស់ / System Access</h3>
+            <ul>
+                <li>
+                    <span class="label">តួនាទី / Role:</span>
+                    <span class="val" style="background-color: #e0f2fe; color: #0369a1;">Dalin Eng (Processor)</span>
+                </li>
+                <li style="margin-top: 10px;">
+                    <span class="label">លេខសំងាត់ / Passcode:</span>
+                    <span class="val" style="background-color: #dcfce7; color: #15803d; font-size: 14px;">mdayprocessor2026</span>
+                </li>
+                <li style="margin-top: 10px;">
+                    <span class="label">គេហទំព័រ / Web App:</span>
+                    <span style="font-family: monospace; font-size: 11px; word-break: break-all; font-weight: bold; color: var(--primary-dark);">m'day-lactation-cambodia</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="info-card">
+            <h3>⚙️ ឧបករណ៍សម្រាប់បោះពុម្ព / Printing Equipment</h3>
+            <ul>
+                <li>
+                    <span class="label">ម៉ាស៊ីនព្រីន / Printer Type:</span>
+                    <span class="val">Thermal Label Printer (58mm/80mm)</span>
+                </li>
+                <li style="margin-top: 10px;">
+                    <span class="label">សង្វាក់ផលិតកម្ម / Main Facility:</span>
+                    <span class="val">CAM HEART (Battambang)</span>
+                </li>
+                <li style="margin-top: 10px;">
+                    <span class="label">ប្រភេទផលិតផល / Products:</span>
+                    <span class="val">ម្សៅចេក (Banana Blossom Flour)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <span>📋 សេចក្តីណែនាំលម្អិតទាំង ៣ ជំហាន / The 3-Step Walkthrough</span>
+    </div>
+
+    <!-- STEP 1 CARD -->
+    <div class="step-card active">
+        <div class="step-header">
+            <span class="step-num">1</span>
+            <div>
+                <span class="step-title-kh">បញ្ចូលបាច់ផលិតផលថ្មី (Add a New Production Batch)</span>
+                <span class="step-title-en">Registering the harvest input and processed flour yield output</span>
+            </div>
+        </div>
+        <div class="step-content">
+            <div class="lang-split">
+                <!-- Khmer -->
+                <div class="lang-column">
+                    <span class="lang-badge-kh">ភាសាខ្មែរ</span>
+                    <ul class="instruction-list">
+                        <li>ចុចលើផ្ទាំង <strong class="strong-kh">"+ Add New Batch"</strong> នៅក្នុងផ្ទាំងបញ្ជា។</li>
+                        <li>បញ្ចូល <strong class="strong-kh">Batch ID</strong> ថ្មី (ឧទាហរណ៍៖ <code class="code-box" style="display:inline; padding: 2px 6px;">B010</code>)។</li>
+                        <li>បញ្ចូល <strong class="strong-kh">Total Input (kg)</strong> (ទម្ងន់វត្ថុធាតុដើមផ្កាចេកដែលទិញសរុប ឧទាហរណ៍៖ <code>510</code>)។</li>
+                        <li>បញ្ចូល <strong class="strong-kh">Yield Output (kg)</strong> (ទម្ងន់ម្សៅចេកសម្រេចដែលកែច្នៃរួច ឧទាហរណ៍៖ <code>25</code>)។</li>
+                        <li><strong class="strong-kh">បន្ថែមឈ្មោះកសិករ៖</strong> ជ្រើសរើសឈ្មោះកសិករ និងបញ្ជាក់ទម្ងន់ដែលទិញពីគាត់ រួចចុចប៊ូតុង <strong class="strong-kh font-mono font-bold font-bold font-mono">+ Append Supplier</strong>។</li>
+                        <li>ពិនិត្យឡើងវិញ រួចចុច <strong class="strong-kh">"💾 SAVE PRODUCTION BATCH LEDGER"</strong>។</li>
+                    </ul>
+                </div>
+                
+                <!-- English -->
+                <div class="lang-column">
+                    <span class="lang-badge-en">English</span>
+                    <ul class="instruction-list">
+                        <li>Navigate to the <strong class="strong-kh">"+ Add New Batch"</strong> tab in the portal menu.</li>
+                        <li>Enter a unique <strong class="strong-kh">Batch ID</strong> (e.g., <code style="font-family: monospace;">B010</code>).</li>
+                        <li>Input <strong class="strong-kh">Total Input (kg)</strong> (total raw banana blossom mass purchased, e.g., <code>510</code>).</li>
+                        <li>Input <strong class="strong-kh">Yield Output (kg)</strong> (total finished flour produced, e.g., <code>25</code>).</li>
+                        <li><strong class="strong-kh">Link Farmer Sourcing:</strong> Select farmer's name, input the amount bought from them, and click <strong class="strong-kh font-mono font-bold">+ Append Supplier</strong>.</li>
+                        <li>Click <strong class="strong-kh">"Save Production Batch Ledger"</strong> to write securely to the Cloud.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="note-box">
+                <strong>💡 ចំណាំសំខាន់ (Important Note):</strong> ប្រព័ន្ធគណនាភាគរយគុណភាពសម្រេច (Mass Balance Yield %) និងគូរដ្យាក្រាមចំណែកដោយស្វ័យប្រវត្តសម្រាប់ជាភស្តុតាងតម្លាភាព។ / The system automatically computes and renders the Mass Balance Chart for verification.
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 2 CARD -->
+    <div class="step-card">
+        <div class="step-header">
+            <span class="step-num">2</span>
+            <div>
+                <span class="step-title-kh">បោះពុម្ពស្ទីគ័រ QR សម្រាប់បិទលើកញ្ចប់ (Sticker Label Maker)</span>
+                <span class="step-title-en">Generating & printing high-contrast barcode labels</span>
+            </div>
+        </div>
+        <div class="step-content">
+            <div class="lang-split">
+                <!-- Khmer -->
+                <div class="lang-column">
+                    <span class="lang-badge-kh">ភាសាខ្មែរ</span>
+                    <ul class="instruction-list">
+                        <li>ត្រឡប់មកកាន់ផ្ទាំង <strong class="strong-kh">"Overview & Tools"</strong>។</li>
+                        <li>អូសចុះក្រោមទៅផ្នែក <strong class="strong-kh">"Daily Production Sticker Printer"</strong>។</li>
+                        <li>ស្វែងរកបាច់ដែលទើបបញ្ចូល រួចចុចប៊ូតុងខ្មៅ <strong class="strong-kh">"Sticker Maker"</strong> នៅខាងស្តាំ។</li>
+                        <li>ផ្ទាំងបង្កើតស្ទីគ័រនឹងលេចឡើង។ អ្នកអាចជ្រើសរើសឈ្មោះផលិតផល និងថ្ងៃផលិត។</li>
+                        <li>ពិនិត្យគំរូស្ទីគ័រ រួចចុចប៊ូតុងពណ៌បៃតង <strong class="strong-kh">"🖨️ Print QR Sticker Label"</strong> ដើម្បីបោះពុម្ព។</li>
+                    </ul>
+                </div>
+                
+                <!-- English -->
+                <div class="lang-column">
+                    <span class="lang-badge-en">English</span>
+                    <ul class="instruction-list">
+                        <li>Go back to the <strong class="strong-kh">"Overview & Tools"</strong> tab.</li>
+                        <li>Scroll down to the table labeled <strong class="strong-kh">"Daily Production Sticker Printer"</strong>.</li>
+                        <li>Find your newly added batch, and click the black <strong class="strong-kh">"Sticker Maker"</strong> button.</li>
+                        <li>Configure your sticker layout (Product Title, Mfg Date, Expiry date, and Layout size).</li>
+                        <li>Verify the preview mockup, then click the green <strong class="strong-kh">"Print QR Sticker Label"</strong> button to send to your device.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="visual-diagram" style="font-family: monospace; font-size: 11px;">
+                +-------------------------------------------------------+<br>
+                | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>M'DAY LACTATION CAMBODIA</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                | &nbsp;[ [QR CODE] ] &nbsp;&nbsp;<b>PRODUCT:</b> ម្សៅចេកសម្រេច (Banana Flour) &nbsp;&nbsp;|<br>
+                | &nbsp;[ [ &nbsp;SCAN &nbsp;&nbsp;] ] &nbsp;&nbsp;<b>BATCH ID:</b> B010 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                | &nbsp;[ [ &nbsp;ME &nbsp;&nbsp;&nbsp;] ] &nbsp;&nbsp;<b>YIELD:</b> 25 kg • GHP Facility Certified &nbsp;&nbsp;|<br>
+                +-------------------------------------------------------+<br>
+                <span style="color: var(--primary-dark); font-weight: bold; font-size: 11px; margin-top: 5px; display: block;">គំរូស្ទីគ័រពិតដែលចេញពីម៉ាស៊ីនព្រីន / Sample high-contrast thermal label output</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 3 CARD -->
+    <div class="step-card">
+        <div class="step-header">
+            <span class="step-num">3</span>
+            <div>
+                <span class="step-title-kh">ការបិទស្លាក និងធ្វើតេស្តស្កេន (Apply Sticker & Scan Test)</span>
+                <span class="step-title-en">Attaching to packaging and checking farmer journey with a phone</span>
+            </div>
+        </div>
+        <div class="step-content">
+            <div class="lang-split">
+                <!-- Khmer -->
+                <div class="lang-column">
+                    <span class="lang-badge-kh">ភាសាខ្មែរ</span>
+                    <ul class="instruction-list">
+                        <li>បកសន្លឹកស្ទីគ័រដែលព្រីនបានចេញពីម៉ាស៊ីន។</li>
+                        <li>បិទស្ទីគ័រលើប្រអប់ ឬកញ្ចប់ម្សៅចេកឱ្យបានចំកណ្តាល និងស្អាតល្អ។</li>
+                        <li><strong class="strong-kh">សាកល្បងស្កេន៖</strong> យកទូរស័ព្ទដៃរបស់លោកស្រី Dalin ឬក្រុមការងារបើកកាមេរ៉ាស្កេនសាកល្បង។</li>
+                        <li>ប្រព័ន្ធនឹងបង្ហាញទំព័រ <b>"Product Passport"</b> ដែលមានបង្ហាញឈ្មោះកសិករ និងរូបភាពចម្ការច្បាស់ៗភ្លាមៗ!</li>
+                    </ul>
+                </div>
+                
+                <!-- English -->
+                <div class="lang-column">
+                    <span class="lang-badge-en">English</span>
+                    <ul class="instruction-list">
+                        <li>Peel off the thermal sticker label carefully from the printer tray.</li>
+                        <li>Stick it straight and neatly onto the paper box or bag of M'day Banana flour.</li>
+                        <li><strong class="strong-kh">Perform Scan Test:</strong> Use Dalin Eng's phone camera to scan the QR code.</li>
+                        <li>The system will launch the interactive <b>"Product Passport"</b> displaying the map, smallholder bio, and raw ingredient volumes instantly!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="note-box" style="background-color: #f0fdf4; border-left-color: #22c55e; color: #14532d;">
+                <strong>✅ អត្ថប្រយោជន៍ដ៏អស្ចារ្យ (Benefits):</strong> អតិថិជននឹងស្គាល់ប្រភពដើមផលិតផលយ៉ាងលម្អិត បង្កើនទំនុកចិត្តក្នុងការបញ្ជាទិញទ្វេដង និងជួយដល់សហគមន៍កសិករខ្មែរផ្ទាល់! / Scanning tells the organic farm story, fostering deep consumer trust and pride.
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="section-title">
+        <span>🔧 ការដោះស្រាយបញ្ហាបច្គេកទេស / Technical Troubleshooting Help</span>
+    </div>
+
+    <!-- TROUBLESHOOTING -->
+    <div class="info-card" style="border-left: 4px solid var(--primary-dark); background-color: #fff; margin-bottom: 40px;">
+        <div class="lang-split">
+            <!-- Khmer -->
+            <div>
+                <span class="lang-badge-kh">ភាសាខ្មែរ</span>
+                <p style="margin-bottom: 12px; font-weight: bold; color: var(--text-main);">
+                    ❓ ចុះបើគ្មានអុីនធឺណិត ឬម៉ាស៊ីនមេមានបញ្ហា?
+                </p>
+                <p style="font-size: 13px; color: var(--text-light); line-height: 1.6;">
+                    កុំបារម្ភ! ប្រព័ន្ធនេះមាន <b>ប្រព័ន្ធរក្សាទុកបម្រុងស្វ័យប្រវត្ត (Local Offline Cache)</b>។ រាល់បាច់ផលិតផលដែលលោកស្រីបញ្ចូល នឹងត្រូវបានរក្សាទុកក្នុងសតិកម្មវិធីរុករក (Browser)។ លោកស្រីនៅតែអាចបោះពុម្ពស្ទីគ័រ QR និងដំណើរការការងារបានជាធម្មតា ទោះបីជាគ្មានអុីនធឺណិតក៏ដោយ។ នៅពេលមានអុីនធឺណិតឡើងវិញ ទិន្នន័យនឹងត្រូវបានចម្លងទៅកាន់ពពក (Cloud Database) ដោយស្វ័យប្រវត្ត។
+                </p>
+            </div>
+            
+            <!-- English -->
+            <div>
+                <span class="lang-badge-en">English</span>
+                <p style="margin-bottom: 12px; font-weight: bold; color: var(--text-main);">
+                    ❓ What if the network drops or gets disconnected?
+                </p>
+                <p style="font-size: 13px; color: var(--text-light); line-height: 1.6;">
+                    Don't worry! This portal is built with an <b>Automatic Local Offline Cache</b>. If internet connectivity drops, any batches or suppliers you add are saved locally in the browser's persistent state. You can still generate and print labels as usual. Once the connection is restored, everything synchronizes automatically with the cloud.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER SIGNATURE -->
+    <div style="border-top: 1px solid var(--border-color); padding-top: 20px; text-align: center; color: var(--text-light); font-size: 11px; font-family: monospace;">
+        Developed for M'day Lactation Cambodia • All Rights Reserved © 2026.
+    </div>
+
+</body>
+</html>

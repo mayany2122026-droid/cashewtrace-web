@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CashewTrace - AI Youth Festa 2026 Pitch Deck</title>
+<style>
+  @page {
+    size: 16in 9in;
+    margin: 0;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #020617;
+    color: #ffffff;
+  }
+  .slide {
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    page-break-after: always;
+    break-after: page;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 80px;
+    background: #090d16;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-bg-gradient {
+    background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.15), transparent 50%),
+                radial-gradient(circle at bottom left, rgba(245, 158, 11, 0.1), transparent 50%),
+                #020617;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 20px;
+  }
+  .badge {
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #6ee7b7;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .logo-container {
+    display: inline-flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .category-tag {
+    color: #f59e0b;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  h2 {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+  .subtitle {
+    font-size: 22px;
+    color: #94a3b8;
+    line-height: 1.5;
+    max-width: 900px;
+  }
+  .highlight-green {
+    color: #34d399;
+  }
+  .highlight-amber {
+    color: #fbbf24;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: auto 0;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    margin: auto 0;
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin: auto 0;
+  }
+  .card {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid #1e293b;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .num-red { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+  .num-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+  .num-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+  .num-blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+
+  .card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #ffffff;
+  }
+  .card p {
+    font-size: 15px;
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .card-footer-tag {
+    margin-top: auto;
+    padding-top: 14px;
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+    font-size: 14px;
+    color: #64748b;
+  }
+  .founder-box {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin: auto 0;
+  }
+  .profile-badge {
+    background: #0f172a;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 20px;
+    padding: 35px;
+  }
+  .btn-print {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #10b981;
+    color: #020617;
+    font-weight: 800;
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+    z-index: 9999;
+  }
+  @media print {
+    .btn-print, .top-nav-app-bar { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav-app-bar" style="position: sticky; top: 0; z-index: 9999; background: #0f172a; color: #fff; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border-bottom: 2px solid #ea580c;">
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <span style="font-size: 18px;">🎙️</span>
+    <span><strong>MyDailyPA:</strong> Looking for the interactive Voice Assistant App? / ចង់ប្រើកម្មវិធីសំឡេង?</span>
+  </div>
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <a href="/?app=dailypa" style="background: #10b981; color: #ffffff; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(16,185,129,0.4);">
+      <span>🚀 Open Live App (បើក App) →</span>
+    </a>
+  </div>
+</div>
+
+<button class="btn-print" onclick="window.print()">📥 Print / Save All 9 Slides as PDF</button>
+
+<!-- SLIDE 1 -->
+<div class="slide slide-bg-gradient">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cashewGradOfficialDeck" x1="20" y1="25" x2="85" y2="90" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f97316" />
+            <stop offset="50%" stop-color="#ea580c" />
+            <stop offset="100%" stop-color="#c2410c" />
+          </linearGradient>
+        </defs>
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">AI Youth Festa 2026 • Korea-ASEAN Competition</div>
+  </div>
+  <div style="margin: auto 0; max-width: 1000px;">
+    <div class="category-tag">AI-Powered Agricultural Traceability & Standards Compliance</div>
+    <h1>Digitizing Cambodia's <br><span class="highlight-green">1 Million Ton Cashew Value Chain</span></h1>
+    <p class="subtitle">Empowering smallholder farmers and food MSMEs with AI-assisted CS 001:2000 standard compliance, instant bilingual packaging generation, and verifiable farm-to-shelf QR passports.</p>
+  </div>
+  <div class="footer">
+    <div>
+      <strong style="color: #ffffff; font-size: 16px;">Founder & Lead Domain Innovator: Mayany SAM</strong><br>
+      <span>30+ Years Leadership in Cambodian Agriculture & Agro-Processing</span>
+    </div>
+    <div style="text-align: right;">
+      <span style="color: #34d399; font-weight: bold; font-family: monospace;">https://cashewtrace.com</span><br>
+      <span>Phnom Penh, Cambodia</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">Slide 2 • The Problem</div>
+  </div>
+  <div>
+    <div class="category-tag">Market Inefficiencies & Regulatory Roadblocks</div>
+    <h2>Why Cambodian Agro-MSMEs Lose $1B+ Annually</h2>
+  </div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-num num-red">1</div>
+      <h3>85%+ Exported Raw</h3>
+      <p>Cambodia produces over 1,000,000 MT of raw cashew nuts (RCN), but lack of traceable supply chains forces farmers to sell raw crop to middlemen at raw commodity discounts without local value addition.</p>
+    </div>
+    <div class="card">
+      <div class="card-num num-amber">2</div>
+      <h3>80% Rejection Rate</h3>
+      <p>Value-added food MSMEs (cashew butter, roasted nuts, dried fruits) struggle with National Standard CS 001:2000 labeling, barcode costs, and mandatory nutrition tables, leading to rejection from modern supermarkets.</p>
+    </div>
+    <div class="card">
+      <div class="card-num num-green">3</div>
+      <h3>EU & Export Compliance</h3>
+      <p>New international laws (such as the EU Deforestation Regulation - EUDR) require precise farm GPS polygons and batch traceability that traditional paper notebooks cannot satisfy.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Core Barrier: Existing enterprise ERP systems are too expensive and complex for smallholders.</span>
+    <span style="color: #fbbf24; font-weight: bold;">Opportunity: Lightweight AI-Native SaaS</span>
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">Slide 3 • The Solution</div>
+  </div>
+  <div>
+    <div class="category-tag">Core Ecosystem Architecture</div>
+    <h2>An End-to-End AI Traceability & Packaging Platform</h2>
+  </div>
+  <div class="grid-3">
+    <div class="card" style="border-color: rgba(16, 185, 129, 0.4);">
+      <div class="card-num num-green">1</div>
+      <h3>1. Digital Farm Registry</h3>
+      <p>Logs smallholder farmer profiles, GPS plot boundaries, harvest dates, and cooperative sourcing transactions in simple Khmer.</p>
+      <div class="card-footer-tag highlight-green">✓ EUDR & Mass-Balance Ready</div>
+    </div>
+    <div class="card" style="border-color: rgba(245, 158, 11, 0.4);">
+      <div class="card-num num-amber">2</div>
+      <h3>2. AI CS 001 Label Engine</h3>
+      <p>Uses GenAI to instantly generate 100% compliant bilingual Khmer-English packaging labels, nutrition facts, and 1-click single sheet printing.</p>
+      <div class="card-footer-tag highlight-amber">✓ MISTI Standard Pre-Configured</div>
+    </div>
+    <div class="card" style="border-color: rgba(59, 130, 246, 0.4);">
+      <div class="card-num num-blue">3</div>
+      <h3>3. QR Digital Passport</h3>
+      <p>Consumers and supermarket buyers scan the on-pack QR code to instantly verify batch origin, moisture %, farmer stories, and lab safety scores.</p>
+      <div class="card-footer-tag highlight-green">✓ Consumer Trust & Export Proof</div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Result: Turns regulatory compliance from an expensive hurdle into a premium marketing superpower.</span>
+    <span style="color: #ffffff; font-weight: bold;">Live at cashewtrace.com</span>
+  </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">Slide 4 • AI Technology</div>
+  </div>
+  <div>
+    <div class="category-tag">Technology Architecture</div>
+    <h2>AI Built for Cambodian Agricultural Realities</h2>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+        <span class="badge" style="font-size: 11px;">Phase 1 (Live Now)</span>
+        <span style="color: #94a3b8; font-family: monospace; font-size: 13px;">Generative AI / LLM</span>
+      </div>
+      <h3>Bilingual Compliance & Label Assistant</h3>
+      <p style="margin-bottom: 12px;">• Translates and maps technical food ingredients into certified Khmer food terminology.</p>
+      <p style="margin-bottom: 12px;">• Automatically calculates daily nutritional values and formats FDA/CS 001 compliant tables.</p>
+      <p>• Generates authentic farmer storytelling narratives for export marketing.</p>
+    </div>
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+        <span class="badge" style="font-size: 11px; background: rgba(59,130,246,0.2); color: #93c5fd; border-color: rgba(59,130,246,0.4);">Phase 2 (Korea-ASEAN Roadmap)</span>
+        <span style="color: #94a3b8; font-family: monospace; font-size: 13px;">Computer Vision / Edge AI</span>
+      </div>
+      <h3>Automated KOR & Defect Grading</h3>
+      <p style="margin-bottom: 12px;">• Analyzes smartphone photos of raw cashew nuts (RCN) to detect mold, spotted kernels, and defect rates.</p>
+      <p style="margin-bottom: 12px;">• Predicts Kernel Outturn Ratio (KOR) automatically, protecting farmers against unfair price cuts.</p>
+      <p>• Opportunity for Korean AI and sensor tech partners to co-develop ag-tech models.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Empowering Youth: Simple, mobile-friendly interface designed for next-generation rural youth and women entrepreneurs.</span>
+  </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">Slide 5 • Traction</div>
+  </div>
+  <div>
+    <div class="category-tag">Traction & Evidence</div>
+    <h2>Not Just a Pitch Deck — A Live Operational Platform</h2>
+  </div>
+  <div class="grid-4">
+    <div class="card" style="text-align: center;">
+      <h1 style="color: #34d399; font-size: 48px; margin-bottom: 4px;">100+</h1>
+      <h3 style="font-size: 18px;">Farmer Pilot</h3>
+      <p>Collaborating with Uon Silot, President of the Cambodian Cashew Association, for a 100-farmer pre-harvest validation pilot.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <h1 style="color: #fbbf24; font-size: 48px; margin-bottom: 4px;">MISTI</h1>
+      <h3 style="font-size: 18px;">Ministerial Meeting</h3>
+      <p>Secured upcoming consultation with MISTI (Ms. Seng Molika) to demonstrate national CS 001 compliance distribution.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <h1 style="color: #60a5fa; font-size: 48px; margin-bottom: 4px;">6 Sectors</h1>
+      <h3 style="font-size: 18px;">Multi-Crop Engine</h3>
+      <p>Pre-configured templates for Cashew, Mango, Kampot Pepper, Dried Fruits, Traditional Sausages, and Prahok.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <h1 style="color: #c084fc; font-size: 48px; margin-bottom: 4px;">1-Click</h1>
+      <h3 style="font-size: 18px;">Micro-Printing</h3>
+      <p>Enables MSMEs to print single-page labels or 21-up micro-sheets on any $40 standard desktop printer.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Live Product Example: Cashew Nut Butter 350g Glass Jar — 1-Page Wrap & Top Lid Sticker generated and printed in real-time.</span>
+    <span style="color: #34d399; font-weight: bold;">Verify Live at cashewtrace.com ↗</span>
+  </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">Slide 6 • Business Model</div>
+  </div>
+  <div>
+    <div class="category-tag">Market Opportunity & Revenue</div>
+    <h2>Monetizing Cambodia's $1.5B Cashew Industry</h2>
+  </div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-footer-tag highlight-green" style="margin-top: 0; margin-bottom: 8px;">1. Free Community Tier</div>
+      <h3>Farmer & Small Co-op ($0)</h3>
+      <p>Free farm registration and basic QR passports to eliminate adoption friction and rapidly aggregate smallholder crop data across all 25 provinces.</p>
+    </div>
+    <div class="card" style="border-color: rgba(245, 158, 11, 0.5);">
+      <div class="card-footer-tag highlight-amber" style="margin-top: 0; margin-bottom: 8px;">2. Print-Shop Partner Fees</div>
+      <h3>Per-Order Partner Commission</h3>
+      <p>MSMEs design and format certified CS 001 packaging for free. When sending print-ready label files to certified printing shops, CashewTrace earns a partner referral fee per print batch.</p>
+    </div>
+    <div class="card">
+      <div class="card-footer-tag highlight-green" style="margin-top: 0; margin-bottom: 8px; color: #60a5fa;">3. Exporter Enterprise Tier</div>
+      <h3>Volume-Based Export Fee</h3>
+      <p>Exporters and industrial aggregators are charged based on verified export volume (per metric ton or shipping container) for EUDR compliance passports and batch audit certificates.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Total Market: 1.1M MT Cashew • 4,500+ Food MSMEs • Regional Expansion into Vietnam, Thailand, Laos</span>
+  </div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">Slide 7 • Korea-ASEAN Corridor</div>
+  </div>
+  <div>
+    <div class="category-tag">International Synergy</div>
+    <h2>Building the Cambodia–Korea Agricultural Tech Corridor</h2>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: #34d399;">Why Korea is the Perfect Partner</h3>
+      <p style="margin-bottom: 14px;">Korea is a global leader in AI computer vision, smart agriculture, and high-standard food safety technology. Cambodia possesses immense raw agricultural scale (cashew, mango, pepper) that urgently needs this technology.</p>
+      <p style="color: #94a3b8;">• Direct technology transfer with Korean AI startups and research labs.<br>• Opening verified direct trade channels to Korean healthy food buyers.</p>
+    </div>
+    <div class="card">
+      <h3 style="color: #fbbf24;">Goals for AI Youth Festa 2026</h3>
+      <p style="margin-bottom: 12px;"><strong>1. AI Model Co-Development:</strong> Partner with Korean computer vision researchers to train our cashew quality defect models.</p>
+      <p style="margin-bottom: 12px;"><strong>2. Market Validation:</strong> Connect with Korean food-tech accelerators and ethical buyers interested in single-origin Cambodian cashews.</p>
+      <p><strong>3. Regional Scale:</strong> Prepare CashewTrace for regional expansion across ASEAN supply chains.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Vision: Linking Korean high-tech innovation directly to Southeast Asian smallholder farmer empowerment.</span>
+  </div>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="slide">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">Slide 8 • Leadership</div>
+  </div>
+  <div>
+    <div class="category-tag">Leadership & Vision</div>
+    <h2>Domain Expertise Meets Modern AI</h2>
+  </div>
+  <div class="founder-box">
+    <div class="profile-badge">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+        <div>
+          <h2 style="font-size: 32px; margin-bottom: 4px;">Mayany SAM</h2>
+          <span style="color: #34d399; font-weight: 700; font-size: 16px;">Founder & Lead Domain Innovator</span>
+        </div>
+        <span class="badge">30+ Yrs Agriculture Leadership</span>
+      </div>
+      <p style="font-size: 16px; color: #cbd5e1; line-height: 1.6; margin-bottom: 20px;">
+        Over 30 years of hands-on leadership in Cambodian agriculture, agro-processing, food standardization (CS 001/MISTI), and rural enterprise development. Direct, trusted relationships with provincial farming cooperatives across Kampong Cham, Tboung Khmum, and Kampong Thom.
+      </p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="background: #020617; padding: 16px; border-radius: 12px; border: 1px solid #1e293b;">
+          <strong style="color: #ffffff; display: block; margin-bottom: 4px;">Domain Authority</strong>
+          <span style="font-size: 13px; color: #94a3b8;">Understands exact regulatory hurdles (CS 001, MISTI, GDA, EUDR) that generic software engineers overlook.</span>
+        </div>
+        <div style="background: #020617; padding: 16px; border-radius: 12px; border: 1px solid #1e293b;">
+          <strong style="color: #ffffff; display: block; margin-bottom: 4px;">Youth Tech Empowerment</strong>
+          <span style="font-size: 13px; color: #94a3b8;">Equipping next-generation Cambodian ag-tech graduates and rural youth co-op managers with practical AI tools.</span>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="card" style="padding: 20px;">
+        <strong style="color: #fbbf24; font-size: 14px; text-transform: uppercase;">Cambodian Cashew Association</strong>
+        <span style="font-size: 13px; color: #cbd5e1; margin-top: 4px;">President Uon Silot • Farmer Validation Partner</span>
+      </div>
+      <div class="card" style="padding: 20px;">
+        <strong style="color: #34d399; font-size: 14px; text-transform: uppercase;">MISTI / ISC Standards</strong>
+        <span style="font-size: 13px; color: #cbd5e1; margin-top: 4px;">National Food Packaging & Labeling Compliance</span>
+      </div>
+      <div class="card" style="padding: 20px;">
+        <strong style="color: #60a5fa; font-size: 14px; text-transform: uppercase;">Enterprise Cloud Backbone</strong>
+        <span style="font-size: 13px; color: #cbd5e1; margin-top: 4px;">Serverless Google Cloud & Firebase Firestore Engine</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Mission: Bridging senior agro-industry wisdom with next-generation AI innovation.</span>
+  </div>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide slide-bg-gradient">
+  <div class="header">
+    <div class="logo-container">
+      <svg viewBox="0 0 580 145" style="height: 36px; width: auto;" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 8)">
+          <circle cx="72" cy="52" r="44" stroke="#18181b" stroke-width="11" fill="#ffffff" />
+          <path d="M 103 82 L 128 107" stroke="#18181b" stroke-width="18" stroke-linecap="round" />
+          <path d="M 16 58 C 12 36, 32 16, 56 16 C 80 16, 96 34, 93 60 C 90 79, 72 90, 48 88 C 26 86, 20 74, 16 58 Z" fill="url(#cashewGradOfficialDeck)" stroke="#ffffff" stroke-width="3.8" />
+          <ellipse cx="72" cy="39" rx="8.5" ry="15" transform="rotate(32 72 39)" fill="#ffffff" />
+          <path d="M 24 50 C 22 41, 31 30, 46 25" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          <circle cx="82" cy="31" r="2.5" fill="#ffffff" />
+        </g>
+        <g transform="translate(156, 78)">
+          <text x="0" y="0" fill="#15733d" font-size="54" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif" font-weight="900" letter-spacing="-0.5px">CashewTrace</text>
+        </g>
+        <g transform="translate(162, 114)">
+          <text x="0" y="0" fill="#ea580c" font-size="23" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-style="italic" letter-spacing="0.2px">From Farm to Market</text>
+        </g>
+      </svg>
+    </div>
+    <div class="badge">Slide 9 • Roadmap & The Ask</div>
+  </div>
+  <div>
+    <div class="category-tag">Next Steps & Resource Allocation</div>
+    <h2>Roadmap & Competition Prize Allocation</h2>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: #34d399; margin-bottom: 16px;">2026 - 2027 Milestones</h3>
+      <p style="margin-bottom: 12px;"><strong>Q3 2026:</strong> 100-Farmer validation pilot & MISTI ministerial packaging consultation.</p>
+      <p style="margin-bottom: 12px;"><strong>Q4 2026:</strong> Co-develop Computer Vision defect model with Korean AI technology partners.</p>
+      <p><strong>Q1 2027:</strong> Commercial rollout across 500+ cashew and mango MSMEs nationwide.</p>
+    </div>
+    <div class="card">
+      <h3 style="color: #fbbf24; margin-bottom: 16px;">Prize Grant Deployment (60 / 20 / 20 Rule)</h3>
+      <p style="margin-bottom: 12px;"><strong>60% Farmer & MSME Onboarding:</strong> Field deployment, training workshops & onboarding farm owners and MSMEs nationwide.</p>
+      <p style="margin-bottom: 12px;"><strong>20% AI Talent & Staffing:</strong> Recruiting & onboarding new AI talent and youth ag-tech engineers.</p>
+      <p><strong>20% Infrastructure Scaling:</strong> Cloud server scaling, security hardening, and national operations.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <div>
+      <strong style="color: #ffffff; font-size: 16px;">Join us in transforming Southeast Asia's agricultural economy.</strong><br>
+      <span>Contact: mayany@cashewtrace.com | +855 61 734 415</span>
+    </div>
+    <div>
+      <span style="color: #34d399; font-weight: bold; font-family: monospace; font-size: 16px;">cashewtrace.com</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

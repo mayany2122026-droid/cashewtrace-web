@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Batches Collection - public can view, anyone can write for seeding or updates
+    match /batches/{batchId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 2. Suppliers Collection - public can view, anyone can write for seeding or updates
+    match /suppliers/{supplierId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 3. Inventory Collection - public can view, anyone can write for seeding or updates
+    match /inventory/{inventoryId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 4. Mango Pilots Collection - public can view, anyone can write for updates
+    match /mango_pilots/{pilotId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 5. Registered SMEs Collection - public can view/register and track telemetry
+    match /registered_smes/{smeId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 6. Website Views & Visitor Analytics
+    match /website_views/{viewId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 7. Sector Clicks Analytics
+    match /sector_clicks/{clickId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 8. User Sign-Ins Collection
+    match /user_signins/{signinId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 9. Test connection for Firebase health check
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // 10. Packaging Passports Collection - QR code digital passport sync across devices
+    match /packaging_passports/{passportId} {
+      allow read, write: if true;
+    }
+
+    // 11. Customer & B2B Orders Collection
+    match /orders/{orderId} {
+      allow read, write: if true;
+    }
+  }
+}

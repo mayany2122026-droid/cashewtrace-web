@@ -1,0 +1,292 @@
+{
+  "entities": {
+    "Batch": {
+      "title": "Batch",
+      "description": "A verified agricultural product batch containing sourcing records, moisture percentage, and yield.",
+      "type": "object",
+      "properties": {
+        "batch_id": { "type": "string", "maxLength": 10 },
+        "total_input_kg": { "type": "number" },
+        "num_suppliers": { "type": "number" },
+        "origin_province": { "type": "string", "maxLength": 50 },
+        "production_date_raw": { "type": "number" },
+        "product": { "type": "string", "maxLength": 50 },
+        "product_name": { "type": "string", "maxLength": 100 },
+        "output_kg": { "type": "number" },
+        "verified_by": { "type": "string", "maxLength": 50 },
+        "verification_date_raw": { "type": "number" },
+        "status": { "type": "string", "enum": ["VERIFIED", "UNVERIFIED"] },
+        "yield_percent": { "type": "number" },
+        "certification": { "type": "string", "maxLength": 100 },
+        "moisture_percent": { "type": "number" },
+        "enterprise_name": { "type": "string", "maxLength": 100 },
+        "enterprise_location": { "type": "string", "maxLength": 200 },
+        "story": { "type": "string", "maxLength": 2000 }
+      },
+      "required": [
+        "batch_id",
+        "total_input_kg",
+        "num_suppliers",
+        "origin_province",
+        "production_date_raw",
+        "product",
+        "product_name",
+        "output_kg",
+        "status",
+        "yield_percent"
+      ]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "A registered cooperative smallholder supplier.",
+      "type": "object",
+      "properties": {
+        "ST ID": { "type": "string", "maxLength": 20 },
+        "Supplier Name": { "type": "string", "maxLength": 100 },
+        "Province": { "type": "string", "maxLength": 50 },
+        "Ingredients": { "type": "string", "maxLength": 50 },
+        "National ID Number": { "type": "number" },
+        "Date of Birth": { "type": "number" },
+        "Sex": { "type": "string", "maxLength": 10 },
+        "Group": { "type": "number" },
+        "Telephone Number": { "type": "string", "maxLength": 20 }
+      },
+      "required": ["ST ID", "Supplier Name", "Province", "National ID Number"]
+    },
+    "InventoryRecord": {
+      "title": "InventoryRecord",
+      "description": "A continuous transaction log recording raw crop sourcing inputs or balance.",
+      "type": "object",
+      "properties": {
+        "date_raw": { "type": "number" },
+        "supplier_name": { "type": "string", "maxLength": 100 },
+        "ct_id": { "type": "string", "maxLength": 20 },
+        "quantity_kg": { "type": "number" },
+        "province": { "type": "string", "maxLength": 50 },
+        "balance": { "type": "number" }
+      },
+      "required": ["date_raw", "quantity_kg"]
+    },
+    "MangoPilotRecord": {
+      "title": "MangoPilotRecord",
+      "description": "Detailed multi-level operational records for Mango Trace Pilot.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 50 },
+        "title": { "type": "string", "maxLength": 200 },
+        "timestamp": { "type": "number" },
+        "farmerId": { "type": "string", "maxLength": 20 },
+        "fullName": { "type": "string", "maxLength": 100 },
+        "gender": { "type": "string", "enum": ["Male", "Female", "Other"] },
+        "dob": { "type": "string", "maxLength": 20 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 200 },
+        "cooperative": { "type": "string", "maxLength": 100 },
+        "trainingReceived": { "type": "string", "maxLength": 200 },
+        "gapStatus": { "type": "string", "enum": ["Certified", "In Progress", "Not Certified"] },
+        "organicStatus": { "type": "string", "enum": ["Certified", "In Progress", "Not Certified"] },
+        "familyMembers": { "type": "number" },
+        "laborAvailable": { "type": "number" },
+        "mainIncome": { "type": "string", "maxLength": 100 },
+        "farmId": { "type": "string", "maxLength": 20 },
+        "gpsLatitude": { "type": "number" },
+        "gpsLongitude": { "type": "number" },
+        "province": { "type": "string", "maxLength": 50 },
+        "district": { "type": "string", "maxLength": 50 },
+        "commune": { "type": "string", "maxLength": 50 },
+        "village": { "type": "string", "maxLength": 50 },
+        "farmArea": { "type": "number" },
+        "plotId": { "type": "string", "maxLength": 20 },
+        "plotSize": { "type": "number" },
+        "slope": { "type": "string", "enum": ["Flat", "Gentle", "Steep"] },
+        "elevation": { "type": "number" },
+        "soilType": { "type": "string", "maxLength": 50 },
+        "irrigationSource": { "type": "string", "maxLength": 50 },
+        "waterAvailability": { "type": "string", "enum": ["Year-round", "Seasonal", "Scarce"] },
+        "variety": { "type": "string", "enum": ["Keo Romeat", "Keo Chen", "Nam Dok Mai", "Irwin", "Other"] },
+        "treeGroupId": { "type": "string", "maxLength": 20 },
+        "plantingDate": { "type": "string", "maxLength": 20 },
+        "treeAge": { "type": "number" },
+        "rootstock": { "type": "string", "maxLength": 50 },
+        "spacing": { "type": "string", "maxLength": 50 },
+        "numTrees": { "type": "number" },
+        "treeHealth": { "type": "string", "enum": ["Excellent", "Good", "Fair", "Poor"] },
+        "previousYield": { "type": "number" },
+        "currentYieldEstimate": { "type": "number" },
+        "yieldHistory": { "type": "string", "maxLength": 200 },
+        "landPrepDate": { "type": "string", "maxLength": 20 },
+        "landPrepActivity": { "type": "string", "maxLength": 200 },
+        "landPrepLabor": { "type": "number" },
+        "plantingDateActual": { "type": "string", "maxLength": 20 },
+        "seedlingSource": { "type": "string", "maxLength": 100 },
+        "plantingQty": { "type": "number" },
+        "pruningDate": { "type": "string", "maxLength": 20 },
+        "pruningTrees": { "type": "number" },
+        "pruningMethod": { "type": "string", "maxLength": 200 },
+        "flowerInductionDate": { "type": "string", "maxLength": 20 },
+        "flowerInductionMethod": { "type": "string", "maxLength": 200 },
+        "flowerInductionMaterials": { "type": "string", "maxLength": 200 },
+        "flowerInductionDosage: ": { "type": "string", "maxLength": 200 },
+        "irrigationDate": { "type": "string", "maxLength": 20 },
+        "irrigationSourceLog": { "type": "string", "maxLength": 100 },
+        "irrigationVolume": { "type": "number" },
+        "fertilizerDate": { "type": "string", "maxLength": 20 },
+        "fertilizerName": { "type": "string", "maxLength": 100 },
+        "fertilizerNpk": { "type": "string", "maxLength": 50 },
+        "fertilizerBatch": { "type": "string", "maxLength": 50 },
+        "fertilizerQty": { "type": "number" },
+        "fertilizerCost": { "type": "number" },
+        "organicInputsType": { "type": "string", "maxLength": 100 },
+        "organicInputsQty": { "type": "number" },
+        "pestObserveDate": { "type": "string", "maxLength": 20 },
+        "pestIdentified": { "type": "string", "enum": ["Fruit fly", "Thrips", "Mealybug", "Scale insect", "None"] },
+        "pestSeverity": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "pestAffectedArea": { "type": "number" },
+        "diseaseObserveDate": { "type": "string", "maxLength": 20 },
+        "diseaseIdentified": { "type": "string", "enum": ["Anthracnose", "Powdery mildew", "Stem rot", "Sooty mold", "None"] },
+        "pesticideName": { "type": "string", "maxLength": 100 },
+        "pesticideActiveIngredient": { "type": "string", "maxLength": 100 },
+        "pesticideRegNumber": { "type": "string", "maxLength": 50 },
+        "pesticideSupplier": { "type": "string", "maxLength": 100 },
+        "pesticideBatch": { "type": "string", "maxLength": 50 },
+        "pesticideDate": { "type": "string", "maxLength": 20 },
+        "pesticideDosage": { "type": "string", "maxLength": 100 },
+        "pesticideApplicator": { "type": "string", "maxLength": 100 },
+        "pesticidePpeUsed": { "type": "string", "maxLength": 100 },
+        "pesticidePhiDays": { "type": "number" },
+        "weatherRainfall": { "type": "number" },
+        "weatherTemp": { "type": "number" },
+        "weatherHumidity": { "type": "number" },
+        "weatherSeasonalEvents": { "type": "string", "maxLength": 200 },
+        "sustainabilityWaterUse": { "type": "string", "maxLength": 100 },
+        "sustainabilitySoilConservation": { "type": "string", "maxLength": 100 },
+        "sustainabilityBiodiversity": { "type": "string", "maxLength": 100 },
+        "sustainabilityTreesPlanted": { "type": "number" },
+        "harvestBatchId": { "type": "string", "maxLength": 20 },
+        "harvestDate": { "type": "string", "maxLength": 20 },
+        "harvestPlotId": { "type": "string", "maxLength": 20 },
+        "harvestVariety": { "type": "string", "maxLength": 50 },
+        "harvestQty": { "type": "number" },
+        "harvestCrates": { "type": "number" },
+        "harvestCrew": { "type": "string", "maxLength": 100 },
+        "gradeA": { "type": "number" },
+        "gradeB: ": { "type": "number" },
+        "gradeC": { "type": "number" },
+        "gradeRejected": { "type": "number" },
+        "postWashing": { "type": "boolean" },
+        "postSorting": { "type": "boolean" },
+        "postPacking": { "type": "boolean" },
+        "postStorageTemp": { "type": "number" },
+        "postStorageHumidity": { "type": "number" },
+        "postStorageDuration": { "type": "number" },
+        "buyerId": { "type": "string", "maxLength": 20 },
+        "buyerName": { "type": "string", "maxLength": 100 },
+        "buyerType": { "type": "string", "enum": ["Trader", "Exporter", "Processor", "Retailer"] },
+        "salesDate": { "type": "string", "maxLength": 20 },
+        "salesBatchId": { "type": "string", "maxLength": 20 },
+        "salesQty": { "type": "number" },
+        "salesPricePerKg": { "type": "number" },
+        "transportVehicle": { "type": "string", "maxLength": 50 },
+        "transportDriver": { "type": "string", "maxLength": 100 },
+        "transportDestination": { "type": "string", "maxLength": 100 },
+        "transportDeliveryDate": { "type": "string", "maxLength": 20 },
+        "econInputCost": { "type": "number" },
+        "econLaborCost": { "type": "number" },
+        "econTransportCost": { "type": "number" },
+        "econPackagingCost": { "type": "number" },
+        "econRevenue": { "type": "number" }
+      },
+      "required": ["title", "timestamp", "fullName", "farmId", "plotId", "variety"]
+    },
+    "RegisteredSme": {
+      "title": "RegisteredSme",
+      "description": "Store registered MSME enterprise contact and usage telemetry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "smeName": { "type": "string", "maxLength": 150 },
+        "phoneOrTelegram": { "type": "string", "maxLength": 50 },
+        "registeredAt": { "type": "number" },
+        "lastActiveAt": { "type": "number" },
+        "selectedSector": { "type": "string", "maxLength": 100 },
+        "labelsCreatedCount": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "smeName", "phoneOrTelegram", "registeredAt"]
+    },
+    "WebsiteView": {
+      "title": "WebsiteView",
+      "description": "Record visitor website sessions and device telemetry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "visitorId": { "type": "string", "maxLength": 100 },
+        "timestamp": { "type": "number" },
+        "referrer": { "type": "string", "maxLength": 500 },
+        "language": { "type": "string", "maxLength": 50 },
+        "platform": { "type": "string", "maxLength": 100 },
+        "userAgent": { "type": "string", "maxLength": 500 },
+        "screenResolution": { "type": "string", "maxLength": 50 },
+        "page": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["id", "visitorId", "timestamp"]
+    },
+    "SectorClick": {
+      "title": "SectorClick",
+      "description": "Record user clicks on each of the 5 sectors.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "visitorId": { "type": "string", "maxLength": 100 },
+        "sectorId": { "type": "string", "maxLength": 50 },
+        "sectorName": { "type": "string", "maxLength": 100 },
+        "timestamp": { "type": "number" },
+        "device": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "visitorId", "sectorId", "timestamp"]
+    },
+    "TestConnection": {
+      "title": "TestConnection",
+      "description": "Used by skill to validate connectivity to Firestore.",
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "maxLength": 20 },
+        "timestamp": { "type": "number" }
+      }
+    }
+  },
+  "firestore": {
+    "/batches/{batchId}": {
+      "schema": "Batch",
+      "description": "Store all CashewTrace batches."
+    },
+    "/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Store smallholder suppliers."
+    },
+    "/inventory/{inventoryId}": {
+      "schema": "InventoryRecord",
+      "description": "Store continuous transaction log inventory records."
+    },
+    "/mango_pilots/{pilotId}": {
+      "schema": "MangoPilotRecord",
+      "description": "Store Keo Romeat Mango Pilot operational records."
+    },
+    "/registered_smes/{smeId}": {
+      "schema": "RegisteredSme",
+      "description": "Store registered SME businesses and usage telemetry."
+    },
+    "/website_views/{viewId}": {
+      "schema": "WebsiteView",
+      "description": "Record visitor web page views."
+    },
+    "/sector_clicks/{clickId}": {
+      "schema": "SectorClick",
+      "description": "Record clicks on individual agricultural sectors."
+    },
+    "/test/{docId}": {
+      "schema": "TestConnection",
+      "description": "Health check connection document."
+    }
+  }
+}

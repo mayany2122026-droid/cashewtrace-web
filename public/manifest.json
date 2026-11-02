@@ -1,0 +1,63 @@
+{
+  "id": "com.cashewtrace.app",
+  "name": "CashewTrace - កសិកម្មស្វាយចន្ទី & តាមដាន EUDR",
+  "short_name": "CashewTrace",
+  "description": "CashewTrace Protocol — Cambodia Cashew & Agri Traceability Ecosystem, EUDR Polygon Mapping, and Chey Sambo Supply Chain",
+  "start_url": "/?source=pwa&project=farmer",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "background_color": "#064e3b",
+  "theme_color": "#064e3b",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "km",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "កសិករស្វាយចន្ទី (Cashew Portal)",
+      "short_name": "ស្វាយចន្ទី",
+      "url": "/?project=farmer",
+      "description": "Cashew Farmer EUDR & Harvest Log"
+    },
+    {
+      "name": "រោងចក្រ ជ័យ សំបូរ (Chey Sambo)",
+      "short_name": "ជ័យ សំបូរ",
+      "url": "/?project=farmer#chey-sambo",
+      "description": "Chey Sambo Processing Facility"
+    },
+    {
+      "name": "លិខិតឆ្លងដែន EUDR Passport",
+      "short_name": "EUDR Passport",
+      "url": "/?project=passport",
+      "description": "EUDR Digital Product Passport"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities", "agriculture"]
+}
+
