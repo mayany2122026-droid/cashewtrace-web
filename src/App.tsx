@@ -102,11 +102,13 @@ function CashewTraceEcosystem() {
     const modeParam = params.get('mode');
     const projectParam = params.get('project') || params.get('tab') || params.get('app');
     const hasBatchParam = Boolean(params.get('batch') || params.get('b') || params.get('lot'));
+    const hasEanParam = Boolean(params.get('ean') || params.get('gtin') || params.get('barcode'));
     const isPassportScan = 
       modeParam === 'passport' || 
       projectParam === 'passport' || 
       params.has('certificate') ||
       params.has('cert') ||
+      hasEanParam ||
       hasBatchParam;
 
     if (isPassportScan) {
@@ -121,6 +123,9 @@ function CashewTraceEcosystem() {
     }
 
     const requestedProject = projectParam;
+    if (requestedProject && ALL_PROJECTS.some((p) => p.id === requestedProject)) {
+      setCurrentProject(requestedProject);
+    }
 
     const storedSession = localStorage.getItem('cashewtrace_user_session');
     let session: UserProfile | null = null;
@@ -160,18 +165,17 @@ function CashewTraceEcosystem() {
 
   // Handle selecting a project from the dropdown or cards
   const handleSelectProject = (projectId: string) => {
-    const targetMeta = ALL_PROJECTS.find((p) => p.id === projectId);
-    if (projectId === 'passport') {
-      setCurrentProject('passport');
-    } else {
-      setCurrentProject('store');
-      if (typeof window !== 'undefined') {
-        const url = new URL(window.location.href);
+    setCurrentProject(projectId);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      if (projectId === 'store') {
         url.searchParams.delete('project');
         url.searchParams.delete('tab');
-        window.history.replaceState({}, '', url.toString());
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        url.searchParams.set('project', projectId);
       }
+      window.history.replaceState({}, '', url.toString());
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -283,6 +287,12 @@ function CashewTraceEcosystem() {
             onOpenPassport={(bId) => {
               setSelectedBatchId(bId);
               handleSelectProject('passport');
+            }}
+            onOpenPackaging={() => {
+              handleSelectProject('packaging');
+            }}
+            onOpenDeploy={() => {
+              setIsDeployModalOpen(true);
             }}
           />
         )}

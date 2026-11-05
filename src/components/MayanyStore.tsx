@@ -51,7 +51,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '៥០g = $1.00 (៤,១០០ ៛)',
     badgeEn: '50g = $1.00',
     badgeKo: '50g = $1.00',
-    imageSrc: '/assets/aistudio/image_62ff0b40.png',
+    imageSrc: '/images/mayany_chili_pouch_50g.jpg',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេសហឹរស្រួយ កញ្ចប់ក្រដាសក្រាហ្វ ៥០ ក្រាម មានបង្អួចថ្លាមើលឃើញសាច់គ្រាប់។ រសជាតិហឹរឈ្ងុយដិតអារម្មណ៍ ញ៉ាំជាមួយស្រាបៀរ ឬជាអាហារសម្រន់។',
     descriptionEn: 'Chili coated crunchy cashew kernels in 50g craft eco pouch with transparent window. Savory & spicy bar snack.',
     descriptionKo: '50g 크라프트 지퍼백에 담긴 바삭하고 매콤한 프리미엄 캐슈넛. 투명 창을 통해 알찬 원물을 확인할 수 있으며, 맥주 안주나 간식으로 최고입니다.',
@@ -85,7 +85,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '៥០g = $1.00 (៤,១០០ ៛)',
     badgeEn: '50g = $1.00',
     badgeKo: '50g = $1.00',
-    imageSrc: '/assets/aistudio/image_5a79710c.png',
+    imageSrc: '/images/mayany_sugar_pouch_50g.jpg',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករធម្មជាតិ កញ្ចប់ពណ៌ស ៥០ ក្រាម ស្រួយក្រមោក រសជាតិផ្អែមស្រទន់ ពេញនិយមនៅកូរ៉េ។',
     descriptionEn: 'Sugar coated cashew kernels in 50g clean white pouch. Light caramel crunch, highly popular in South Korea.',
     descriptionKo: '50g 깔끔한 화이트 스탠딩 파우치에 담긴 은은한 천연 당 코팅 캐슈넛. 한국 바이어와 소비자들에게 가장 인기 있는 스위트 스낵입니다.',
@@ -119,7 +119,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '៥០g = $1.00 (៤,១០០ ៛)',
     badgeEn: '50g = $1.00',
     badgeKo: '50g = $1.00',
-    imageSrc: '/assets/aistudio/image_8eface38.png',
+    imageSrc: '/images/mayany_pepper_pouch_50g.jpg',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI កញ្ចប់ខ្មៅប្រណិត ៥០ ក្រាម គ្រាប់ពេញលេញ ឈ្ងុយហឹរស្រទន់តាមស្តង់ដារ GI កំពត។',
     descriptionEn: 'Whole cashew kernels coated with authentic GI Kampot black pepper in 50g matte black pouch.',
     descriptionKo: '세계 최고급 캄폿 지리적표시(GI) 흑후추를 입힌 프리미엄 통 캐슈넛. 매트 블랙 지퍼 파우치로 신선함과 품격을 더했습니다.',
@@ -153,7 +153,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '៥០g = $0.65 (២,៧០០ ៛)',
     badgeEn: '50g = $0.65',
     badgeKo: '50g = $0.65',
-    imageSrc: '/assets/aistudio/image_138a53de.png',
+    imageSrc: '/images/mayany_pepper_broken_pouch_50g.jpg',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីបំណែក (Broken / Split Kernels) ស្រោបម្រេចខ្មៅកំពត GI កញ្ចប់ ៥០ ក្រាម រសជាតិឈ្ងុយឆ្ងាញ់ដូចគ្នា តម្លៃសន្សំសំចៃត្រឹម $0.65។',
     descriptionEn: 'Broken / split grade cashew pieces coated with GI Kampot black pepper in 50g pouch. Great value gourmet condiment.',
     descriptionKo: '최고급 캄폿 GI 흑후추를 입힌 가성비 최고의 스플릿/부서진 캐슈넛. 요리용 토핑, 제과제빵, 가성비 스낵으로 탁월합니다.',
@@ -177,8 +177,8 @@ export const STORE_PRODUCTS: StoreProduct[] = [
   // 5. 1L = $3.00 Cashew Milk (1 Liter Glass Bottle)
   {
     id: 'cashew-milk-1l',
-    nameKh: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទីធម្មជាតិ ១០០% (ដបកែវ ១ លីត្រ)',
-    nameEn: '100% Plant-Based Cashew Milk (1L Bottle)',
+    nameKh: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០%',
+    nameEn: '100% Plant-Based Cashew Milk',
     nameKo: '100% 식물성 생 캐슈넛 밀크 (1L 병)',
     category: 'beverage',
     priceUsd: 4.50,
@@ -187,8 +187,8 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '១L = $4.50 ($3.00 ភេសជ្ជៈ + $1.50 ដប)',
     badgeEn: '1L = $4.50 ($3.00 Drink + $1.50 Bottle)',
     badgeKo: '1L = $4.50 (음료 $3.00 + 유리병 $1.50)',
-    imageSrc: '/assets/aistudio/image_347e37e2.png',
-    descriptionKh: 'ទឹកដោះគោធម្មជាតិចម្រាញ់ពីគ្រាប់ស្វាយចន្ទីកម្ពុជា ១០០% (Make to Order) គ្មានជាតិទឹកដោះគោគោ (Dairy-Free & Vegan) គ្មានជាតិ Gluten សម្បូរជីវជាតិ និងប្រូតេអ៊ីនធម្មជាតិ។ តម្លៃមានតម្លាភាព៖ ៤.៥០$ (ទឹកដោះគោ ៣.០០$ + ថ្លៃដបកែវ ១.៥០$)។ លើកក្រោយអាចយកដបកែវមកប្តូរទិញតែភេសជ្ជៈក្នុងតម្លៃត្រឹមតែ ៣.០០$។ ស្កេន QR លើដបដើម្បីកុម្ម៉ង់ទិញផ្ទាល់តាម WhatsApp។',
+    imageSrc: '/images/mayany_cashew_milk_1l.jpg',
+    descriptionKh: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០% (Make to Order)។ សេចក្តីប្រកាសបញ្ជីគ្រឿងផ្សំពេញលេញ៖ ទឹកចម្រោះ 86%, គ្រាប់ស្វាយចន្ទី 12.9%, ស្ករ 0.86%, ម្សៅស្លឹកតើយ 0.13%, អំបិល 0.09%។ ភេសជ្ជៈប្រណិត អាចទទួលទានផ្ទាល់ភ្លាមៗ ឬលាយជាមួយកាហ្វេ។ គ្មានជាតិទឹកដោះគោគោ (Dairy-Free & Vegan) គ្មានជាតិ Gluten សម្បូរជីវជាតិ និងប្រូតេអ៊ីនធម្មជាតិ។ តម្លៃមានតម្លាភាព៖ ៤.៥០$ (ទឹកដោះគោ ៣.០០$ + ថ្លៃដបកែវ ១.៥០$)។ លើកក្រោយអាចយកដបកែវមកប្តូរទិញតែភេសជ្ជៈក្នុងតម្លៃត្រឹមតែ ៣.០០$។ ស្កេន QR លើដបដើម្បីកុម្ម៉ង់ទិញផ្ទាល់តាម WhatsApp។',
     descriptionEn: '100% plant-based cashew milk in 1L bottle. Smooth, creamy, naturally lactose-free and nutrient-dense. Transparent pricing: $4.50 total ($3.00 drink + $1.50 glass bottle). Bottle can be refilled or exchanged for $3.00. Direct order QR code on bottle.',
     descriptionKo: '유당이 전혀 없는 100% 식물성 프리미엄 캐슈넛 밀크 (1L 병). 부드럽고 진한 풍미로 비건 음료 및 라떼 베이스로 최적. 투명한 가격 정책: 총 $4.50 (음료 $3.00 + 유리병 원가 $1.50, 공병 반납 시 $3.00 재구매). 병 라벨 부착 QR 코드로 즉시 재주문 가능.',
     highlightsKh: [
@@ -227,7 +227,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '២០០g = $2.50 (១០,២៥០ ៛)',
     badgeEn: '200g = $2.50',
     badgeKo: '200g = $2.50',
-    imageSrc: '/assets/aistudio/image_1a98f3af.png',
+    imageSrc: '/images/mayany_cashew_flour_200g.jpg',
     descriptionKh: 'ម្សៅកិនម៉ត់ពីសាច់គ្រាប់ស្វាយចន្ទីសុទ្ធ ១០០% កំប៉ុង PET ២០០ ក្រាម។ គ្មានលាយម្សៅ គ្មានទឹកដោះគោ គ្មានជាតិស្ករ។ លាយជាមួយកាហ្វេក្ដៅ/ត្រជាក់ ម៉ាតឆា ឬទឹកផ្លែឈើ បង្កើតជាក្រែមធម្មជាតិជំនួសទឹកដោះគោ ដូចដែលអ្នកវិនិយោគកូរ៉េនៅសេអ៊ូលបានដាក់លាយក្នុងកាហ្វេក្តៅរបស់គាត់ផ្ទាល់!',
     descriptionEn: '100% pure cold-milled cashew kernel flour in 200g PET jar. Mixes smoothly into hot or iced coffee as plant-based creamer (personally mixed into hot coffee and praised by a Korean startup investor in Seoul!).',
     descriptionKo: '200g 밀폐 PET 용기에 담긴 100% 순수 냉압착 캐슈넛 파우더. 커피에 1~2스푼 섞으면 우유 대체 식물성 크레마가 형성되는 바리스타 캐슈 라떼용! (서울의 한국 스타트업 투자자가 따뜻한 커피에 직접 타서 시음하고 극찬)',
@@ -264,7 +264,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '១៧៥g = $3.25 (១៣,៣០០ ៛)',
     badgeEn: '175g = $3.25',
     badgeKo: '175g = $3.25',
-    imageSrc: '/assets/aistudio/image_2a5d8995.png',
+    imageSrc: '/images/mayany_chili_jar_175g.png',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេសហឹរស្រួយ កំប៉ុង PET ១៧៥ ក្រាម បិទជិតខ្យល់ រសជាតិដិតដល់ ជម្រើសដ៏ល្អសម្រាប់ញ៉ាំជាមួយស្រាបៀរ (ដូចដែលលោកស្រីនួន បានជ្រើសរើសសម្រាប់ណែនាំដល់ក្លឹបដ៏ល្បីនៅទីក្រុងឡុងដ៍)។',
     descriptionEn: 'Chili coated cashew kernels in 175g sealed induction PET jar. Savory spice crunch (selected by Ms. Nuon to introduce to a prestigious club in London, UK!).',
     descriptionKo: '175g 인덕션 씰링 밀폐 PET 용기에 담긴 매콤 바삭한 프리미엄 캐슈넛. 영국 런던의 명문 클럽에 선물 및 시음용 샘플로 선정된 시그니처 스낵입니다.',
@@ -299,7 +299,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '១៧៥g = $3.25 (១៣,៣០០ ៛)',
     badgeEn: '175g = $3.25',
     badgeKo: '175g = $3.25',
-    imageSrc: '/assets/aistudio/image_8ab133e5.png',
+    imageSrc: '/images/mayany_sugar_jar_175g.png',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករ កំប៉ុង PET ១៧៥ ក្រាម ស្រួយក្រមោក ផ្អែមស្រទន់បែបធម្មជាតិ ពេញនិយមនៅកូរ៉េ។',
     descriptionEn: 'Sugar coated cashew kernels in 175g induction PET jar. Delicate caramel sweetness, popular in South Korea.',
     descriptionKo: '175g 인덕션 씰링 PET 용기에 담긴 은은한 천연 카라멜 코팅 캐슈넛. 한국 투자자 및 해외 고객들이 선호하는 고급 스낵입니다.',
@@ -333,7 +333,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     badgeKh: '១៧៥g = $3.25 (១៣,៣០០ ៛)',
     badgeEn: '175g = $3.25',
     badgeKo: '175g = $3.25',
-    imageSrc: '/assets/aistudio/image_259fd0cb.png',
+    imageSrc: '/images/mayany_pepper_jar_175g.png',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI កំប៉ុង PET ១៧៥ ក្រាម គ្រាប់ធំៗ ឈ្ងុយហឹរស្រទន់ ជម្រើសពេញនិយមបំផុតរបស់វិនិយោគិនកូរ៉េ & ភោជនីយដ្ឋានចក្រភពអង់គ្លេស។',
     descriptionEn: 'GI Kampot black pepper coated whole cashews in 175g PET jar. Top favorite of Korean venture investors & UK restaurants.',
     descriptionKo: '한국 스타트업 투자자와 영국 레스토랑이 극찬한 대표 시그니처 제품. 정품 캄폿 GI 흑후추를 입힌 통 캐슈넛 (175g 밀폐 PET 용기).',
@@ -380,7 +380,15 @@ export const getPassportBatch = (id: string): string => {
   }
 };
 
-export default function MayanyStore({ onOpenPassport }: { onOpenPassport?: (batch: string) => void }) {
+export default function MayanyStore({ 
+  onOpenPassport,
+  onOpenPackaging,
+  onOpenDeploy
+}: { 
+  onOpenPassport?: (batch: string) => void;
+  onOpenPackaging?: () => void;
+  onOpenDeploy?: () => void;
+}) {
   const { isKhmer, isKorean } = useLanguage();
   const [currency, setCurrency] = useState<Currency>('KHR');
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'pouches' | 'jars' | 'beverage'>('all');
@@ -754,6 +762,10 @@ Sent via mayanyenterprise.com storefront`;
                     alt={prodName}
                     className="max-h-full max-w-full w-auto h-auto object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg';
+                    }}
                   />
 
                   {/* Zoom hint button */}
@@ -1358,7 +1370,7 @@ Sent via mayanyenterprise.com storefront`;
           </div>
         </div>
 
-        {/* Export terms note */}
+        {/* Export terms note & Packaging Studio Link */}
         <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-400">
           <div className="flex items-center gap-2">
             <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
@@ -1370,9 +1382,33 @@ Sent via mayanyenterprise.com storefront`;
                 : 'EUDR Deforestation-Free • CS 001 National Standard • Make-to-Order Fresh Batches'}
             </span>
           </div>
-          <span className="font-mono text-[11px] text-slate-500">
-            Phnom Penh & Kampong Thom, Cambodia
-          </span>
+          <div className="flex flex-wrap items-center gap-3">
+            {onOpenDeploy && (
+              <button
+                type="button"
+                onClick={onOpenDeploy}
+                className="text-emerald-300 hover:text-emerald-200 bg-emerald-950/80 border border-emerald-500/50 hover:border-emerald-400 font-bold flex items-center gap-1.5 px-3 py-1 rounded-xl transition cursor-pointer text-[11px] sm:text-xs shadow-xs"
+                title="Download verified site archive to deploy on cashewtrace.com / Cloudflare Pages"
+              >
+                <span>🚀</span>
+                <span>{isKhmer ? 'ផ្សាយផ្ទាល់លើ cashewtrace.com' : 'Deploy to cashewtrace.com'}</span>
+              </button>
+            )}
+            {onOpenPackaging && (
+              <button
+                type="button"
+                onClick={onOpenPackaging}
+                className="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1.5 transition-colors cursor-pointer text-[11px] sm:text-xs"
+                title="Open 13-Step Packaging Label Studio"
+              >
+                <span>🏷️</span>
+                <span>{isKhmer ? 'ស្ទូឌីយោស្លាកវេចខ្ចប់ ១៣ ជំហាន (CS 001)' : '13-Step Packaging Studio'}</span>
+              </button>
+            )}
+            <span className="font-mono text-[11px] text-slate-500">
+              Phnom Penh & Kampong Thom, Cambodia
+            </span>
+          </div>
         </div>
       </div>
 
@@ -1430,6 +1466,10 @@ Sent via mayanyenterprise.com storefront`;
                   src={selectedPreviewImage}
                   alt="Product Full Resolution"
                   className="max-h-[70vh] w-auto object-contain rounded-2xl"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg';
+                  }}
                 />
               </div>
               <p className="text-xs text-slate-500 mt-2 font-mono">
@@ -1503,6 +1543,10 @@ Sent via mayanyenterprise.com storefront`;
                               src={product.imageSrc}
                               alt={pName}
                               className="w-14 h-14 object-contain rounded-xl bg-white p-1 border border-slate-200 shrink-0"
+                              onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg';
+                              }}
                             />
                             <div className="flex-1 text-left min-w-0">
                               <p className="text-xs font-bold text-slate-900 truncate">

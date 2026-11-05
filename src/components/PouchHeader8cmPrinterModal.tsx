@@ -440,6 +440,91 @@ export const PouchHeader8cmPrinterModal: React.FC<PouchHeader8cmPrinterModalProp
           </div>
         )}
 
+        {/* AUTHENTIC 50g POUCH PHOTOGRAPHY SHOWCASE */}
+        <div className="bg-gradient-to-r from-amber-50 via-slate-50 to-emerald-50 p-4 sm:p-5 rounded-2xl border border-amber-200 space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <span className="text-base">📸</span>
+              <span className="text-xs font-black text-amber-950 uppercase tracking-wide">
+                រូបថតកញ្ចប់ជាក់ស្តែង ៥០g ទាំង ៣ ប្រភេទ (Authentic 50g Pouch Lineup):
+              </span>
+            </div>
+            <span className="text-[10px] font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-mono">
+              50g = $1.00 USD (៤,១០០ ៛)
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+            {/* 1. Chili Kraft Pouch */}
+            <div className="bg-white rounded-xl border border-amber-200 p-2.5 shadow-xs flex flex-col items-center text-center space-y-1.5 group">
+              <div className="w-full h-44 rounded-lg overflow-hidden bg-stone-100 flex items-center justify-center relative">
+                <img
+                  src="/images/mayany_chili_pouch_50g.jpg"
+                  alt="Chili Coated Cashews 50g Kraft Pouch"
+                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+                />
+              </div>
+              <div className="text-[11px] font-bold text-amber-950 font-sans">
+                🌶️ ស្រោបម្ទេស (Kraft Pouch)
+              </div>
+              <div className="text-[10px] text-slate-500 font-mono">
+                Chili Coated • 50g = $1.00
+              </div>
+            </div>
+
+            {/* 2. Sugar White Pouch */}
+            <div className="bg-white rounded-xl border border-slate-200 p-2.5 shadow-xs flex flex-col items-center text-center space-y-1.5 group">
+              <div className="w-full h-44 rounded-lg overflow-hidden bg-slate-100 flex items-center justify-center relative">
+                <img
+                  src="/images/mayany_sugar_pouch_50g.jpg"
+                  alt="Sugar Coated Cashews 50g White Pouch"
+                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+                />
+              </div>
+              <div className="text-[11px] font-bold text-slate-900 font-sans">
+                🍯 ស្រោបស្ករ (White Pouch)
+              </div>
+              <div className="text-[10px] text-slate-500 font-mono">
+                Sugar Coated • 50g = $1.00
+              </div>
+            </div>
+
+            {/* 3. Pepper Black Pouch (Whole Kernels) */}
+            <div className="bg-white rounded-xl border border-stone-800 p-2.5 shadow-xs flex flex-col items-center text-center space-y-1.5 group">
+              <div className="w-full h-44 rounded-lg overflow-hidden bg-stone-900 flex items-center justify-center relative">
+                <img
+                  src="/images/mayany_pepper_pouch_50g.jpg"
+                  alt="GI Kampot Black Pepper Cashews 50g Black Pouch Whole"
+                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+                />
+              </div>
+              <div className="text-[11px] font-bold text-stone-950 font-sans">
+                🧂 ម្រេចកំពត GI (គ្រាប់ពេញ)
+              </div>
+              <div className="text-[10px] text-slate-500 font-mono">
+                Whole Kernels • 50g = $1.00
+              </div>
+            </div>
+
+            {/* 4. Pepper Black Pouch (BB Broken Kernels) */}
+            <div className="bg-white rounded-xl border border-amber-600/70 p-2.5 shadow-xs flex flex-col items-center text-center space-y-1.5 group">
+              <div className="w-full h-44 rounded-lg overflow-hidden bg-stone-900 flex items-center justify-center relative">
+                <img
+                  src="/images/mayany_pepper_broken_pouch_50g.jpg"
+                  alt="GI Kampot Black Pepper Cashews 50g BB Broken Grade"
+                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+                />
+              </div>
+              <div className="text-[11px] font-bold text-stone-950 font-sans">
+                🧂 ម្រេចកំពត GI (គ្រាប់បំណែក BB)
+              </div>
+              <div className="text-[10px] text-amber-700 font-mono font-bold">
+                Broken Grade • 50g = $0.65
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 3. QUICK EDIT FORM FOR CONTACT INFO */}
         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
           <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block">

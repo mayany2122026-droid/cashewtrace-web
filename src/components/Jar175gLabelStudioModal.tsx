@@ -14,7 +14,7 @@ import { getPublicOrigin } from '../utils/publicOrigin';
 interface Jar175gLabelStudioModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultProduct?: 'chili' | 'pepper';
+  defaultProduct?: 'chili' | 'pepper' | 'sugar';
 }
 
 export default function Jar175gLabelStudioModal({
@@ -26,7 +26,7 @@ export default function Jar175gLabelStudioModal({
   const labelRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
 
-  const [activeProduct, setActiveProduct] = useState<'pepper' | 'chili'>(defaultProduct);
+  const [activeProduct, setActiveProduct] = useState<'pepper' | 'chili' | 'sugar'>(defaultProduct);
   const [viewMode, setViewMode] = useState<'label' | 'correction-sheet' | 'diagnosis' | 'real-jars'>('label');
   const [qrFormat, setQrFormat] = useState<'optimized' | 'full'>('optimized');
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
@@ -65,31 +65,28 @@ export default function Jar175gLabelStudioModal({
       accentColor: 'from-red-950 via-slate-900 to-red-950',
       badgeColor: 'bg-red-700 text-white',
       flavor: 'chili',
+    },
+    sugar: {
+      id: 'ww180-sugar-jar-175g',
+      nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករ',
+      nameEn: 'Sugar Coated Cashew Kernels',
+      weight: '175g',
+      netWeightText: 'Net Weight 175g',
+      batch: '2026-cks-261j',
+      barcode: '8847116350085',
+      icon: '🍯',
+      accentColor: 'from-amber-900 via-amber-800 to-amber-950',
+      badgeColor: 'bg-amber-600 text-white',
+      flavor: 'sugar',
     }
   };
 
   const currentItem = productConfig[activeProduct];
 
-  // Compute live smartphone URL
+  // Compute live smartphone permanent product URL
   const getTargetUrl = () => {
     const origin = getPublicOrigin() || 'https://cashewtrace.com';
-    if (qrFormat === 'optimized') {
-      // Short, high-reliability URL with maximum error tolerance (scans instantly even at 2-3 meters)
-      return `${origin}/?mode=passport&batch=${currentItem.batch}&product=${currentItem.id}&ean=${currentItem.barcode}&view=certificate`;
-    }
-    // Full parameter URL
-    const params = new URLSearchParams();
-    params.set('project', 'passport');
-    params.set('prodId', currentItem.id);
-    params.set('batch', currentItem.batch);
-    params.set('lot', currentItem.batch);
-    params.set('flv', currentItem.flavor);
-    params.set('wt', currentItem.weight);
-    params.set('pname', currentItem.nameEn);
-    params.set('nameKh', currentItem.nameKh);
-    params.set('ean', currentItem.barcode);
-    params.set('view', 'certificate');
-    return `${origin}/?${params.toString()}`;
+    return `${origin}/?mode=passport&ean=${currentItem.barcode}&prodId=${currentItem.id}&flv=${currentItem.flavor}&wt=${currentItem.weight}&view=certificate`;
   };
 
   // Generate verified QR Code image
@@ -244,6 +241,18 @@ export default function Jar175gLabelStudioModal({
                   {isKhmer ? 'ជ្រើសរើសផលិតផល៖' : 'Product:'}
                 </span>
                 <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setActiveProduct('sugar')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-black transition cursor-pointer flex items-center gap-1.5 ${
+                      activeProduct === 'sugar'
+                        ? 'bg-amber-800 text-amber-200 shadow-md ring-2 ring-amber-400'
+                        : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-300'
+                    }`}
+                  >
+                    <span>🍯 គ្រាប់ស្វាយចន្ទីស្រោបស្ករ (175g)</span>
+                    <span className="text-[9px] bg-amber-400 text-slate-950 font-bold px-1.5 rounded-full">#2</span>
+                  </button>
                   <button
                     type="button"
                     onClick={() => setActiveProduct('pepper')}
@@ -470,12 +479,6 @@ export default function Jar175gLabelStudioModal({
                             </div>
                           )}
                         </div>
-                        <span 
-                          className="text-[8px] font-mono font-bold mt-1 uppercase"
-                          style={{ color: '#6b2e11' }}
-                        >
-                          LOT: {currentItem.batch}
-                        </span>
                       </div>
 
                       {/* Contact & Company Details (Matching the Real Sticker Icons & Fonts) */}
@@ -664,9 +667,13 @@ export default function Jar175gLabelStudioModal({
                       📸 រូបភាពស្លាក ៣ ម៉ែត្រការ៉េដែលបានបោះពុម្ព (Unreadable Printed Version)
                     </span>
                     <img
-                      src="/assets/aistudio/image_445ae7ce.png"
-                      alt="Printed 3 Square Meters Labels"
+                      src="/mayany_ke_application_product_collage.jpg"
+                      alt="Printed Labels Reference"
                       className="max-h-[420px] w-auto object-contain rounded-xl border border-white/20"
+                      onError={(e) => { 
+                        e.currentTarget.onerror = null; 
+                        e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg'; 
+                      }}
                     />
                     <div className="mt-2 text-[11px] text-red-300 text-center font-sans space-y-1">
                       <div>⚠️ កូដ QR លើរូបភាពនេះមាន Finder Pattern មិនប្រក្រតី និងបាត់បង់ព្រំដែនពណ៌ស</div>
@@ -746,14 +753,18 @@ export default function Jar175gLabelStudioModal({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* 1. Chili Coated 175g Jar */}
                   <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-md flex flex-col">
                     <div className="relative aspect-square bg-slate-100 overflow-hidden group">
                       <img
-                        src="/assets/aistudio/image_2a5d8995.png"
+                        src="/images/mayany_chili_jar_175g.png"
                         alt="Chili Coated Cashew Kernels 175g Jar"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => { 
+                          e.currentTarget.onerror = null; 
+                          e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg'; 
+                        }}
                       />
                       <div className="absolute top-3 left-3 bg-red-700 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
                         🌶️ ស្រោបម្ទេស • Chili Coated
@@ -777,13 +788,51 @@ export default function Jar175gLabelStudioModal({
                     </div>
                   </div>
 
-                  {/* 2. GI Kampot Black Pepper Coated 175g Jar */}
+                  {/* 2. Sugar Coated 175g Jar */}
                   <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-md flex flex-col">
                     <div className="relative aspect-square bg-slate-100 overflow-hidden group">
                       <img
-                        src="/assets/aistudio/image_259fd0cb.png"
+                        src="/images/mayany_sugar_jar_175g.png"
+                        alt="Sugar Coated Cashew Kernels 175g Jar"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => { 
+                          e.currentTarget.onerror = null; 
+                          e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg'; 
+                        }}
+                      />
+                      <div className="absolute top-3 left-3 bg-amber-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
+                        🥥 ស្រោបស្ករ • Sugar Coated
+                      </div>
+                      <div className="absolute top-3 right-3 bg-black/75 text-amber-300 font-mono text-[11px] font-bold px-2.5 py-1 rounded-lg">
+                        175g = $3.25
+                      </div>
+                    </div>
+                    <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h4 className="font-bold text-slate-900 text-sm font-sans">
+                          គ្រាប់ស្វាយចន្ទីស្រោបស្ករ (កំប៉ុង PET ១៧៥g)
+                        </h4>
+                        <p className="text-xs text-slate-500 font-sans">
+                          Sugar Coated Cashew Kernels • Barcode: 8847116350085
+                        </p>
+                      </div>
+                      <div className="text-[11px] text-emerald-800 bg-emerald-50 p-2 rounded-xl border border-emerald-200 font-sans">
+                        ✓ ស្លាកថ្មីមានបោះពុម្ព READY TO EAT ជាមួយដើមអំពៅ និងស្ករសធម្មជាតិ
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3. GI Kampot Black Pepper Coated 175g Jar */}
+                  <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-md flex flex-col">
+                    <div className="relative aspect-square bg-slate-100 overflow-hidden group">
+                      <img
+                        src="/images/mayany_pepper_jar_175g.png"
                         alt="GI Kampot Black Pepper Coated Cashew Kernels 175g Jar"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => { 
+                          e.currentTarget.onerror = null; 
+                          e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg'; 
+                        }}
                       />
                       <div className="absolute top-3 left-3 bg-slate-900 text-amber-300 text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
                         🫘 ម្រេចខ្មៅកំពត GI • Kampot Pepper

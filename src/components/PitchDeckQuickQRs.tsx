@@ -450,12 +450,12 @@ export const DEFAULT_DEDICATED_PRODUCTS: QuickQRItem[] = [
     }
   },
 
-  // 9. Cashew Drink (100% Plant-Based Cashew Milk 1L Bottle) (Barcode: 884 711635 0054)
+  // 9. Cashew Drink (100% Plant-Based Cashew Milk) (Barcode: 884 711635 0054)
   {
     id: 'cashew-milk-1l',
     productNumber: 9,
-    nameKh: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទីធម្មជាតិ ១០០% (ដបកែវ ១L)',
-    nameEn: '100% Plant-Based Cashew Milk (1L Bottle)',
+    nameKh: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០%',
+    nameEn: '100% Plant-Based Cashew Milk',
     batch: 'MTO-CM-1L',
     futureBatch: '2026-MAY-MILK',
     deliveredTo: 'Phnom Penh & Local Direct Deliveries • ផលិតតាមការកុម្ម៉ង់ (Make to Order)',
@@ -467,22 +467,22 @@ export const DEFAULT_DEDICATED_PRODUCTS: QuickQRItem[] = [
     containerType: 'bottle-1l',
     categoryGroup: 'beverage',
     strategyTier: 'tier1',
-    ingredientsKh: 'ទឹកចម្រោះ ៨៣.៥%, សាច់គ្រាប់ស្វាយចន្ទីកម្ពុជា ១៤%, ម្សៅស្លឹកតយធម្មជាតិ ២%, អំបិលសមុទ្រកំពត ០.៥%',
+    ingredientsKh: 'ទឹកចម្រោះ 86%, គ្រាប់ស្វាយចន្ទី 12.9%, ស្ករ 0.86%, ម្សៅស្លឹកតើយ 0.13%, អំបិល 0.09%',
     tagKh: '៩. ទឹកដោះគោ ១០០% • 1L Bottle (Make-to-Order)',
     tagColor: 'bg-emerald-900 text-white',
     icon: '🥛',
     price: '$4.50',
     priceBreakdown: 'Drink $3.00 + Bottle $1.50 (ភេសជ្ជៈ ៣.០០$ + ដបកែវ ១.៥០$ = សរុប ៤.៥០$)',
-    description: 'ទឹកដោះគោធម្មជាតិចម្រាញ់ពីគ្រាប់ស្វាយចន្ទីកម្ពុជា ១០០% (Make-to-Order)។ តម្លាភាពតម្លៃសរុប ៤.៥០$ (ទឹកដោះគោ ៣.០០$ + ថ្លៃដបកែវ ១.៥០$)។ អតិថិជនដឹងពីថ្លៃដើមដបយ៉ាងច្បាស់លាស់ ហើយអាចយកដបមកប្តូរទិញទឹកដោះគោលើកក្រោយក្នុងតម្លៃត្រឹមតែ ៣.០០$។ ស្កេនកូដ QR លើដបដើម្បីកុម្ម៉ង់ទិញផ្ទាល់តាម WhatsApp។',
+    description: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០% (Make-to-Order)។ តម្លាភាពតម្លៃសរុប ៤.៥០$ (ទឹកដោះគោ ៣.០០$ + ថ្លៃដបកែវ ១.៥០$)។ ភេសជ្ជៈប្រណិត អាចទទួលទានផ្ទាល់ភ្លាមៗ ឬលាយជាមួយកាហ្វេ។ អតិថិជនដឹងពីថ្លៃដើមដបយ៉ាងច្បាស់លាស់ ហើយអាចយកដបមកប្តូរទិញទឹកដោះគោលើកក្រោយក្នុងតម្លៃត្រឹមតែ ៣.០០$។ ស្កេនកូដ QR លើដបដើម្បីកុម្ម៉ង់ទិញផ្ទាល់តាម WhatsApp។',
     ean13: '8847116350054',
     shelfLifeMonths: 3,
     mfd: '26-OCT-2026',
     exp: '26-JAN-2027',
     stampDatesOnBag: false,
-    storage: 'រក្សាទុកក្នុងទូទឹកកកក្រោម ៤°C ក្រោយពេលបើក។ ក្រឡុកដបឱ្យសព្វមុនពេលទទួលទាន។',
+    storage: 'រក្សាទុកក្នុងទូទឹកកកក្រោម ៤°C ក្រោយពេលបើក។ ភេសជ្ជៈប្រណិត អាចទទួលទានផ្ទាល់ភ្លាមៗ ឬលាយជាមួយកាហ្វេ។',
     allergen: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     companyName: 'សហគ្រាស ម៉ាយ៉ានី (Mayany Enterprise)',
-    selectedSuppliers: ['Mayany Enterprise', 'Mirarth Agri Tech Co., Ltd.'],
+    selectedSuppliers: ['Mirarth Agri Tech Co., Ltd.', 'Angkor Sugar (ស្ករសចម្រាញ់សុទ្ធ)', 'Ngov Heng (អំបិលសមុទ្រកំពត)', 'Ringacam Enterprise (ម្សៅស្លឹកតើយ G.D.G)'],
     nutrition: {
       energyKcal: '150',
       energyKj: '628',
@@ -944,28 +944,18 @@ export default function PitchDeckQuickQRs({
   }, []);
 
   const getTargetUrl = (item: QuickQRItem) => {
+    const origin = (publicOrigin && !publicOrigin.includes('localhost') && !publicOrigin.includes('run.app')) 
+      ? publicOrigin 
+      : 'https://cashewtrace.com';
     const queryParams = new URLSearchParams();
-    queryParams.set('project', 'passport');
-    queryParams.set('prodId', item.id);
-    if (item.productNumber) queryParams.set('pnum', String(item.productNumber));
-    queryParams.set('batch', item.batch);
-    queryParams.set('lot', item.batch);
-    queryParams.set('flv', item.flavor);
-    queryParams.set('wt', item.weight);
-    queryParams.set('pname', item.nameEn);
-    if (item.nameKh) queryParams.set('nameKh', item.nameKh);
-    queryParams.set('preset', item.presetId);
-    if (item.ingredientsKh) queryParams.set('ing', item.ingredientsKh);
-    if (item.grade) queryParams.set('grade', item.grade);
-    if (item.packageFormat || item.containerType) queryParams.set('pkg', item.packageFormat || item.containerType || '');
+    queryParams.set('mode', 'passport');
     if (item.ean13) queryParams.set('ean', item.ean13);
-    if (item.shelfLifeMonths) queryParams.set('sl', String(item.shelfLifeMonths));
-    if (item.mfd) queryParams.set('mfd', item.mfd);
-    if (item.exp) queryParams.set('exp', item.exp);
-    if (item.storage) queryParams.set('storage', item.storage);
-    if (item.allergen) queryParams.set('allergen', item.allergen);
+    if (item.id) queryParams.set('prodId', item.id);
+    if (item.flavor) queryParams.set('flv', item.flavor);
+    if (item.weight) queryParams.set('wt', item.weight);
+    if (item.productNumber) queryParams.set('pnum', String(item.productNumber));
     queryParams.set('view', 'certificate');
-    return `${publicOrigin}/?${queryParams.toString()}`;
+    return `${origin}/?${queryParams.toString()}`;
   };
 
   // Generate verified URLs and QR images for each of the dedicated products
@@ -977,7 +967,7 @@ export default function PitchDeckQuickQRs({
         try {
           const dataUrl = await QRCode.toDataURL(targetUrl, {
             width: 1024,
-            margin: 2,
+            margin: 4,
             errorCorrectionLevel: 'M',
             color: {
               dark: '#000000',
@@ -1010,11 +1000,11 @@ export default function PitchDeckQuickQRs({
     if (!dataUrl) return;
     const link = document.createElement('a');
     link.href = dataUrl;
-    link.download = `Mayany_QR_${item.batch}_${item.flavor}.png`;
+    link.download = `Mayany_QR_${item.ean13}_${item.id}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    triggerToast(`✓ បានទាញយក QR Code 1024px PNG (${item.batch}) សម្រាប់រោងពុម្ព!`);
+    triggerToast(`✓ បានទាញយក QR Code 1024px PNG (${item.nameEn}) សម្រាប់រោងពុម្ព!`);
   };
 
   const handleDownloadSvg = async (item: QuickQRItem) => {
@@ -1022,19 +1012,23 @@ export default function PitchDeckQuickQRs({
       const url = getTargetUrl(item);
       const svgString = await QRCode.toString(url, {
         type: 'svg',
-        margin: 2,
-        errorCorrectionLevel: 'M'
+        margin: 4,
+        errorCorrectionLevel: 'M',
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
       });
       const blob = new Blob([svgString], { type: 'image/svg+xml' });
       const blobUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = blobUrl;
-      link.download = `Mayany_QR_${item.batch}_${item.flavor}.svg`;
+      link.download = `Mayany_QR_${item.ean13}_${item.id}.svg`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(blobUrl);
-      triggerToast(`✓ បានទាញយក Vector SVG QR (${item.batch}) សម្រាប់រោងពុម្ព!`);
+      triggerToast(`✓ បានទាញយក Vector SVG QR (${item.nameEn}) សម្រាប់រោងពុម្ព!`);
     } catch (e) {
       console.error('Failed to export SVG', e);
     }
@@ -1378,14 +1372,23 @@ export default function PitchDeckQuickQRs({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <a
+            href="/assets/Mayany_Enterprise_Official_Printer_QR_Pack.zip"
+            download="Mayany_Enterprise_Official_Printer_QR_Pack.zip"
+            className="px-4 py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white font-black text-xs rounded-2xl shadow-sm transition flex items-center gap-1.5 cursor-pointer border border-emerald-500"
+            title="ទាញយកកញ្ចប់ឯកសារ Printer Pack (.ZIP) ពេញលេញរួមមាន Vector SVG, 1024px PNG និងសៀវភៅណែនាំរោងពុម្ព"
+          >
+            <Download size={14} className="text-amber-300" />
+            <span>ទាញយកកញ្ចប់រោងពុម្ពពេញលេញ (.ZIP)</span>
+          </a>
           <button
             type="button"
             onClick={handleDownloadAll}
             className="px-4 py-2.5 bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs rounded-2xl shadow-sm transition flex items-center gap-1.5 cursor-pointer"
           >
             <Download size={14} className="text-amber-400" />
-            <span>ទាញយក QR Code ទាំងអស់ ({filteredProducts.length} មុខ)</span>
+            <span>ទាញយក PNG ទាំងអស់ ({filteredProducts.length} មុខ)</span>
           </button>
         </div>
       </div>
@@ -1494,6 +1497,277 @@ export default function PitchDeckQuickQRs({
             </p>
           </div>
         )}
+      </div>
+
+      {/* MAKE-TO-ORDER PRINTER QR PACK: DOWNLOAD ONE BY ONE OR FULL ZIP */}
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-4 sm:p-6 border-2 border-amber-400 shadow-xl space-y-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-400/30 pb-4">
+          <div className="flex items-start gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-2xl shrink-0 shadow-md">
+              🖨️
+            </div>
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] font-mono font-black bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                  Make-to-Order Official Printer QRs
+                </span>
+                <span className="text-[10px] font-mono text-emerald-300 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/40">
+                  ✓ គ្មានលេខឡូតិ៍រឹងលើស្លាកអចិន្ត្រៃយ៍ (Zero Hardcoded Lot)
+                </span>
+                <span className="text-[10px] font-mono text-indigo-300 bg-indigo-950/80 px-2.5 py-0.5 rounded-full border border-indigo-500/40">
+                  ISO/IEC 18004 Compliant
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-black text-amber-300 font-sans mt-1">
+                ទាញយកកូដ QR មួយម្តងៗសម្រាប់រោងពុម្ព (Download QR Codes One by One for Print Shop)
+              </h3>
+              <p className="text-xs text-slate-300 font-sans mt-0.5">
+                កូដ QR អចិន្ត្រៃយ៍ទាំង ៩ មុខទំនិញត្រូវបានបង្កើតជាប្រភេទ <strong>Vector (.SVG)</strong> និង <strong>1024px PNG</strong> ភ្ជាប់ជាមួយបាកូដ GS1 EAN-13 ផ្លូវការ។
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <a
+              href="/assets/Mayany_Enterprise_Official_Printer_QR_Pack.zip"
+              download="Mayany_Enterprise_Official_Printer_QR_Pack.zip"
+              className="px-4 py-2.5 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs rounded-2xl shadow-md transition flex items-center gap-2 cursor-pointer border border-amber-300"
+              title="ទាញយកកញ្ចប់ ZIP រួមមានឯកសារ SVG, PNG និងសៀវភៅណែនាំរោងពុម្ព"
+            >
+              <Download size={15} className="text-slate-950" />
+              <span>ទាញយកកញ្ចប់រោងពុម្ព (.ZIP)</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Make-to-Order Architecture Explanation Card */}
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-amber-400/30 text-xs text-slate-200 space-y-2">
+          <div className="flex items-center gap-2 text-amber-300 font-bold">
+            <Sparkles size={16} />
+            <span className="text-xs sm:text-sm">គោលការណ៍ផលិតកម្ម Make-to-Order & ស្លាកអចិន្ត្រៃយ៍៖</span>
+          </div>
+          <p className="text-[11.5px] leading-relaxed text-slate-300 font-sans">
+            • <strong>កូដ QR និងស្លាកអចិន្ត្រៃយ៍៖</strong> កូដ QR ខាងក្រោមភ្ជាប់ទៅកាន់លេខកូដទំនិញ GS1 EAN-13 អចិន្ត្រៃយ៍ គ្មានដាក់លេខឡូតិ៍រឹង (No Hardcoded Lot) ឡើយ។ លោកអ្នកអាចបញ្ជាឱ្យរោងពុម្ពបោះពុម្ពស្លាករាប់ពាន់សន្លឹកដោយមិនបារម្ភរឿងខុសបាច់ ឬផុតកាលបរិច្ឆេទ។<br />
+            • <strong>ការបោះត្រាលេខឡូតិ៍ជាក់ស្តែង (Packaging Line Coding)៖</strong> រាល់ពេលមានការបញ្ជាទិញ (Make-to-Order) លោកអ្នកគ្រាន់តែប្រើម៉ាស៊ីនបាញ់កាលបរិច្ឆេទ (Handheld Coder) ឬត្រាក្តៅ (Hot Stamp) បោះត្រាលេខឡូតិ៍ (LOT), ថ្ងៃផលិត (MFD), និងថ្ងៃផុតកំណត់ (EXP) លើចន្លោះត្រៀមលើសំបកកញ្ចប់ ឬគម្របក្រឡ។
+          </p>
+        </div>
+
+        {/* 9 PRODUCTS ONE-BY-ONE DOWNLOAD TABLE */}
+        <div className="space-y-2 pt-1">
+          <span className="text-xs font-bold text-amber-300 font-sans block">
+            បញ្ជីកូដ QR ទាំង ៩ ផលិតផល (ចុចទាញយកមួយៗភ្លាមៗ)៖
+          </span>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              {
+                num: 1,
+                id: 'flour-jar-200g',
+                sku: 'FLR-200G-JAR',
+                nameKh: 'ម្សៅគ្រាប់ស្វាយចន្ទីសុទ្ធ ១០០%',
+                nameEn: '100% Pure Cashew Flour',
+                format: 'ក្រឡ ២០០g (200g Jar)',
+                ean13: '8847116350047',
+                icon: '🌾',
+                badgeColor: 'bg-emerald-700 text-white',
+                fileName: '01_Mayany_QR_PureCashewFlour_200g_Jar'
+              },
+              {
+                num: 2,
+                id: 'ww180-sugar-jar-175g',
+                sku: 'WW180-SUG-175G-JAR',
+                nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករ (WW180)',
+                nameEn: 'Sugar Coated Cashews WW180',
+                format: 'ក្រឡ PET ១៧៥g (175g Jar)',
+                ean13: '8847116350085',
+                icon: '🥥',
+                badgeColor: 'bg-amber-600 text-white',
+                fileName: '02_Mayany_QR_SugarCoated_175g_Jar'
+              },
+              {
+                num: 3,
+                id: 'ww180-sugar-pouch-50g',
+                sku: 'WW180-SUG-50G-POUCH',
+                nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករ (WW180)',
+                nameEn: 'Sugar Coated Cashews WW180',
+                format: 'កញ្ចប់បាតឈរ ៥០g (50g Pouch)',
+                ean13: '8847116350023',
+                icon: '🥥',
+                badgeColor: 'bg-amber-600 text-white',
+                fileName: '03_Mayany_QR_SugarCoated_50g_Pouch'
+              },
+              {
+                num: 4,
+                id: 'ww180-pepper-jar-175g',
+                sku: 'WW180-PEP-175G-JAR',
+                nameKh: 'គ្រាប់ចន្ទីស្រោបម្រេចខ្មៅកំពត GI (WW180)',
+                nameEn: 'GI Kampot Pepper Cashews WW180',
+                format: 'ក្រឡ PET ១៧៥g (175g Jar)',
+                ean13: '8847116350061',
+                icon: '🫘',
+                badgeColor: 'bg-slate-900 text-amber-300',
+                fileName: '04_Mayany_QR_KampotPepper_175g_Jar'
+              },
+              {
+                num: 5,
+                id: 'pepper-pouch-50g',
+                sku: 'WW180-PEP-50G-POUCH',
+                nameKh: 'គ្រាប់ចន្ទីស្រោបម្រេចខ្មៅកំពត GI (WW180)',
+                nameEn: 'GI Kampot Pepper Cashews WW180',
+                format: 'កញ្ចប់បាតឈរ ៥០g (50g Pouch)',
+                ean13: '8847116350016',
+                icon: '🫘',
+                badgeColor: 'bg-indigo-900 text-amber-300',
+                fileName: '05_Mayany_QR_KampotPepper_50g_Pouch'
+              },
+              {
+                num: 6,
+                id: 'ww180-chili-jar-175g',
+                sku: 'WW180-CHI-175G-JAR',
+                nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេស (WW180)',
+                nameEn: 'Chili Coated Cashews WW180',
+                format: 'ក្រឡ PET ១៧៥g (175g Jar)',
+                ean13: '8847116350092',
+                icon: '🌶️',
+                badgeColor: 'bg-red-600 text-white',
+                fileName: '06_Mayany_QR_ChiliCoated_175g_Jar'
+              },
+              {
+                num: 7,
+                id: 'ww180-chili-pouch-50g',
+                sku: 'WW180-CHI-50G-POUCH',
+                nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេស (WW180)',
+                nameEn: 'Chili Coated Cashews WW180',
+                format: 'កញ្ចប់បាតឈរ ៥០g (50g Pouch)',
+                ean13: '8847116350078',
+                icon: '🌶️',
+                badgeColor: 'bg-red-600 text-white',
+                fileName: '07_Mayany_QR_ChiliCoated_50g_Pouch'
+              },
+              {
+                num: 8,
+                id: 'bb-pepper-pouch-50g',
+                sku: 'BB-PEP-50G-POUCH',
+                nameKh: 'គ្រាប់ចន្ទីស្រោបម្រេចខ្មៅកំពត GI (BB)',
+                nameEn: 'GI Kampot Pepper Cashews (Grade BB)',
+                format: 'កញ្ចប់បាតឈរ ៥០g (50g Pouch)',
+                ean13: '8847116350108',
+                icon: '🫘',
+                badgeColor: 'bg-slate-900 text-amber-300',
+                fileName: '08_Mayany_QR_KampotPepper_BB_50g_Pouch'
+              },
+              {
+                num: 9,
+                id: 'cashew-milk-1l',
+                sku: 'CASHEW-MILK-1L',
+                nameKh: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទីធម្មជាតិ ១០០%',
+                nameEn: '100% Plant-Based Cashew Milk (1L)',
+                format: 'ដបកែវ ១L (1000ml Bottle)',
+                ean13: '8847116350054',
+                icon: '🥛',
+                badgeColor: 'bg-emerald-900 text-white',
+                fileName: '09_Mayany_QR_CashewDrink_1L_Bottle'
+              }
+            ].map((p) => {
+              const svgPath = `/assets/printer_qr_pack/${p.fileName}.svg`;
+              const pngPath = `/assets/printer_qr_pack/${p.fileName}.png`;
+              const targetUrl = `https://cashewtrace.com/?mode=passport&ean=${p.ean13}&prodId=${p.id}&view=certificate`;
+
+              return (
+                <div
+                  key={p.id}
+                  className="bg-white/5 border border-white/10 hover:border-amber-400/60 rounded-2xl p-3.5 space-y-2.5 transition flex flex-col justify-between"
+                >
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="w-5 h-5 rounded-md bg-amber-400 text-slate-950 font-mono font-black text-xs flex items-center justify-center shrink-0">
+                          #{p.num}
+                        </span>
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/40 text-amber-300 font-mono truncate">
+                          {p.sku}
+                        </span>
+                      </div>
+                      <span className="text-[9px] font-mono text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40">
+                        EAN: {p.ean13}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h4 className="text-xs sm:text-sm font-black text-white font-sans flex items-center gap-1 leading-snug">
+                        <span>{p.icon}</span>
+                        <span className="truncate">{p.nameKh}</span>
+                      </h4>
+                      <p className="text-[10.5px] text-slate-300 font-serif truncate">
+                        {p.nameEn}
+                      </p>
+                      <span className="text-[10px] text-amber-300 font-mono block pt-0.5 font-bold">
+                        {p.format}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-center py-2 bg-white rounded-xl border border-white/20">
+                      <img
+                        src={pngPath}
+                        alt={p.nameEn}
+                        className="w-24 h-24 object-contain"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Action Buttons for this product */}
+                  <div className="space-y-1.5 pt-1 border-t border-white/10">
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <a
+                        href={svgPath}
+                        download={`${p.fileName}.svg`}
+                        className="py-1.5 px-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[10.5px] rounded-lg transition flex items-center justify-center gap-1 shadow-xs cursor-pointer text-center"
+                        title="ទាញយក Vector SVG សម្រាប់រោងពុម្ព (Illustrator / InDesign)"
+                      >
+                        <Download size={12} />
+                        <span>Vector (.SVG)</span>
+                      </a>
+                      <a
+                        href={pngPath}
+                        download={`${p.fileName}.png`}
+                        className="py-1.5 px-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-[10.5px] rounded-lg border border-white/20 transition flex items-center justify-center gap-1 shadow-xs cursor-pointer text-center"
+                        title="ទាញយក 1024px PNG Ultra-HD"
+                      >
+                        <Download size={12} className="text-amber-400" />
+                        <span>PNG (1024px)</span>
+                      </a>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (navigator?.clipboard?.writeText) {
+                            navigator.clipboard.writeText(targetUrl);
+                            triggerToast(`✓ បានចម្លងតំណភ្ជាប់ QR សម្រាប់ #${p.num} ${p.nameKh}`);
+                          }
+                        }}
+                        className="py-1 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 font-bold flex items-center justify-center gap-1 cursor-pointer transition"
+                      >
+                        <Copy size={11} />
+                        <span>ចម្លង Link</span>
+                      </button>
+                      <a
+                        href={targetUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-1 px-2 rounded-lg bg-emerald-700/80 hover:bg-emerald-600 text-white font-bold flex items-center justify-center gap-1 cursor-pointer transition text-center"
+                      >
+                        <ExternalLink size={11} />
+                        <span>តេស្តស្កេន</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Korea Institutions Handover Dossier (October 2026 Deliveries) */}
@@ -2101,9 +2375,13 @@ export default function PitchDeckQuickQRs({
                     >
                       <div className="flex items-center gap-2.5">
                         <img
-                          src="/assets/aistudio/image_347e37e2.png"
+                          src="/images/mayany_cashew_milk_1l.jpg"
                           alt="1L Cashew Milk Mockup"
                           className="w-11 h-11 object-cover rounded-lg border border-emerald-400/50 group-hover:scale-105 transition-transform shrink-0"
+                          onError={(e) => { 
+                            e.currentTarget.onerror = null; 
+                            e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg'; 
+                          }}
                         />
                         <div>
                           <div className="text-[11px] font-black text-amber-300 flex items-center gap-1.5">
@@ -2144,7 +2422,12 @@ export default function PitchDeckQuickQRs({
                           🌿 ម្រេចកំពត GI៖ <strong className="text-indigo-950 font-bold">BOH Co., Ltd.</strong>
                         </span>
                       )}
-                      {(item.flavor === 'chili' || item.ingredientsKh.includes('ម្ទេស') || (item.selectedSuppliers && item.selectedSuppliers.some(s => s.toLowerCase().includes('ringacam') || s.toLowerCase().includes('chili') || s.includes('ម្ទេស')))) && (
+                      {(item.id === 'cashew-milk-1l' || item.nameKh.includes('ទឹកដោះគោ') || item.ingredientsKh.includes('ស្លឹកតើយ') || item.ingredientsKh.includes('ស្លឹកតយ') || (item.selectedSuppliers && item.selectedSuppliers.some(s => (s.toLowerCase().includes('ringacam') || s.toLowerCase().includes('rincagam')) && (s.includes('ស្លឹកតើយ') || s.includes('ស្លឹកតយ') || item.nameKh.includes('ទឹកដោះគោ'))))) && (
+                        <span className="bg-white px-1.5 py-0.5 rounded border border-emerald-300 text-slate-800 font-medium">
+                          🌿 ម្សៅស្លឹកតើយ៖ <strong className="text-emerald-950 font-bold">Ringacam Enterprise</strong>
+                        </span>
+                      )}
+                      {!item.nameKh.includes('ទឹកដោះគោ') && (item.flavor === 'chili' || item.ingredientsKh.includes('ម្ទេស') || (item.selectedSuppliers && item.selectedSuppliers.some(s => s.toLowerCase().includes('ringacam') || s.toLowerCase().includes('chili') || s.includes('ម្ទេស')))) && (
                         <span className="bg-white px-1.5 py-0.5 rounded border border-emerald-300 text-slate-800 font-medium">
                           🌶️ ម្សៅម្ទេស៖ <strong className="text-red-950 font-bold">Ringacam Enterprise</strong>
                         </span>
@@ -2199,29 +2482,29 @@ export default function PitchDeckQuickQRs({
                     </div>
                   )}
 
-                  {/* Dedicated Lot Badge directly on QR */}
-                  <span className="absolute bottom-1 bg-slate-900/95 text-amber-300 text-[9.5px] font-mono px-2 py-0.5 rounded-full font-black shadow-xs flex items-center gap-1 border border-amber-500/40">
-                    <span className="text-amber-400">LOT:</span> {item.batch}
+                  {/* Permanent GS1 Badge on QR */}
+                  <span className="absolute bottom-1 bg-slate-900/95 text-amber-300 text-[9.5px] font-mono px-2.5 py-0.5 rounded-full font-bold shadow-xs flex items-center gap-1 border border-amber-500/40">
+                    <span className="text-amber-400">GS1:</span> {item.ean13}
                   </span>
                 </div>
 
-                {/* Explicit Dedicated LOT indicator attached to QR */}
-                <div className="w-full bg-slate-100/90 border border-slate-200 rounded-lg px-2.5 py-1 flex items-center justify-between text-[10.5px] font-mono">
-                  <span className="text-slate-600 font-semibold flex items-center gap-1">
+                {/* Make-to-Order Permanent Packaging Indicator */}
+                <div className="w-full bg-emerald-50 border border-emerald-300 rounded-lg px-2.5 py-1 flex items-center justify-between text-[10px]">
+                  <span className="text-emerald-950 font-bold flex items-center gap-1 font-sans">
                     <span>🏷️</span>
-                    <span>QR ភ្ជាប់ LOT:</span>
+                    <span>ប្រភេទទំនិញ៖</span>
                   </span>
-                  <span className="font-black text-slate-950 bg-amber-200/90 px-2 py-0.5 rounded border border-amber-300 text-[11px]">
-                    {item.batch}
+                  <span className="font-bold text-emerald-900 bg-white px-2 py-0.5 rounded border border-emerald-300 text-[9.5px] font-sans">
+                    ផលិតតាមការកុម្ម៉ង់ (Make-to-Order)
                   </span>
                 </div>
 
-                {/* Official GS1 Cambodia Barcode Attached to Lot & Institutions */}
+                {/* Official GS1 Cambodia Barcode */}
                 <div className="w-full bg-white border border-slate-200 rounded-xl p-2.5 flex flex-col items-center space-y-1.5 shadow-2xs">
                   <div className="w-full flex items-center justify-between text-[10px]">
                     <span className="font-bold text-slate-700 flex items-center gap-1 font-sans">
                       <Barcode size={13} className="text-indigo-700" />
-                      <span>បាកូដ GS1 EAN-13 ភ្ជាប់ LOT៖</span>
+                      <span>បាកូដ GS1 EAN-13 ផ្លូវការ៖</span>
                     </span>
                     <span className="font-mono text-[9px] font-bold bg-indigo-50 text-indigo-900 px-1.5 py-0.2 rounded border border-indigo-200">
                       884 Cambodia
@@ -2248,15 +2531,9 @@ export default function PitchDeckQuickQRs({
                     );
                   })()}
 
-                  {/* Attached Lot Badge */}
-                  <div className="w-full bg-amber-50/90 border border-amber-300/80 rounded-lg px-2 py-1 flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-amber-900 font-bold flex items-center gap-1">
-                      <span>🏷️</span>
-                      <span>ឡូតិ៍បាកូដ:</span>
-                    </span>
-                    <span className="font-black text-slate-950 bg-amber-200/90 px-1.5 py-0.2 rounded border border-amber-400 font-mono text-[10.5px]">
-                      {item.batch}
-                    </span>
+                  {/* Make-to-order Stamping Indicator */}
+                  <div className="w-full bg-amber-50/90 border border-amber-300/80 rounded-lg px-2 py-1 text-center text-[9.5px] text-amber-950 font-sans font-bold">
+                    <span>LOT / MFD / EXP ៖ បោះត្រាជាក់ស្តែងពេលច្រក (Stamped at packaging)</span>
                   </div>
 
                   {/* Delivered Institution */}

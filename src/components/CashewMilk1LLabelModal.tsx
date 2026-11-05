@@ -33,7 +33,7 @@ export default function CashewMilk1LLabelModal({
   const [currentExp, setCurrentExp] = useState(expDate);
   const [flavorVariant, setFlavorVariant] = useState<'natural' | 'pandan' | 'custom'>('pandan');
   const [currentIngredients, setCurrentIngredients] = useState<string>(
-    'ទឹកចម្រោះ ៨៣.៥%, សាច់គ្រាប់ស្វាយចន្ទីកម្ពុជា ១៤%, ម្សៅស្លឹកតយធម្មជាតិ ២%, អំបិលសមុទ្រកំពត ០.៥%'
+    'ទឹកចម្រោះ 86%, គ្រាប់ស្វាយចន្ទី 12.9%, ស្ករ 0.86%, ម្សៅស្លឹកតើយ 0.13%, អំបិល 0.09%'
   );
   // Transparent product pricing: $3.00 Drink + $1.50 Bottle = $4.50 Total
   const [drinkPrice, setDrinkPrice] = useState<number>(3.00);
@@ -55,7 +55,7 @@ export default function CashewMilk1LLabelModal({
       );
       return `https://wa.me/855887712862?text=${msg}`;
     }
-    return `${origin}/?mode=passport&batch=${encodeURIComponent(currentBatch)}&product=cashew-milk-1l`;
+    return `${origin}/?mode=passport&ean=8847116350054&prodId=cashew-milk-1l&flv=milk_natural&wt=1L&view=certificate`;
   };
 
   // Generate QR Code image data
@@ -364,7 +364,7 @@ export default function CashewMilk1LLabelModal({
                     type="button"
                     onClick={() => {
                       setFlavorVariant('pandan');
-                      setCurrentIngredients('ទឹកចម្រោះ ៨៣.៥%, សាច់គ្រាប់ស្វាយចន្ទីកម្ពុជា ១៤%, ម្សៅស្លឹកតយធម្មជាតិ ២%, អំបិលសមុទ្រកំពត ០.៥%');
+                      setCurrentIngredients('ទឹកចម្រោះ 86%, គ្រាប់ស្វាយចន្ទី 12.9%, ស្ករ 0.86%, ម្សៅស្លឹកតើយ 0.13%, អំបិល 0.09%');
                     }}
                     className={`px-2.5 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
                       flavorVariant === 'pandan'
@@ -372,7 +372,7 @@ export default function CashewMilk1LLabelModal({
                         : 'bg-white text-emerald-800 border border-emerald-300 hover:bg-emerald-100'
                     }`}
                   >
-                    <span>🍃 ម្សៅស្លឹកតយ (Pandan Powder)</span>
+                    <span>🍃 ម្សៅស្លឹកតើយ (Pandan Powder)</span>
                   </button>
                   <button
                     type="button"
@@ -516,7 +516,7 @@ export default function CashewMilk1LLabelModal({
                   {/* Main Product Title */}
                   <div className="space-y-0.5 relative z-10">
                     <h2 className="text-base sm:text-lg font-black text-amber-200 tracking-tight leading-tight font-sans">
-                      ទឹកដោះគោគ្រាប់ស្វាយចន្ទីធម្មជាតិ ១០០%
+                      ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០%
                     </h2>
                     <div className="text-sm sm:text-base font-extrabold text-white tracking-wider uppercase font-serif">
                       100% PLANT-BASED CASHEW MILK
@@ -597,13 +597,33 @@ export default function CashewMilk1LLabelModal({
                   </div>
 
                   {/* Clean Ingredients & Nutritional Highlights */}
+                  {/* Clean Ingredients & Nutritional Highlights */}
                   <div className="space-y-1 text-left text-[9px] text-emerald-100/90 relative z-10">
                     <div className="flex items-start gap-1">
                       <span className="text-amber-300 font-bold shrink-0">គ្រឿងផ្សំ:</span>
                       <span className="leading-snug">{currentIngredients}</span>
                     </div>
+                    {/* Explicit 4 Cambodian Suppliers */}
+                    <div className="grid grid-cols-2 gap-1 text-[8px] pt-1 border-t border-emerald-800/80">
+                      <div className="bg-emerald-900/60 p-1 rounded border border-emerald-700/50 flex items-center gap-1">
+                        <span>🥜</span>
+                        <span className="truncate"><strong>ចន្ទី៖</strong> Mirarth Agri Tech</span>
+                      </div>
+                      <div className="bg-emerald-900/60 p-1 rounded border border-emerald-700/50 flex items-center gap-1">
+                        <span>🍯</span>
+                        <span className="truncate"><strong>ស្ករ៖</strong> Angkor Sugar</span>
+                      </div>
+                      <div className="bg-emerald-900/60 p-1 rounded border border-emerald-700/50 flex items-center gap-1">
+                        <span>🧂</span>
+                        <span className="truncate"><strong>អំបិល៖</strong> Ngov Heng</span>
+                      </div>
+                      <div className="bg-emerald-900/60 p-1 rounded border border-emerald-700/50 flex items-center gap-1">
+                        <span>🌿</span>
+                        <span className="truncate"><strong>ស្លឹកតើយ៖</strong> Ringacam</span>
+                      </div>
+                    </div>
                     <div className="flex items-center justify-between text-[8px] text-amber-200/90 pt-0.5 border-t border-emerald-800">
-                      <span>✓ 100% Cambodian Cashews</span>
+                      <span>✓ 100% Cambodian Sourced</span>
                       <span>✓ Zero Cholesterol</span>
                       <span>✓ No Preservatives</span>
                     </div>
@@ -627,8 +647,8 @@ export default function CashewMilk1LLabelModal({
                       <span>BARCODE: <strong className="text-emerald-300 font-mono">884 711635 0054</strong></span>
                       <span className="text-[7.5px] text-amber-300 font-mono">EAN-13 GS1</span>
                     </div>
-                    <div className="text-[8px] text-emerald-300/80 italic text-center pt-0.5 border-t border-emerald-800/60 font-sans">
-                      Keep refrigerated below 4°C. Shake well before drinking.
+                    <div className="text-[8px] text-emerald-200 font-sans text-center pt-0.5 border-t border-emerald-800/60 leading-tight">
+                      ភេសជ្ជៈប្រណិត អាចទទួលទានផ្ទាល់ភ្លាមៗ ឬលាយជាមួយកាហ្វេ។ រក្សាទុកក្នុងទូទឹកកកក្រោម ៤°C។
                     </div>
                   </div>
 
@@ -690,9 +710,13 @@ export default function CashewMilk1LLabelModal({
                   {/* Photo Display */}
                   <div className="lg:col-span-7 bg-slate-900 rounded-3xl overflow-hidden border border-emerald-500/30 shadow-xl relative group">
                     <img
-                      src="/assets/aistudio/image_347e37e2.png"
+                      src="/images/mayany_cashew_milk_1l.jpg"
                       alt="100% Plant-Based Cashew Milk 1L Bottle in Cambodian Plantation"
                       className="w-full h-auto object-cover max-h-[580px] mx-auto"
+                      onError={(e) => { 
+                        e.currentTarget.onerror = null; 
+                        e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg'; 
+                      }}
                     />
                     <div className="absolute bottom-3 left-3 right-3 bg-slate-950/85 backdrop-blur-md rounded-2xl p-3 border border-white/10 text-white text-xs flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -703,7 +727,7 @@ export default function CashewMilk1LLabelModal({
                         </div>
                       </div>
                       <a
-                        href="/assets/aistudio/image_347e37e2.png"
+                        href="/images/mayany_cashew_milk_1l.jpg"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="py-1 px-2.5 bg-white/20 hover:bg-white/30 text-white text-[11px] rounded-lg font-bold flex items-center gap-1 transition"
@@ -874,9 +898,13 @@ export default function CashewMilk1LLabelModal({
 
                 <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-900 flex items-center justify-center p-2">
                   <img
-                    src="/assets/aistudio/image_9ff1e192.png"
+                    src="/mayany_ke_application_product_collage.jpg"
                     alt="Original Cashew Milk Bottle Label"
                     className="max-h-[450px] w-auto object-contain rounded-xl"
+                    onError={(e) => { 
+                      e.currentTarget.onerror = null; 
+                      e.currentTarget.src = '/images/mayany_ke_application_product_collage_1785131513154.jpg'; 
+                    }}
                   />
                 </div>
               </div>
