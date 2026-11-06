@@ -38,19 +38,19 @@ export interface StoreProduct {
 }
 
 export const STORE_PRODUCTS: StoreProduct[] = [
-  // 1. 50g = $1.00 Chili Coated Cashew Kernels (Brown Craft Pouch)
+  // 1. 50g = $1.25 Chili Coated Cashew Kernels (Brown Craft Pouch)
   {
     id: 'chili-pouch-50g',
     nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេស (កញ្ចប់ ៥០g)',
     nameEn: 'Chili Coated Cashew Kernels (50g Pouch)',
     nameKo: '고추맛 시즈닝 캐슈넛 (50g 파우치)',
     category: 'pouches',
-    priceUsd: 1.00,
+    priceUsd: 1.25,
     weight: '50g',
     packageType: '50g Kraft Eco Pouch with Window',
-    badgeKh: '៥០g = $1.00 (៤,១០០ ៛)',
-    badgeEn: '50g = $1.00',
-    badgeKo: '50g = $1.00',
+    badgeKh: '៥០g = $1.25 (៥,១០០ ៛)',
+    badgeEn: '50g = $1.25',
+    badgeKo: '50g = $1.25',
     imageSrc: '/images/mayany_chili_pouch_50g.jpg',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេសហឹរស្រួយ កញ្ចប់ក្រដាសក្រាហ្វ ៥០ ក្រាម មានបង្អួចថ្លាមើលឃើញសាច់គ្រាប់។ រសជាតិហឹរឈ្ងុយដិតអារម្មណ៍ ញ៉ាំជាមួយស្រាបៀរ ឬជាអាហារសម្រន់។',
     descriptionEn: 'Chili coated crunchy cashew kernels in 50g craft eco pouch with transparent window. Savory & spicy bar snack.',
@@ -58,33 +58,33 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     highlightsKh: [
       'កញ្ចប់ក្រដាសក្រាហ្វ ៥០ ក្រាម មានខ្សែរូត',
       'រសជាតិម្ទេសហឹរស្រួយ ញ៉ាំជាមួយស្រាបៀរ',
-      'តម្លៃសមរម្យត្រឹម $1.00 (៤,១០០ ៛) ក្នុងមួយកញ្ចប់'
+      'តម្លៃសមរម្យត្រឹម $1.25 (៥,១០០ ៛) ក្នុងមួយកញ្ចប់'
     ],
     highlightsEn: [
       '50g craft pouch with resealable zipper',
       'Savory & spicy crunch, perfect beer pairing',
-      'Official price: $1.00 per pouch'
+      'Official price: $1.25 per pouch'
     ],
     highlightsKo: [
       '50g 크라프트 친환경 스탠딩 지퍼백 포장',
       '맥주와 환상의 궁합인 매콤 바삭한 풍미',
-      '공식 수출 단가: $1.00 / 팩'
+      '공식 수출 단가: $1.25 / 팩'
     ]
   },
 
-  // 2. 50g = $1.00 Sugar Coated Cashew Kernels (White Pouch)
+  // 2. 50g = $1.25 Sugar Coated Cashew Kernels (White Pouch)
   {
     id: 'sugar-pouch-50g',
     nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករ (កញ្ចប់ ៥០g)',
     nameEn: 'Sugar Coated Cashew Kernels (50g Pouch)',
     nameKo: '달콤 바삭 캐슈넛 (50g 파우치)',
     category: 'pouches',
-    priceUsd: 1.00,
+    priceUsd: 1.25,
     weight: '50g',
     packageType: '50g White Standing Pouch with Window',
-    badgeKh: '៥០g = $1.00 (៤,១០០ ៛)',
-    badgeEn: '50g = $1.00',
-    badgeKo: '50g = $1.00',
+    badgeKh: '៥០g = $1.25 (៥,១០០ ៛)',
+    badgeEn: '50g = $1.25',
+    badgeKo: '50g = $1.25',
     imageSrc: '/images/mayany_sugar_pouch_50g.jpg',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករធម្មជាតិ កញ្ចប់ពណ៌ស ៥០ ក្រាម ស្រួយក្រមោក រសជាតិផ្អែមស្រទន់ ពេញនិយមនៅកូរ៉េ។',
     descriptionEn: 'Sugar coated cashew kernels in 50g clean white pouch. Light caramel crunch, highly popular in South Korea.',
@@ -92,33 +92,33 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     highlightsKh: [
       'កញ្ចប់ពណ៌ស ៥០ ក្រាម មានបង្អួចថ្លា',
       'ស្រោបស្ករធម្មជាតិ ស្រួយក្រមោក',
-      'តម្លៃសមរម្យត្រឹម $1.00 (៤,១០០ ៛) ក្នុងមួយកញ្ចប់'
+      'តម្លៃសមរម្យត្រឹម $1.25 (៥,១០០ ៛) ក្នុងមួយកញ្ចប់'
     ],
     highlightsEn: [
       '50g white standing pouch with window',
       'Natural sugar glaze with crisp shell',
-      'Official price: $1.00 per pouch'
+      'Official price: $1.25 per pouch'
     ],
     highlightsKo: [
       '50g 화이트 스탠딩 파우치 (투명 윈도우)',
       '자연스러운 달콤함과 바삭한 크런치 식감',
-      '공식 수출 단가: $1.00 / 팩'
+      '공식 수출 단가: $1.25 / 팩'
     ]
   },
 
-  // 3. 50g = $1.00 GI Kampot Black Pepper Coated Cashew Kernels (Black Pouch)
+  // 3. 50g = $1.25 GI Kampot Black Pepper Coated Cashew Kernels (Black Pouch)
   {
     id: 'pepper-pouch-50g',
     nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI (កញ្ចប់ ៥០g)',
     nameEn: 'GI Kampot Black Pepper Coated Cashew Kernels (50g Pouch)',
     nameKo: '캄폿 GI 유기농 흑후추 코팅 캐슈넛 (50g 파우치)',
     category: 'pouches',
-    priceUsd: 1.00,
+    priceUsd: 1.25,
     weight: '50g',
     packageType: '50g Matte Black Pouch with Window',
-    badgeKh: '៥០g = $1.00 (៤,១០០ ៛)',
-    badgeEn: '50g = $1.00',
-    badgeKo: '50g = $1.00',
+    badgeKh: '៥០g = $1.25 (៥,១០០ ៛)',
+    badgeEn: '50g = $1.25',
+    badgeKo: '50g = $1.25',
     imageSrc: '/images/mayany_pepper_pouch_50g.jpg',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI កញ្ចប់ខ្មៅប្រណិត ៥០ ក្រាម គ្រាប់ពេញលេញ ឈ្ងុយហឹរស្រទន់តាមស្តង់ដារ GI កំពត។',
     descriptionEn: 'Whole cashew kernels coated with authentic GI Kampot black pepper in 50g matte black pouch.',
@@ -126,17 +126,17 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     highlightsKh: [
       'ម្រេចខ្មៅកំពត GI សុទ្ធ ១០០%',
       'កញ្ចប់ខ្មៅប្រណិត ៥០ ក្រាម មានខ្សែរូត',
-      'តម្លៃសមរម្យត្រឹម $1.00 (៤,១០០ ៛) ក្នុងមួយកញ្ចប់'
+      'តម្លៃសមរម្យត្រឹម $1.25 (៥,១០០ ៛) ក្នុងមួយកញ្ចប់'
     ],
     highlightsEn: [
       '100% Authentic GI Kampot Black Pepper',
       '50g matte black resealable pouch',
-      'Official price: $1.00 per pouch'
+      'Official price: $1.25 per pouch'
     ],
     highlightsKo: [
       '100% 정품 캄폿 GI 유기농 흑후추 사용',
       '50g 매트 블랙 지퍼 밀봉 파우치',
-      '공식 수출 단가: $1.00 / 팩'
+      '공식 수출 단가: $1.25 / 팩'
     ]
   },
 
@@ -251,19 +251,19 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     baristaTipKo: '☕ 바리스타 캐슈 라떼 레시피: 핫/아이스 에스프레소나 커피에 캐슈 파우더 1~2스푼을 넣고 저어주세요. 우유 없이도 부드러운 고소함과 천연 식물성 크레마가 완성됩니다 (서울 스타트업 투자자 시음 방식!)'
   },
 
-  // 7. 175g = $3.25 Chili Coated Cashew Kernels (175g PET Jar)
+  // 7. 175g = $4.00 Chili Coated Cashew Kernels (175g PET Jar)
   {
     id: 'chili-jar-175g',
     nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេស (កំប៉ុង PET ១៧៥g)',
     nameEn: 'Chili Coated Cashew Kernels (175g PET Jar)',
     nameKo: '고추맛 시즈닝 캐슈넛 (175g 밀폐 PET 용기)',
     category: 'jars',
-    priceUsd: 3.25,
+    priceUsd: 4.00,
     weight: '175g',
     packageType: '175g Clear Induction Sealed PET Jar',
-    badgeKh: '១៧៥g = $3.25 (១៣,៣០០ ៛)',
-    badgeEn: '175g = $3.25',
-    badgeKo: '175g = $3.25',
+    badgeKh: '១៧៥g = $4.00 (១៦,៤០០ ៛)',
+    badgeEn: '175g = $4.00',
+    badgeKo: '175g = $4.00',
     imageSrc: '/images/mayany_chili_jar_175g.png',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេសហឹរស្រួយ កំប៉ុង PET ១៧៥ ក្រាម បិទជិតខ្យល់ រសជាតិដិតដល់ ជម្រើសដ៏ល្អសម្រាប់ញ៉ាំជាមួយស្រាបៀរ (ដូចដែលលោកស្រីនួន បានជ្រើសរើសសម្រាប់ណែនាំដល់ក្លឹបដ៏ល្បីនៅទីក្រុងឡុងដ៍)។',
     descriptionEn: 'Chili coated cashew kernels in 175g sealed induction PET jar. Savory spice crunch (selected by Ms. Nuon to introduce to a prestigious club in London, UK!).',
@@ -271,34 +271,34 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     highlightsKh: [
       'កំប៉ុង PET ១៧៥ ក្រាម បិទជិតខ្យល់ Induction Seal',
       'រសជាតិម្ទេសហឹរស្រួយ ញ៉ាំជាមួយស្រាបៀរ',
-      'តម្លៃផ្លូវការ: $3.25 (១៣,៣០០ ៛) ក្នុងមួយកំប៉ុង'
+      'តម្លៃផ្លូវការ: $4.00 (១៦,៤០០ ៛) ក្នុងមួយកំប៉ុង'
     ],
     highlightsEn: [
       '175g clear PET jar with tamper induction seal',
       'Savory & spicy crunch, ideal with craft beer',
-      'Selected by Ms. Nuon to introduce to London, UK'
+      'Official price: $4.00 per jar (Selected by Ms. Nuon to introduce to London, UK)'
     ],
     highlightsKo: [
       '175g 투명 PET 용기 & 안심 인덕션 실링 캡',
       '크래프트 비어 및 라운지 바 최고 인기',
-      '공식 수출 단가: $3.25 / 개'
+      '공식 수출 단가: $4.00 / 개'
     ],
     popularWith: 'London UK Clubs & Lounges'
   },
 
-  // 8. 175g = $3.25 Sugar Coated Cashew Kernels (175g PET Jar)
+  // 8. 175g = $4.00 Sugar Coated Cashew Kernels (175g PET Jar)
   {
     id: 'sugar-jar-175g',
     nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករ (កំប៉ុង PET ១៧៥g)',
     nameEn: 'Sugar Coated Cashew Kernels (175g PET Jar)',
     nameKo: '달콤 바삭 캐슈넛 (175g 밀폐 PET 용기)',
     category: 'jars',
-    priceUsd: 3.25,
+    priceUsd: 4.00,
     weight: '175g',
     packageType: '175g Clear Induction Sealed PET Jar',
-    badgeKh: '១៧៥g = $3.25 (១៣,៣០០ ៛)',
-    badgeEn: '175g = $3.25',
-    badgeKo: '175g = $3.25',
+    badgeKh: '១៧៥g = $4.00 (១៦,៤០០ ៛)',
+    badgeEn: '175g = $4.00',
+    badgeKo: '175g = $4.00',
     imageSrc: '/images/mayany_sugar_jar_175g.png',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករ កំប៉ុង PET ១៧៥ ក្រាម ស្រួយក្រមោក ផ្អែមស្រទន់បែបធម្មជាតិ ពេញនិយមនៅកូរ៉េ។',
     descriptionEn: 'Sugar coated cashew kernels in 175g induction PET jar. Delicate caramel sweetness, popular in South Korea.',
@@ -306,33 +306,33 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     highlightsKh: [
       'កំប៉ុង PET ១៧៥ ក្រាម បិទជិតខ្យល់ Induction Seal',
       'ស្រោបស្ករធម្មជាតិ ស្រួយក្រមោក',
-      'តម្លៃផ្លូវការ: $3.25 (១៣,៣០០ ៛) ក្នុងមួយកំប៉ុង'
+      'តម្លៃផ្លូវការ: $4.00 (១៦,៤០០ ៛) ក្នុងមួយកំប៉ុង'
     ],
     highlightsEn: [
       '175g clear PET jar with induction seal',
       'Crispy natural sugar coating',
-      'Official price: $3.25 per jar'
+      'Official price: $4.00 per jar'
     ],
     highlightsKo: [
       '175g 투명 밀폐 PET 용기 포장',
       '천연 설탕 글레이즈의 바삭하고 깔끔한 단맛',
-      '공식 수출 단가: $3.25 / 개'
+      '공식 수출 단가: $4.00 / 개'
     ]
   },
 
-  // 9. 175g = $3.25 GI Kampot Black Pepper Coated Cashew Kernels (175g PET Jar)
+  // 9. 175g = $4.00 GI Kampot Black Pepper Coated Cashew Kernels (175g PET Jar)
   {
     id: 'pepper-jar-175g',
     nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI (កំប៉ុង PET ១៧៥g)',
     nameEn: 'GI Kampot Black Pepper Coated Cashew Kernels (175g PET Jar)',
     nameKo: '캄폿 GI 유기농 흑후추 코팅 캐슈넛 (175g 밀폐 PET 용기)',
     category: 'jars',
-    priceUsd: 3.25,
+    priceUsd: 4.00,
     weight: '175g',
     packageType: '175g Clear Induction Sealed PET Jar',
-    badgeKh: '១៧៥g = $3.25 (១៣,៣០០ ៛)',
-    badgeEn: '175g = $3.25',
-    badgeKo: '175g = $3.25',
+    badgeKh: '១៧៥g = $4.00 (១៦,៤០០ ៛)',
+    badgeEn: '175g = $4.00',
+    badgeKo: '175g = $4.00',
     imageSrc: '/images/mayany_pepper_jar_175g.png',
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI កំប៉ុង PET ១៧៥ ក្រាម គ្រាប់ធំៗ ឈ្ងុយហឹរស្រទន់ ជម្រើសពេញនិយមបំផុតរបស់វិនិយោគិនកូរ៉េ & ភោជនីយដ្ឋានចក្រភពអង់គ្លេស។',
     descriptionEn: 'GI Kampot black pepper coated whole cashews in 175g PET jar. Top favorite of Korean venture investors & UK restaurants.',
@@ -340,17 +340,17 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     highlightsKh: [
       'កំប៉ុង PET ១៧៥ ក្រាម បិទជិតខ្យល់ Induction Seal',
       'ម្រេចខ្មៅកំពត GI សុទ្ធ ១០០%',
-      'តម្លៃផ្លូវការ: $3.25 (១៣,៣០០ ៛) ក្នុងមួយកំប៉ុង'
+      'តម្លៃផ្លូវការ: $4.00 (១៦,៤០០ ៛) ក្នុងមួយកំប៉ុង'
     ],
     highlightsEn: [
       '175g clear PET jar with induction seal',
       '100% Authentic GI Kampot Black Pepper',
-      'Top favorite of Korean venture investors & UK restaurants'
+      'Official price: $4.00 per jar (Favorite of Korean venture investors & UK restaurants)'
     ],
     highlightsKo: [
       '175g 밀폐 PET 용기 & 신선도 보존 실링',
       '한국 벤처투자사 & 영국 레스토랑 인기 1위',
-      '공식 수출 단가: $3.25 / 개'
+      '공식 수출 단가: $4.00 / 개'
     ],
     popularWith: 'Korean Investors & UK Restaurants'
   }
@@ -429,9 +429,9 @@ export default function MayanyStore({
   const [orderNotes, setOrderNotes] = useState('');
   const [paymentPreference, setPaymentPreference] = useState<'whatsapp' | 'khqr' | 'international_wire'>('whatsapp');
 
-  // Convert USD to Cambodian Riel with official 1 USD = 4,100 KHR benchmark
+  // Convert USD to Cambodian Riel with official 1 USD = 4,100 KHR benchmark, rounded to nearest 100
   const formatRiel = (usd: number) => {
-    const khr = Math.round((usd * 4100) / 50) * 50;
+    const khr = Math.round((usd * 4100) / 100) * 100;
     return `${khr.toLocaleString('en-US')} ៛`;
   };
 
@@ -443,7 +443,7 @@ export default function MayanyStore({
       return `₩${Math.round(converted).toLocaleString('en-US')}`;
     }
     if (currency === 'KHR') {
-      const rounded = Math.round(converted / 50) * 50;
+      const rounded = Math.round(converted / 100) * 100;
       return `${rounded.toLocaleString('en-US')} ៛`;
     }
     if (currency === 'GBP') {
@@ -682,15 +682,15 @@ Sent via mayanyenterprise.com storefront`;
             },
             { 
               id: 'jars', 
-              labelKh: 'កំប៉ុង PET ១៧៥g & ២០០g ($2.50 - $3.25)', 
-              labelEn: 'PET Jars ($2.50 - $3.25)',
-              labelKo: '밀폐 PET 용기 ($2.50 - $3.25)'
+              labelKh: 'កំប៉ុង PET ១៧៥g & ២០០g ($2.50 - $4.00)', 
+              labelEn: 'PET Jars ($2.50 - $4.00)',
+              labelKo: '밀폐 PET 용기 ($2.50 - $4.00)'
             },
             { 
               id: 'pouches', 
-              labelKh: 'កញ្ចប់ ៥០g ($0.65 - $1.00)', 
-              labelEn: '50g Pouches ($0.65 - $1.00)',
-              labelKo: '50g 파우치 ($0.65 - $1.00)'
+              labelKh: 'កញ្ចប់ ៥០g ($0.65 - $1.25)', 
+              labelEn: '50g Pouches ($0.65 - $1.25)',
+              labelKo: '50g 파우치 ($0.65 - $1.25)'
             },
             { 
               id: 'beverage', 
