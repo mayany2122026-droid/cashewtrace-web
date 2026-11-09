@@ -1507,6 +1507,10 @@ export function ensureKhmerProductName(rawText: string, fallbackEnglish?: string
     return 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេសហឹរ';
   }
 
+  if (combined.includes('milk') || combined.includes('ទឹកដោះគោ') || combined.includes('beverage') || combined.includes('drink')) {
+    return 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០%';
+  }
+
   if (combined.includes('sugar') || combined.includes('caramel') || combined.includes('palm') || combined.includes('ស្ករ')) {
     return 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករត្នោត';
   }
@@ -1558,7 +1562,12 @@ export function getStandardKoreanProductName(
     .trim();
   const combined = `${cleanKhmer} ${cleanEnglish}`.toLowerCase();
 
-  // 0. Noodles (Healthy Cashew Nut Noodles)
+  // 0. Cashew Milk (100% Plant-Based Cashew Milk)
+  if (combined.includes('milk') || combined.includes('밀크') || combined.includes('우유') || combined.includes('ទឹកដោះគោ') || combined.includes('beverage') || combined.includes('drink')) {
+    return '100% 순수 식물성 프리미엄 캐슈넛 밀크 (100% Plant-Based Cashew Milk 1L)';
+  }
+
+  // 0.5. Noodles (Healthy Cashew Nut Noodles)
   if (combined.includes('noodle') || combined.includes('noodles') || combined.includes('국수') || combined.includes('건면') || combined.includes('មី') || combined.includes('គុយទាវ')) {
     return '캄보디아산 프리미엄 캐슈넛 건면 (Healthy Cashew Nut Noodles)';
   }
@@ -2292,6 +2301,15 @@ export const DEFAULT_OFFICIAL_SUPPLIERS: OfficialSupplierOption[] = [
     province: 'ភ្នំពេញ (Phnom Penh)',
     icon: '🌶️',
     categoryKh: 'ម្សៅម្ទេស'
+  },
+  {
+    id: 'ringacam-pandan',
+    badgeTitle: 'Ringacam Enterprise (ម្សៅស្លឹកតើយ G.D.G)',
+    supplierName: 'Ringacam Enterprise',
+    productName: 'ម្សៅស្លឹកតើយ G.D.G',
+    province: 'ភ្នំពេញ (Phnom Penh)',
+    icon: '🌿',
+    categoryKh: 'ម្សៅស្លឹកតើយ'
   }
 ];
 

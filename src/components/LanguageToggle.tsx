@@ -39,17 +39,18 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({
   const isKm = language === 'km' || language === 'kh';
   const isEn = language === 'en';
   const isKo = language === 'ko';
+  const isJa = language === 'ja';
 
-  // Desktop Direct 3-Button Segmented Selector & Mobile Dropdown
+  // Desktop Direct 4-Button Segmented Selector & Mobile Dropdown
   return (
     <div className={`relative inline-flex items-center ${className}`} ref={containerRef}>
-      {/* 3-Language Segmented Switcher for Desktop / Tablets */}
+      {/* 4-Language Segmented Switcher for Desktop / Tablets */}
       <div className="hidden sm:inline-flex items-center bg-slate-100/90 hover:bg-slate-200/80 p-1 rounded-2xl border border-slate-200 shadow-2xs transition-all">
         {/* 1. Khmer */}
         <button
           type="button"
           onClick={() => handleSelectLanguage('km')}
-          className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 cursor-pointer ${
+          className={`px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1 cursor-pointer ${
             isKm 
               ? 'bg-emerald-700 text-white shadow-xs' 
               : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
@@ -64,7 +65,7 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({
         <button
           type="button"
           onClick={() => handleSelectLanguage('en')}
-          className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 cursor-pointer ${
+          className={`px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1 cursor-pointer ${
             isEn 
               ? 'bg-emerald-700 text-white shadow-xs' 
               : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
@@ -79,7 +80,7 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({
         <button
           type="button"
           onClick={() => handleSelectLanguage('ko')}
-          className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 cursor-pointer ${
+          className={`px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1 cursor-pointer ${
             isKo 
               ? 'bg-emerald-700 text-white shadow-xs' 
               : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
@@ -88,6 +89,21 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({
         >
           <span className="text-sm">🇰🇷</span>
           <span className="font-semibold text-xs">한국어</span>
+        </button>
+
+        {/* 4. Japanese */}
+        <button
+          type="button"
+          onClick={() => handleSelectLanguage('ja')}
+          className={`px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1 cursor-pointer ${
+            isJa 
+              ? 'bg-emerald-700 text-white shadow-xs' 
+              : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
+          }`}
+          title="日本語 (Japanese)"
+        >
+          <span className="text-sm">🇯🇵</span>
+          <span className="font-semibold text-xs">日本語</span>
         </button>
       </div>
 
@@ -100,7 +116,7 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({
         >
           <span className="text-sm">{currentLanguageMeta.flag}</span>
           <span className="text-xs font-bold">
-            {isKo ? '한국어' : isKm ? 'ខ្មែរ' : 'EN'}
+            {isJa ? '日本語' : isKo ? '한국어' : isKm ? 'ខ្មែរ' : 'EN'}
           </span>
           <ChevronDown size={14} className={`text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>

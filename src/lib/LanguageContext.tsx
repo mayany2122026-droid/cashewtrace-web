@@ -16,6 +16,7 @@ interface LanguageContextType {
   toggleLanguage: () => void;
   isEnglish: boolean;
   isKorean: boolean;
+  isJapanese: boolean;
   // Compatibility getters for legacy references
   isKhmer: boolean;
   isGerman: boolean;
@@ -48,6 +49,7 @@ const LanguageContext = createContext<LanguageContextType>({
   toggleLanguage: () => {},
   isEnglish: true,
   isKorean: false,
+  isJapanese: false,
   isKhmer: false,
   isGerman: false,
   isFrench: false,
@@ -132,6 +134,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const isEnglish = language === 'en';
   const isKorean = language === 'ko';
+  const isJapanese = language === 'ja';
   const isKhmer = language === 'km' || language === 'kh';
   const isGerman = false;
   const isFrench = false;
@@ -164,13 +167,20 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   /**
    * Universal translation helper:
-   * Returns Korean if active and available, otherwise English or default.
+   * Returns Japanese, Korean, Khmer, or English based on active language.
    */
   const t = (
     khmerText: string, 
     englishText?: string, 
     other?: Partial<Record<AppLanguage, string>> | string
   ): string => {
+    if (language === 'ja') {
+      if (other && typeof other === 'object' && (other as any).ja) {
+        return (other as any).ja;
+      }
+      return englishText || khmerText;
+    }
+
     if (language === 'ko') {
       if (other && typeof other === 'object' && other.ko) {
         return other.ko;
@@ -195,6 +205,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       toggleLanguage,
       isEnglish,
       isKorean,
+      isJapanese,
       isKhmer,
       isGerman,
       isFrench,

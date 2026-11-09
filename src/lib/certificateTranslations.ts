@@ -23,11 +23,13 @@ export interface CertificateTranslation {
   descriptionHeader: string;
   descriptionSub: string;
 
-  // 5. weight
+  // 5. weight / volume
   weightHeader: string;
   netWeightLabel: string;
   weightHeaderGeneral?: string;
   weightLabelGeneral?: string;
+  volumeHeader?: string;
+  netVolumeLabel?: string;
   packagingFormatLabel: string;
 
   // 6. ingredient list
@@ -188,6 +190,7 @@ export const CERTIFICATE_LANGUAGES: {
   { code: 'km', name: 'ភាសាខ្មែរ', nativeName: 'ភាសាខ្មែរ (Khmer - លំនាំដើម)', flag: '🇰🇭' },
   { code: 'en', name: 'English', nativeName: 'English (International / Export)', flag: '🌐' },
   { code: 'ko', name: '한국어', nativeName: '한국어 (Korea / Export)', flag: '🇰🇷' },
+  { code: 'ja', name: '日本語', nativeName: '日本語 (Japan / Export)', flag: '🇯🇵' },
 ];
 
 export const CERTIFICATE_TRANSLATIONS: Record<string, CertificateTranslation> = {
@@ -219,11 +222,13 @@ export const CERTIFICATE_TRANSLATIONS: Record<string, CertificateTranslation> = 
     descriptionHeader: 'សេចក្តីពិពណ៌នាផលិតផលផ្លូវការ',
     descriptionSub: 'ស្តង់ដារ CS 001 មាត្រា ៤.២',
 
-    // 5. weight
+    // 5. weight / volume
     weightHeader: 'ទម្ងន់សុទ្ធ & ទម្រង់វេចខ្ចប់ផ្លូវការ',
     netWeightLabel: 'ទម្ងន់សុទ្ធផ្លូវការ',
     weightHeaderGeneral: 'ទម្ងន់ & ទម្រង់វេចខ្ចប់ផ្លូវការ',
     weightLabelGeneral: 'ទម្ងន់ផ្លូវការ',
+    volumeHeader: 'ចំណុះសុទ្ធ & ទម្រង់វេចខ្ចប់ផ្លូវការ',
+    netVolumeLabel: 'ចំណុះសុទ្ធផ្លូវការ',
     packagingFormatLabel: 'ទម្រង់វេចខ្ចប់ផ្លូវការ',
 
     // 6. ingredient list
@@ -403,11 +408,13 @@ export const CERTIFICATE_TRANSLATIONS: Record<string, CertificateTranslation> = 
     descriptionHeader: 'Official Product Description',
     descriptionSub: 'CS 001 Standard Rule 4.2',
 
-    // 5. weight
+    // 5. weight / volume
     weightHeader: 'Official Net Weight & Packaging Format',
     netWeightLabel: 'Official Net Weight',
     weightHeaderGeneral: 'Official Weight & Packaging Format',
     weightLabelGeneral: 'Official Weight',
+    volumeHeader: 'Official Net Volume & Packaging Format',
+    netVolumeLabel: 'Official Net Volume',
     packagingFormatLabel: 'Official Packaging Format',
 
     // 6. ingredient list
@@ -587,11 +594,13 @@ export const CERTIFICATE_TRANSLATIONS: Record<string, CertificateTranslation> = 
     descriptionHeader: '공식 제품 설명 (Product Description)',
     descriptionSub: 'CS 001 규정 제4.2조 준수',
 
-    // 5. weight
+    // 5. weight / volume
     weightHeader: '공식 순 내용량 및 포장 형태',
     netWeightLabel: '순 내용량 (Net Weight)',
     weightHeaderGeneral: '공식 중량 및 포장 형태 (Weight & Package)',
     weightLabelGeneral: '공식 중량 (Weight)',
+    volumeHeader: '공식 순 용량 및 포장 형태 (Net Volume & Package)',
+    netVolumeLabel: '공식 순 용량 (Net Volume)',
     packagingFormatLabel: '공식 포장 형태 (Package Format)',
 
     // 6. ingredient list
@@ -741,6 +750,192 @@ export const CERTIFICATE_TRANSLATIONS: Record<string, CertificateTranslation> = 
     labHeavyMetalsLimit: '최대 0.1 mg/kg',
     labNonDetectable: '불검출 (<0.01)',
     labPass: '적합 (PASS)',
+  },
+
+  // ==========================================
+  // JAPANESE (日本語 🇯🇵) - EXPORT STANDARD
+  // ==========================================
+  ja: {
+    // 1. logo and brand name
+    kingdomHeader: 'カンボジア王国',
+    motto: '国家 • 宗教 • 国王',
+    brandName: 'マヤニー・エンタープライズ (Mayany Enterprise)',
+    brandSubtitle: 'カンボジア産最高品質農産物加工・輸出企業',
+    certTitle: '公式 CS 001 製品・包装技術仕様証明書',
+    certSubtitle: 'カンボジア国家規格 CS 001:2000 品質認証・輸出技術文書',
+    mistiBadge: '国家規格 CS 001:2000 MISTI 認証',
+
+    // 2. product name
+    productNameSectionHeader: '公式製品名',
+    productNameKhmerLabel: 'クメール語名称',
+    productNameEnLabel: '英語名称',
+    productNameKoLabel: '日本語名称',
+
+    // 3. scientific name
+    scientificNameSectionHeader: '学名（英語）',
+    scientificNameLabel: '国際植物分類名',
+    scientificClassification: 'Anacardium occidentale',
+
+    // 4. product description
+    descriptionHeader: '公式製品説明および品質特性',
+    descriptionSub: 'CS 001 規格第2.2条に基づく適正製造規範',
+
+    // 5. weight / volume
+    weightHeader: '公称内容量および包装規格',
+    netWeightLabel: '正味内容量',
+    weightHeaderGeneral: '内容量',
+    weightLabelGeneral: '内容量',
+    volumeHeader: '正味容量',
+    netVolumeLabel: '正味容量',
+    packagingFormatLabel: '包装仕様・形態',
+
+    // 6. ingredient list
+    ingredientsSectionHeader: '原材料表示（配合比率順）',
+    ingredientsSub: 'CS 001 規格第4.3条に基づく完全開示',
+    fullDeclarationHeader: '原材料配合明細',
+
+    // 7. nutrition fact
+    nutritionHeader: '栄養成分表示（100g当たり）',
+    nutritionSub: '公式認定検査機関による分析値',
+    energyLabel: 'エネルギー',
+    proteinLabel: 'タンパク質',
+    totalFatLabel: '脂質',
+    saturatedFatLabel: '飽和脂肪酸',
+    transFatLabel: 'トランス脂肪酸',
+    cholesterolLabel: 'コレステロール',
+    totalCarbLabel: '炭水化物',
+    dietaryFiberLabel: '食物繊維',
+    totalSugarsLabel: '糖類',
+    addedSugarsLabel: '添加糖',
+    sodiumLabel: 'ナトリウム',
+    saltLabel: '食塩相当量',
+
+    // 8. health benefits
+    benefitsHeader: '栄養・健康機能の特徴',
+    benefitsBadge: '100% 自然由来栄養素',
+
+    // 9. how to use
+    usageHeader: 'お召し上がり方・調理上の注意',
+    usageSub: '品質を最高に保つための利用指針',
+
+    // 10. storage info
+    storageHeader: '保存方法および取扱基準',
+    storageSub: '適正保管条件',
+
+    // 11. allergen info
+    allergenAdvisoryHeader: 'アレルギー物質表示義務情報',
+    allergenSub: '国際食品規格 Codex および各国食品表示基準準拠',
+
+    // 12. Product Story
+    storyHeader: '農園から食卓へ：持続可能な調達ストーリー',
+    storyBadge: '100% 契約農家直接調達',
+
+    // 13. manufactured by
+    producerHeader: '公式製造者・輸出事業者',
+    producerNameLabel: '製造事業者名',
+    producerName: 'マヤニー・エンタープライズ (Mayany Enterprise)',
+
+    // 14. address
+    addressHeader: '事業所・加工施設所在地',
+    addressLabel: '加工施設所在地',
+    addressText: 'カンボジア王国 プノンペン市',
+    originSourcingLabel: '原料原産地',
+    originSourcingText: 'カンボジア王国 コンポントム州 契約農園',
+
+    // 15. contact info
+    contactHeader: '公式お問い合わせ窓口',
+    phoneLabel: '電話番号',
+    emailLabel: 'Eメール',
+    websiteLabel: '公式ウェブサイト',
+    facebookLabel: '公式SNS (Facebook)',
+
+    // 16. mfd date
+    mfdLabel: '製造年月日 (MFD)',
+    mfdSub: '別添生産ラベル参照（受注生産）',
+
+    // 17. exp date
+    expLabel: '賞味期限 (EXP)',
+    shelfLifeLabel: '公式品質保持期間',
+    shelfLifeMonthsSuffix: 'ヶ月',
+
+    // 18. Lot number
+    lotLabel: '製造ロット番号 (LOT / Batch)',
+    lotSub: 'トレーサビリティおよび品質管理識別コード（受注生産）',
+
+    // Secondary Label (2nd Label) Packaging Specification Notice
+    secondLabelNoticeTitle: '包装仕様に関する重要事項 (第2ラベル / 別添シール):',
+    secondLabelNoticeText: '製造ロット番号、製造日(MFD)、賞味期限(EXP)は、受注生産ごとに本体の第2ラベル（別添ステッカー）に印字・打刻されます。',
+    secondLabelJarNotice: 'PET/ガラス瓶用: 蓋または底面の別添シールにロット番号、MFD、EXPが印字されます。',
+    secondLabelPouchNotice: 'パウチ用: 背面シールの打刻枠にロット番号、MFD、EXPが印字されます。',
+    secondLabelBadge: '第2ラベル (別添シール)',
+
+    // 19. barcode
+    barcodeLabel: 'GS1 バーコード (EAN-13)',
+    barcodeSub: '国際標準POS・レジ精算用公式一次元コード',
+
+    // 20. product of cambodia & standards
+    originBadge: 'カンボジア産 (Product of Cambodia)',
+    productOfCambodiaTitle: 'カンボジア純正品（原産地証明）',
+    standardsHeader: '公式品質および適合規格',
+    standardsBadge: 'CS 001 認証規格',
+    stdCs001Title: 'カンボジア国家規格 CS 001:2000',
+    stdCs001Sub: 'MISTI 認証',
+    stdGhpTitle: '適正衛生規範 (GHP)',
+    stdGhpSub: '衛生加工管理',
+    stdGmpTitle: '適正製造規範 (GMP)',
+    stdGmpSub: '施設基準適合',
+    stdHaccpTitle: 'HACCP 食品安全基準',
+    stdHaccpSub: '重要管理点制御',
+    stdEudrTitle: 'EU森林破壊防止規則 (EUDR)',
+    stdEudrSub: '国際輸出適合',
+    stdCamGapTitle: 'CamGAP 農業生産工程管理',
+    stdCamGapSub: 'コンポントム契約農園',
+    complianceIconsHeader: '包装適合性アイコン',
+    iconRecyclable: 'リサイクル可能包装',
+    iconAntiDrug: '違法薬物不使用認証',
+    iconFoodGrade: '食品接触用安全素材',
+    iconNoChemicals: '有害化学物質ゼロ',
+    iconSupportKhmer: 'クメール農家支援',
+    verificationHeader: '公式デジタル製品検証',
+    qrScanNotice: 'スマートフォンで本QRコードをスキャンすると、リアルタイムでトレーサビリティおよびMISTI CS 001認証を照会できます。',
+    digitalSealTitle: 'MISTI プロトコル',
+    conformanceSealBadge: '品質適合性公式認証',
+    cashewTraceProtocolBadge: 'CashewTrace トレーサビリティ 2026',
+
+    // Utilities
+    copyBtn: '証明書テキストをコピー',
+    printBtn: '証明書を印刷 (PDF)',
+    closeBtn: '閉じる',
+    langSelectLabel: '証明書発行言語の選択',
+    stampedNotice: '製造年月日(MFD)、賞味期限(EXP)、ロット番号(LOT)は、受注生産ごとに外装別添ラベルに打刻・印字されます。',
+    stampedBadge: '別添ラベル打刻',
+    printedNotice: 'ラベル印字済み',
+    allergenWarningLabel: 'アレルギー物質に関する注意文',
+    qrPassportLabel: 'デジタルパスポート (QR)',
+    standardTitle: 'カンボジア国家規格 CS 001:2000',
+    standardSubtitle: 'カンボジア工業・科学・技術・イノベーション省(MISTI / ISC) 包装規格技術文書',
+    productIdentityTitle: '製品識別および植物分類 (PRODUCT IDENTITY)',
+    botanicalSubtitleFallback: '厳選カンボジア産カシューナッツ (Anacardium occidentale)',
+    batchHeader: '生産ロット・トレーサビリティ仕様（受注生産）',
+    formulationHeader: '原材料配合明細（CS 001 規格第4.3条準拠）',
+    usageLabel: '使用方法',
+    storageLabel: '保存条件',
+    labHeader: '検査機関による安全性・品質試験成績：',
+    labBadge: '全項目規格適合 (100%)',
+    labParamHeader: '試験項目',
+    labLimitHeader: '国家規格基準値 (CS 001)',
+    labResultHeader: '実測分析値',
+    labStatusHeader: '判定',
+    labMoistureLabel: '水分含有率',
+    labMoistureLimit: '5.0%以下（質量比）',
+    labDefectLabel: '欠陥・損傷粒混入率',
+    labDefectLimit: '8.0%以下',
+    labAflatoxinLabel: '総アフラトキシン (B1+B2+G1+G2)',
+    labAflatoxinLimit: '4.0 ppb以下 (Codex基準)',
+    labHeavyMetalsLabel: '重金属（鉛 Pb、カドミウム Cd）',
+    labHeavyMetalsLimit: '0.1 mg/kg以下',
+    labNonDetectable: '不検出 (<0.01)',
+    labPass: '適合 (PASS)',
   },
 };
 

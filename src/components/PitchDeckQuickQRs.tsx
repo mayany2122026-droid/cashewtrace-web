@@ -1671,7 +1671,24 @@ export default function PitchDeckQuickQRs({
             ].map((p) => {
               const svgPath = `/assets/printer_qr_pack/${p.fileName}.svg`;
               const pngPath = `/assets/printer_qr_pack/${p.fileName}.png`;
-              const targetUrl = `https://cashewtrace.com/?mode=passport&ean=${p.ean13}&prodId=${p.id}&view=certificate`;
+              const batchMap: Record<string, string> = {
+                'flour-jar-200g': '2026-MAY-FLR',
+                'ww180-sugar-jar-175g': '2026-cks-261j',
+                'sugar-jar-175g': '2026-cks-261j',
+                'ww180-sugar-pouch-50g': '2026-cks-261',
+                'sugar-pouch-50g': '2026-cks-261',
+                'ww180-pepper-jar-175g': '2026-ckp-261j',
+                'pepper-jar-175g': '2026-ckp-261j',
+                'pepper-pouch-50g': '2026-ckp-261',
+                'ww180-chili-jar-175g': '2026-ckc-261j',
+                'chili-jar-175g': '2026-ckc-261j',
+                'ww180-chili-pouch-50g': '2026-ckc-261',
+                'chili-pouch-50g': '2026-ckc-261',
+                'bb-pepper-pouch-50g': '2026-ckp-261',
+                'cashew-milk-1l': 'MTO-CM-1L'
+              };
+              const bCode = batchMap[p.id] || '2026-ckp-261';
+              const targetUrl = `https://mayanyenterprise.com/?mode=passport&product=${p.id}&view=certificate&project=passport`;
 
               return (
                 <div

@@ -3,7 +3,7 @@
  * Streamlined exclusively to English & Korean for optimal performance & token efficiency
  */
 
-export type AppLanguage = 'en' | 'ko' | 'kh' | 'km' | 'de' | 'fr' | 'zh';
+export type AppLanguage = 'en' | 'ko' | 'kh' | 'km' | 'ja' | 'de' | 'fr' | 'zh';
 
 export interface LanguageMeta {
   code: AppLanguage;
@@ -50,6 +50,17 @@ export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
     currency: 'KRW',
     currencySymbol: '₩',
     rateToUsd: 1380,
+  },
+  {
+    code: 'ja',
+    name: 'Japanese (日本語)',
+    nativeName: '日本語',
+    flag: '🇯🇵',
+    region: 'east_asia',
+    regionLabel: 'East Asia / Japan',
+    currency: 'JPY',
+    currencySymbol: '¥',
+    rateToUsd: 155,
   },
 ];
 
@@ -320,13 +331,81 @@ export const TRANSLATIONS: Record<'en' | 'ko', TranslationDictionary> & Partial<
     productCashewBiscuits: 'នំប៊ីស្គីតគ្រាប់ស្វាយចន្ទី',
 
     languageLabel: 'ភាសា',
-    selectLanguage: 'ជ្រើសរើសភាសា (ភាសាខ្មែរ, English, 한국어)',
+    selectLanguage: 'ជ្រើសរើសភាសា (ភាសាខ្មែរ, English, 한국어, 日本語)',
     aseanRegion: 'អាស៊ាន & ពិភពលោក',
     europeRegion: 'ទីផ្សារនាំចេញអន្តរជាតិ',
     eastAsiaRegion: 'ទីផ្សារអាស៊ីបូព៌ា',
     verifiedBadge: 'បានផ្ទៀងផ្ទាត់រួចរាល់',
     unverifiedBadge: 'រង់ចាំការធ្វើសវនកម្ម',
     supportedBy: 'គាំទ្រដោយ FTC / MISTI និង សហគ្រិនខ្មែរ (KE)',
+  },
+
+  // JAPANESE (日本語 🇯🇵)
+  ja: {
+    navHome: 'ホーム',
+    navPassport: 'デジタルパスポート & 電子ラベル',
+    navMap: '産地マップ',
+    navInventory: '在庫・ロット管理',
+    navAdmin: '加工所ポータル',
+    navPackaging: 'パッケージング & ラベル',
+    navPitchDeck: '事業説明資料 (Pitch Deck)',
+    navFarmer: '農家ポータル',
+    navOnboarding: 'デモスタジオ',
+    protocolTitle: 'カンボジア農産物トレーサビリティ・プロトコル',
+    startVideoGuide: '⚡ ガイド & 動画',
+    login: '🔑 ログイン',
+    logout: 'ログアウト',
+    demoStudio: '👑 デモスタジオ',
+
+    passportTitle: 'デジタル製品パスポート (DPP)',
+    passportSubtitle: 'スマート電子ラベル & 農園から食卓までの透明性保証プロトコル',
+    authenticTitle: 'カンボジア純正品認証 (AUTHENTIC)',
+    authenticSubtitle: '100% カンボジア産シングルオリジン認証 (CS 001 規格)',
+    lotCode: '製造ロット番号 (LOT Code)',
+    netWeight: '内容量 (Net Weight)',
+    mfdDate: '製造年月日 (MFD)',
+    expDate: '賞味期限 (EXP)',
+    originCountry: 'カンボジア王国 (Kingdom of Cambodia)',
+    eudrBadge: 'EU森林破壊防止規則(EUDR)適合 & CS 001規格',
+    fullDeclaration: '原材料表示 (Full Declaration)',
+    cashews: 'カンボジア産厳選カシューナッツ',
+    naturalSugar: '天然糖 (Natural Sugar)',
+    seaSalt: 'カンポット天日海塩 (Sea Salt)',
+    kampotPepper: 'カンポット有機黒胡椒 (GI認証)',
+    nutritionFacts: '栄養成分表示 (100g当たり)',
+    protein: 'タンパク質 (Protein)',
+    totalFat: '脂質 (Total Fat)',
+    carbs: '炭水化物 (Carbohydrates)',
+    sugars: '糖類 (Total Sugars)',
+    fiber: '食物繊維 (Dietary Fiber)',
+    sodium: 'ナトリウム (Sodium)',
+    allergenWarning: 'アレルギーおよび保存上の注意',
+    allergenDetails: 'カシューナッツを含みます。',
+    storageWarning: '直射日光・高温多湿を避け、涼しい乾燥した場所で密閉保存してください。開封後はお早めにお召し上がりください。',
+    manufacturerExporter: '公式製造者・輸出者 (Manufacturer & Exporter)',
+    factoryPhnomPenh: '加工施設：カンボジア王国 プノンペン市',
+    farmersKampongThom: '契約農園：カンボジア王国 コンポントム州',
+    scanVerification: 'デジタル製品認証 & CS 001 トレーサビリティ検証完了',
+    verifiedGpsStory: '検証済み農園GPS座標および収穫履歴',
+    viewMap: '産地マップを見る',
+    printQr: 'スマートQRラベルを印刷',
+    sharePassport: 'パスポートを共有',
+    close: '閉じる',
+
+    productPepperCashew: 'GIカンポット黒胡椒コーティング カシューナッツ',
+    productPepperCashewDesc: '世界的に高名なカンボジア産GI認定カンポット黒胡椒と大粒カシューナッツの贅沢な調和。',
+    productRoastedCashew: 'プレミアム素焼き・塩味カシューナッツ',
+    productCashewNibs: 'カシューナッツニブ (製菓・製パン用)',
+    productCashewBiscuits: '手作りカンボジアカシュービスケット',
+
+    languageLabel: '言語',
+    selectLanguage: '言語を選択 (ភាសាខ្មែរ, English, 한국어, 日本語)',
+    aseanRegion: 'ASEAN & グローバル',
+    europeRegion: '欧州輸出市場',
+    eastAsiaRegion: '東アジア輸出市場',
+    verifiedBadge: '認証済み',
+    unverifiedBadge: '検証待ち',
+    supportedBy: 'FTC / MISTI および クメール・エンタープライズ(KE) 支援',
   },
 };
 

@@ -30,10 +30,17 @@ import { db } from '../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { PRODUCT_PRESETS } from '../data/productPresets';
 import { getMayanyProductStory } from '../data/mayanyProductDescriptions';
+import { 
+  resolveMayanyProduct, 
+  MAYANY_PRODUCT_REGISTRY, 
+  CANONICAL_DOMAIN,
+  buildCanonicalProductPassportUrl 
+} from '../data/mayanyProductRegistry';
 import { CERTIFICATE_TRANSLATIONS, CERTIFICATE_LANGUAGES } from '../lib/certificateTranslations';
 import { formatEan13, ean13ToBinary } from '../utils/barcodeGenerator';
 import MayanyLogo from './MayanyLogo';
 import { MayanyRoyalGoldSeal } from './MayanyRoyalGoldSeal';
+import { DEFAULT_DEDICATED_PRODUCTS } from './PitchDeckQuickQRs';
 
 export interface ParsedIngredient {
   name: string;
@@ -59,16 +66,18 @@ export function parseIngredientsWithPercentages(
     normLang = 'en';
   }
   const isKhmerMode = isKhmer && (normLang === 'km');
-  const detectedFlour = Boolean(
-    isFlour || 
-    (ingredientsText && (
-      ingredientsText.includes('ម្សៅ') || 
-      ingredientsText.toLowerCase().includes('flour') || 
-      ingredientsText.toLowerCase().includes('powder')
-    ))
+  const lowerText = (ingredientsText || '').toLowerCase();
+  const isCashewFlourProduct = Boolean(
+    isFlour || (
+      (lowerText.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || lowerText.includes('cashew flour') || lowerText.includes('cashew kernel flour')) &&
+      !lowerText.includes('ទឹកដោះគោ') &&
+      !lowerText.includes('milk') &&
+      !lowerText.includes('ទឹកចម្រោះ') &&
+      !lowerText.includes('water')
+    )
   );
 
-  if (detectedFlour) {
+  if (isCashewFlourProduct) {
     let flourName = isKhmerMode ? 'ម្សៅគ្រាប់ស្វាយចន្ទីសុទ្ធ ១០០%' : '100% Pure Cashew Kernel Flour';
     let flourBadge = isKhmerMode ? 'វត្ថុធាតុដើមសុទ្ធ ១០០%' : '100% Pure Raw Material';
     if (normLang === 'en' || normLang.startsWith('en')) {
@@ -166,13 +175,15 @@ export function parseIngredientsWithPercentages(
       } else {
         // Pure English/Latin ingredient name - translate authentically to Khmer!
         const lowerName = name.toLowerCase();
-        if (lowerName.includes('flour') || lowerName.includes('powder')) name = 'ម្សៅគ្រាប់ស្វាយចន្ទី';
+        if (lowerName.includes('water') || lowerName.includes('aqua')) name = 'ទឹកចម្រោះ';
+        else if (lowerName.includes('pandan')) name = 'ម្សៅស្លឹកតើយ';
+        else if (lowerName.includes('cashew flour') || lowerName.includes('kernel flour')) name = 'ម្សៅគ្រាប់ស្វាយចន្ទី';
         else if (lowerName.includes('pepper') || lowerName.includes('piper')) name = 'ម្រេចខ្មៅកំពត GI';
         else if (lowerName.includes('chili') || lowerName.includes('capsicum')) name = 'ម្ទេសធម្មជាតិ';
-        else if (lowerName.includes('sugar') || lowerName.includes('palm')) name = 'ស្ករត្នោតធម្មជាតិ';
-        else if (lowerName.includes('salt')) name = 'អំបិលសមុទ្រកំពត';
+        else if (lowerName.includes('sugar') || lowerName.includes('cane')) name = 'ស្ករ';
+        else if (lowerName.includes('salt')) name = 'អំបិល';
         else if (lowerName.includes('garlic')) name = 'ខ្ទឹមសធម្មជាតិ';
-        else if (lowerName.includes('cashew') || lowerName.includes('anacardium') || lowerName.includes('ws') || lowerName.includes('ww') || lowerName.includes('broken')) name = 'គ្រាប់ស្វាយចន្ទីកម្ពុជា';
+        else if (lowerName.includes('cashew') || lowerName.includes('anacardium') || lowerName.includes('ws') || lowerName.includes('ww') || lowerName.includes('broken')) name = 'គ្រាប់ស្វាយចន្ទី';
         else name = cleanIngredientsToKhmerOnly(name) || 'គ្រឿងផ្សំធម្មជាតិ';
       }
     } else {
@@ -181,20 +192,24 @@ export function parseIngredientsWithPercentages(
       if (engMatch && engMatch[1].trim()) {
         name = engMatch[1].trim();
       } else if (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko')) {
-        if (name.includes('ម្សៅ') || name.toLowerCase().includes('flour') || name.toLowerCase().includes('powder')) name = '100% 순수 캄보디아산 캐슈넛 파우더 / 플라워';
+        if (name.includes('ទឹក') || name.toLowerCase().includes('water')) name = '정제수 (Purified Water)';
+        else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan')) name = '천연 판단 분말 (Pandan Powder)';
+        else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour')) name = '100% 순수 캄보디아산 캐슈넛 파우더';
         else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('កម្ពុជា')) name = '캄보디아산 캐슈넛';
         else if (name.includes('ម្ទេស') || name.toLowerCase().includes('chili')) name = '천연 칠리';
         else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper')) name = '깜폿 흑후추 GI';
-        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = '천연 팜슈가';
-        else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = '깜폿 천일염';
+        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = '정제 설탕 (Sugar)';
+        else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = '깜폿 천일염 (Salt)';
         else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic')) name = '신선한 천연 마늘';
         else name = '천연 원료';
       } else {
-        if (name.includes('ម្សៅ') || name.toLowerCase().includes('flour') || name.toLowerCase().includes('powder')) name = '100% Pure Cashew Kernel Flour';
+        if (name.includes('ទឹក') || name.toLowerCase().includes('water')) name = 'Purified Water';
+        else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan')) name = 'Natural Pandan Leaf Powder';
+        else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour')) name = '100% Pure Cashew Kernel Flour';
         else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('កម្ពុជា')) name = 'Cambodian Cashew Kernels';
         else if (name.includes('ម្ទេស') || name.toLowerCase().includes('chili')) name = 'Natural Khmer Chili';
         else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper')) name = 'GI Kampot Black Pepper';
-        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = 'Natural Palm Sugar';
+        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = 'Refined Cane Sugar';
         else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = 'Kampot Sea Salt';
         else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic')) name = 'Fresh Natural Garlic';
         else name = 'Natural Ingredient';
@@ -206,7 +221,13 @@ export function parseIngredientsWithPercentages(
     let badge = isKhmerMode ? 'គ្រឿងផ្សំធម្មជាតិ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '천연 원료' : 'Natural Ingredient');
     let color = palette[i % palette.length];
 
-    if (name.includes('ម្សៅ') || name.toLowerCase().includes('flour') || name.toLowerCase().includes('powder') || name.includes('파우더') || name.includes('플라워')) {
+    if (name.includes('ទឹក') || name.toLowerCase().includes('water') || name.includes('정제수')) {
+      badge = isKhmerMode ? 'ទឹកចម្រោះបរិសុទ្ធ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '정제수' : 'Purified Water');
+      color = 'bg-sky-600';
+    } else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan') || name.includes('판단')) {
+      badge = isKhmerMode ? 'ម្សៅស្លឹកតើយធម្មជាតិ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '천연 판단 분말' : 'Natural Pandan Powder');
+      color = 'bg-emerald-600';
+    } else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour') || name.toLowerCase().includes('kernel flour')) {
       badge = isKhmerMode ? 'វត្ថុធាតុដើមសុទ្ធ ១០០%' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '100% 순수 원료' : '100% Pure Raw Material');
       color = 'bg-amber-600';
     } else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('캐슈넛') || name.includes('កម្ពុជា')) {
@@ -221,8 +242,8 @@ export function parseIngredientsWithPercentages(
     } else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic') || name.includes('마늘')) {
       badge = isKhmerMode ? 'ខ្ទឹមសធម្មជាតិ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '천연 생마늘' : 'Fresh Natural Garlic');
       color = 'bg-emerald-600';
-    } else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar') || name.includes('팜슈가')) {
-      badge = isKhmerMode ? 'ស្ករត្នោតធម្មជាតិ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '천연 팜슈가' : 'Natural Palm Sugar');
+    } else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar') || name.includes('설탕') || name.includes('팜슈가')) {
+      badge = isKhmerMode ? 'ស្ករត្នោត / ស្ករសចម្រាញ់' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '정제 설탕' : 'Refined / Palm Sugar');
       color = 'bg-amber-700';
     } else if (name.includes('អំបិល') || name.toLowerCase().includes('salt') || name.includes('천일염')) {
       badge = isKhmerMode ? 'អំបិលសមុទ្រកំពត' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '깜폿 천일염' : 'Kampot Sea Salt');
@@ -436,15 +457,18 @@ export default function ProductPassport({
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
   const [activeDisclosureTab, setActiveDisclosureTab] = useState<'all' | 'stories' | 'pepper_cashew' | 'korean' | 'gallery'>('all');
 
-  // Multilingual state: Khmer (default), English & Korean
+  // Multilingual state: Khmer (default), English, Korean & Japanese (日本語)
   const [passportLang, setPassportLangState] = useState<AppLanguage>(() => {
     if (typeof window !== 'undefined') {
       const p = new URLSearchParams(window.location.search);
       const urlLang = p.get('lang')?.toLowerCase() as AppLanguage | undefined;
-      if (urlLang === 'km' || urlLang === 'kh' || urlLang === 'en' || urlLang === 'ko') {
+      if (urlLang === 'km' || urlLang === 'kh' || urlLang === 'en' || urlLang === 'ko' || urlLang === 'ja') {
         return urlLang === 'kh' ? 'km' : urlLang;
       }
     }
+    if (globalLang === 'ja') return 'ja';
+    if (globalLang === 'ko') return 'ko';
+    if (globalLang === 'en') return 'en';
     return 'km'; // Default to Khmer as requested!
   });
   
@@ -498,6 +522,10 @@ export default function ProductPassport({
     flavor: string;
     nameKh: string;
     nameKo: string;
+    nameJa?: string;
+    descriptionJa?: string;
+    ingredientsJa?: string;
+    packageFormatJa?: string;
     grade: string;
     spice: string;
     spicePct: number;
@@ -531,6 +559,7 @@ export default function ProductPassport({
     flavor: 'Pure Flour',
     nameKh: 'ម្សៅគ្រាប់ស្វាយចន្ទីសុទ្ធ ១០០%',
     nameKo: '100% 순수 캄보디아산 캐슈넛 파우더 (100% Pure Cashew Kernel Flour)',
+    nameJa: '純カシューナッツ粉末 / ローストフラワー (100% Pure Cashew Flour)',
     grade: 'WW180',
     spice: '',
     spicePct: 0,
@@ -573,6 +602,7 @@ export default function ProductPassport({
   });
 
   const [liveQrDataUrl, setLiveQrDataUrl] = useState<string>('');
+  const [productNotFound, setProductNotFound] = useState<{ notFound: boolean; queryId: string }>({ notFound: false, queryId: '' });
 
   useEffect(() => {
     // Parse URL query parameters on mount or URL change
@@ -580,8 +610,9 @@ export default function ProductPassport({
       const params = new URLSearchParams(window.location.search);
       const prodIdP = (params.get('prodId') || params.get('id') || '').trim();
       const pnumP = (params.get('pnum') || params.get('itemNum') || '').trim();
-      const batchP = (params.get('batch') || params.get('b') || params.get('lot') || batch.batch_id || '').trim();
-      const ean13P = (params.get('ean') || params.get('barcode') || '').trim();
+      const hasExplicitBatch = Boolean(params.get('batch') || params.get('b') || params.get('lot'));
+      const batchP = (params.get('batch') || params.get('b') || params.get('lot') || '').trim();
+      const ean13P = (params.get('ean') || params.get('barcode') || params.get('gtin') || '').trim();
       const prodKeyP = (params.get('prodKey') || params.get('productKey') || '').trim();
       const rawProdP = (params.get('product') || params.get('p') || params.get('prod') || '').trim();
       const prodNameP = (params.get('pname') || params.get('productName') || '').trim();
@@ -598,44 +629,102 @@ export default function ProductPassport({
       const pkgP = (params.get('pkg') || params.get('pkgFormat') || params.get('container') || '').trim();
       const presetP = (params.get('preset') || '').trim();
 
-      // Retrieve cached snapshot from local storage (supports Product Key, Product Name, Preset ID, and Batch/Lot)
+      // 1. Authoritative resolution via Mayany Enterprise Certified Product Registry
+      const registryMatch = resolveMayanyProduct(params);
+
+      // Requirement B: If an explicit product query was passed but not matched in the registry, flag not found
+      const isExplicitProductQuery = Boolean(rawProdP || prodIdP || (presetP && presetP !== 'default'));
+      if (isExplicitProductQuery && !registryMatch) {
+        setProductNotFound({ notFound: true, queryId: rawProdP || prodIdP || presetP || ean13P });
+      } else {
+        setProductNotFound({ notFound: false, queryId: '' });
+      }
+
+      // Retrieve cached snapshot or build from registryMatch
       let localSnap: any = null;
+      if (registryMatch) {
+        localSnap = {
+          batch: batchP || registryMatch.batch,
+          isMakeToOrder: registryMatch.id === 'cashew-milk-1l',
+          product: registryMatch.nameEn,
+          nameKh: registryMatch.nameKh,
+          nameKo: registryMatch.nameKo,
+          flavor: registryMatch.flavor,
+          weight: registryMatch.weight,
+          ean13: registryMatch.ean13,
+          shelfLifeMonths: registryMatch.shelfLifeMonths,
+          customIngredients: registryMatch.ingredientsKh,
+          ingredients: registryMatch.ingredientsKh,
+          cashewPct: registryMatch.cashewPct,
+          spicePct: registryMatch.spicePct,
+          sugarPct: registryMatch.sugarPct,
+          saltPct: registryMatch.saltPct,
+          spice: registryMatch.activeSpice,
+          storage: registryMatch.storageKh,
+          allergen: registryMatch.allergenKh,
+          instructionsForUse: registryMatch.instructionsKh,
+          nutrition: registryMatch.nutrition,
+          company: 'Mayany Enterprise',
+          origin: registryMatch.originKh,
+          description: registryMatch.descriptionKh,
+          packageFormat: registryMatch.packageFormatKh,
+          selectedSuppliers: registryMatch.flavor === 'sugar' 
+            ? ['Mirarth Agri Tech Co., Ltd.', 'Angkor Sugar', 'Ngov Heng'] 
+            : registryMatch.flavor === 'pepper' 
+            ? ['Mirarth Agri Tech Co., Ltd.', 'BOH Co., Ltd.', 'Angkor Sugar', 'Ngov Heng'] 
+            : registryMatch.flavor === 'chili' 
+            ? ['Mirarth Agri Tech Co., Ltd.', 'Ringacam Enterprise', 'Ngov Heng'] 
+            : registryMatch.flavor === 'pure_flour' 
+            ? ['Mayany Enterprise', 'Mirarth Agri Tech Co., Ltd.'] 
+            : ['Mirarth Agri Tech Co., Ltd.', 'Ringacam Enterprise', 'Ngov Heng']
+        };
+      }
       try {
-        const stored = (prodIdP && localStorage.getItem(`cashewtrace_passport_${prodIdP}`)) ||
-                       (pnumP && localStorage.getItem(`cashewtrace_passport_prod_${pnumP}`)) ||
-                       (batchP && rawWeightP && localStorage.getItem(`cashewtrace_passport_${batchP}_${rawWeightP.replace(/\s+/g, '')}`)) ||
-                       (prodKeyP && localStorage.getItem(`cashewtrace_passport_${prodKeyP}`)) ||
-                       (presetP && localStorage.getItem(`cashewtrace_passport_${presetP}`));
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          const targetW = (rawWeightP || '').toLowerCase().replace(/\s+/g, '');
-          const snapW = (parsed.weight || '').toLowerCase().replace(/\s+/g, '');
-          if (!targetW || !snapW || targetW === snapW) {
-            localSnap = parsed;
+        if (!localSnap) {
+          const stored = (prodIdP && localStorage.getItem(`cashewtrace_passport_${prodIdP}`)) ||
+                         (pnumP && localStorage.getItem(`cashewtrace_passport_prod_${pnumP}`)) ||
+                         (ean13P && localStorage.getItem(`cashewtrace_passport_${ean13P}`)) ||
+                         (batchP && rawWeightP && localStorage.getItem(`cashewtrace_passport_${batchP}_${rawWeightP.replace(/\s+/g, '')}`)) ||
+                         (prodKeyP && localStorage.getItem(`cashewtrace_passport_${prodKeyP}`)) ||
+                         (presetP && localStorage.getItem(`cashewtrace_passport_${presetP}`));
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            const targetW = (rawWeightP || '').toLowerCase().replace(/\s+/g, '');
+            const snapW = (parsed.weight || '').toLowerCase().replace(/\s+/g, '');
+            if (!targetW || !snapW || targetW === snapW) {
+              localSnap = parsed;
+            }
           }
         }
         
         if (!localSnap) {
-          // Check dedicated products cache (saved by PitchDeckQuickQRs when user edits products)
+          // Check dedicated products cache or fallback directly to DEFAULT_DEDICATED_PRODUCTS
           const dedicatedRaw = localStorage.getItem('cashewtrace_dedicated_products_v6') ||
                                localStorage.getItem('cashewtrace_dedicated_products_v5') ||
                                localStorage.getItem('cashewtrace_dedicated_products_v4');
-          if (dedicatedRaw) {
-            const dedicatedList: any[] = JSON.parse(dedicatedRaw);
-            const foundDedicated = dedicatedList.find(p => {
-              if (prodIdP && p.id === prodIdP) return true;
-              if (pnumP && String(p.productNumber) === pnumP) return true;
-              if (batchP && rawWeightP) {
-                const pWeight = (p.weight || '').toLowerCase().replace(/\s+/g, '');
-                const qWeight = rawWeightP.toLowerCase().replace(/\s+/g, '');
-                if (p.batch === batchP && pWeight === qWeight) return true;
-              }
-              if (prodKeyP && (p.id === prodKeyP || p.presetId === prodKeyP)) return true;
-              if (presetP && p.presetId === presetP) return true;
-              if (rawProdP && (p.nameEn?.toLowerCase() === rawProdP.toLowerCase() || p.id === rawProdP)) return true;
-              if (batchP && p.batch === batchP) return true;
-              return false;
-            });
+          const dedicatedList: any[] = dedicatedRaw ? JSON.parse(dedicatedRaw) : DEFAULT_DEDICATED_PRODUCTS;
+          
+          const foundDedicated = dedicatedList.find(p => {
+            if (prodIdP && (p.id === prodIdP || p.presetId === prodIdP)) return true;
+            if (pnumP && String(p.productNumber) === pnumP) return true;
+            if (ean13P && p.ean13 === ean13P) return true;
+            if (batchP && rawWeightP) {
+              const pWeight = (p.weight || '').toLowerCase().replace(/\s+/g, '');
+              const qWeight = rawWeightP.toLowerCase().replace(/\s+/g, '');
+              if (p.batch === batchP && pWeight === qWeight) return true;
+            }
+            if (prodKeyP && (p.id === prodKeyP || p.presetId === prodKeyP)) return true;
+            if (presetP && p.presetId === presetP) return true;
+            if (rawProdP && (p.nameEn?.toLowerCase() === rawProdP.toLowerCase() || p.id === rawProdP)) return true;
+            if (batchP && p.batch === batchP) return true;
+            return false;
+          }) || DEFAULT_DEDICATED_PRODUCTS.find(p => {
+            if (prodIdP && (p.id === prodIdP || p.presetId === prodIdP)) return true;
+            if (pnumP && String(p.productNumber) === pnumP) return true;
+            if (ean13P && p.ean13 === ean13P) return true;
+            if (batchP && p.batch === batchP) return true;
+            return false;
+          });
             if (foundDedicated) {
               const cashewMatch = (foundDedicated.ingredientsKh || '').match(/(?:ចន្ទី|cashew)[^,]*?(\d+(?:\.\d+)?|[\u17E0-\u17E9]+)\s*%/i);
               const chiliMatch = (foundDedicated.ingredientsKh || '').match(/(?:ម្ទេស|chili)[^,]*?(\d+(?:\.\d+)?|[\u17E0-\u17E9]+)\s*%/i);
@@ -677,17 +766,17 @@ export default function ProductPassport({
               // Guard against Product 3 vs Product 6 weight corruption
               let finalWeight = foundDedicated.weight;
               let finalEan = foundDedicated.ean13;
-              let finalBatch = foundDedicated.batch;
+              let finalBatch = hasExplicitBatch ? (foundDedicated.batch || batchP) : 'Make-to-Order (Stamped on Package)';
               if (foundDedicated.id === 'ww180-sugar-pouch-50g' || foundDedicated.productNumber === 3) {
-                if (finalWeight.includes('175') || finalEan === '8847116350085' || finalEan === '8847116350122' || finalBatch === '2026-CKS-175') {
+                if (finalWeight.includes('175') || finalEan === '8847116350085' || finalEan === '8847116350122') {
                   finalWeight = '50g';
                   finalEan = '8847116350023';
-                  finalBatch = '2026-CKS-050';
                 }
               }
 
               localSnap = {
                 batch: finalBatch,
+                isMakeToOrder: !hasExplicitBatch,
                 product: foundDedicated.nameEn,
                 nameKh: foundDedicated.nameKh,
                 flavor: foundDedicated.flavor,
@@ -711,7 +800,6 @@ export default function ProductPassport({
               };
             }
           }
-        }
         if (!localSnap && !prodKeyP && !batchP && !presetP && !rawProdP) {
           const latest = localStorage.getItem('cashewtrace_latest_passport');
           if (latest) localSnap = JSON.parse(latest);
@@ -756,54 +844,76 @@ export default function ProductPassport({
       const lowerRaw = (rawProdP || '').toLowerCase();
       const lowerFlv = (flavorP || localSnap?.flavor || '').toLowerCase();
 
-      // Check explicit flavor categories first from product name, khmer text, flavor code, or batch code
-      const isChili = (
+      // Check explicit flavor categories first from registryMatch, product name, khmer text, flavor code, or batch code
+      const isMilk = Boolean(
+        registryMatch?.id === 'cashew-milk-1l' ||
+        (!registryMatch && (
+          prodIdP === 'cashew-milk-1l' ||
+          params.get('preset') === 'cashew-milk-1l' ||
+          presetP === 'cashew-milk-1l' ||
+          ean13P === '8847116350054' ||
+          flavorP === 'milk_natural' ||
+          flavorP === 'cashew_milk' ||
+          lowerFlv.includes('milk') ||
+          lowerProd.includes('milk') ||
+          lowerRaw.includes('milk') ||
+          lowerKh.includes('ទឹកដោះគោ') ||
+          batchP.toLowerCase().includes('cm-1l') ||
+          batchP.toLowerCase().includes('mto-cm')
+        ))
+      );
+      const isChili = !isMilk && (
+        registryMatch?.flavor === 'chili' ||
         lowerProd.includes('chili') || 
+        lowerRaw.includes('chili') ||
         lowerKh.includes('ម្ទេស') || 
         lowerFlv === 'chili' || 
         lowerFlv.includes('chili') || 
-        batchP.includes('CKC') || 
-        batchP.includes('CHL') ||
-        batchP.includes('CHIL') ||
+        batchP.toLowerCase().includes('ckc') || 
+        batchP.toLowerCase().includes('chl') ||
         presetP.includes('chili')
       );
-      const isPepper = !isChili && (
+      const isPepper = !isMilk && !isChili && (
+        registryMatch?.flavor === 'pepper' ||
         lowerProd.includes('pepper') || 
+        lowerRaw.includes('pepper') ||
         lowerKh.includes('ម្រេច') || 
         (lowerKh.includes('កំពត') && !lowerKh.includes('អំបិល')) || 
         lowerFlv === 'pepper' || 
         lowerFlv.includes('pepper') || 
-        batchP.includes('PEP') ||
-        batchP.includes('CKP') ||
+        batchP.toLowerCase().includes('pep') || 
+        batchP.toLowerCase().includes('ckp') || 
         presetP.includes('pepper')
       );
-      const isSugar = !isChili && !isPepper && (
+      const isSugar = !isMilk && !isChili && !isPepper && (
+        registryMatch?.flavor === 'sugar' ||
         lowerProd.includes('sugar') || 
+        lowerRaw.includes('sugar') ||
         lowerKh.includes('ស្ករ') || 
         lowerFlv === 'sugar' || 
         lowerFlv.includes('sugar') || 
-        batchP.includes('SUG') ||
-        batchP.includes('CKS')
+        batchP.toLowerCase().includes('sug') ||
+        batchP.toLowerCase().includes('cks')
       );
-      const isTomYum = !isChili && !isPepper && !isSugar && (
+      const isTomYum = !isMilk && !isChili && !isPepper && !isSugar && (
         lowerProd.includes('tom yum') || 
         lowerKh.includes('តុងយ៉ាំ') || 
         lowerKh.includes('tomyum') || 
         lowerFlv.includes('tom-yum')
       );
-      const isHoney = !isChili && !isPepper && !isSugar && !isTomYum && (
+      const isHoney = !isMilk && !isChili && !isPepper && !isSugar && !isTomYum && (
         lowerProd.includes('honey') || 
         lowerKh.includes('ឃ្មុំ') || 
         lowerFlv.includes('honey')
       );
-      const isRoasted = !isChili && !isPepper && !isSugar && !isTomYum && !isHoney && (
+      const isRoasted = !isMilk && !isChili && !isPepper && !isSugar && !isTomYum && !isHoney && (
         lowerProd.includes('roasted') || 
         lowerKh.includes('លីង') || 
         lowerFlv.includes('roasted')
       );
 
       // Healthy Cashew Noodles check
-      const isNoodle = Boolean(
+      const isNoodle = !isMilk && Boolean(
         lowerProd.includes('noodle') || 
         lowerKh.includes('មី') || 
         lowerKh.includes('គុយទាវ') || 
@@ -812,7 +922,7 @@ export default function ProductPassport({
       );
 
       // Cashew Flour is ONLY true if explicitly named flour/powder and NOT one of the seasoned kernel products or noodles above!
-      const isFlour = !isNoodle && !isChili && !isPepper && !isSugar && !isTomYum && !isHoney && !isRoasted && Boolean(
+      const isFlour = !isMilk && !isNoodle && !isChili && !isPepper && !isSugar && !isTomYum && !isHoney && !isRoasted && Boolean(
         params.get('flour') === '1' ||
         params.get('isFlour') === '1' ||
         lowerProd.includes('flour') || 
@@ -856,7 +966,8 @@ export default function ProductPassport({
       const presetParam = params.get('preset') || params.get('prodKey')?.replace(/^prod_/, '') || params.get('prod')?.replace(/^prod_/, '') || '';
       let matchedPreset = presetParam ? PRODUCT_PRESETS.find(p => p.id === presetParam || p.id.includes(presetParam)) : null;
       if (!matchedPreset) {
-        if (isNoodle) matchedPreset = PRODUCT_PRESETS.find(p => p.id === 'mayany-cashew-noodle-150g') || PRODUCT_PRESETS.find(p => p.id.includes('noodle'));
+        if (isMilk) matchedPreset = PRODUCT_PRESETS.find(p => p.id === 'cashew-milk-1l');
+        else if (isNoodle) matchedPreset = PRODUCT_PRESETS.find(p => p.id === 'mayany-cashew-noodle-150g') || PRODUCT_PRESETS.find(p => p.id.includes('noodle'));
         else if (isChili) matchedPreset = PRODUCT_PRESETS.find(p => p.id === 'mayany-ww180-chili');
         else if (isPepper) matchedPreset = PRODUCT_PRESETS.find(p => p.id === 'mayany-ww180-pepper-5');
         else if (isSugar) matchedPreset = PRODUCT_PRESETS.find(p => p.id === 'mayany-ww180-sugar');
@@ -864,7 +975,7 @@ export default function ProductPassport({
       }
 
       // Determine active flavor and product name
-      let effectiveFlavor = isNoodle ? 'noodle' : (isChili ? 'chili' : (isPepper ? 'pepper' : (isSugar ? 'sugar' : (isFlour ? 'pure_flour' : (flavorP || localSnap?.flavor || 'natural').toLowerCase()))));
+      let effectiveFlavor = isMilk ? 'cashew_milk' : (isNoodle ? 'noodle' : (isChili ? 'chili' : (isPepper ? 'pepper' : (isSugar ? 'sugar' : (isFlour ? 'pure_flour' : (flavorP || localSnap?.flavor || 'natural').toLowerCase())))));
       let koreanName = '캄보디아산 프리미엄 캐シュ넛';
       let defaultKhName = nameKhP || localSnap?.nameKh || matchedPreset?.nameKhmerDefault || 'គ្រាប់ស្វាយចន្ទីកែច្នៃគុណភាពខ្ពស់';
       let defaultIngredients = cleanseSupplierStringsFromIngredients(ingredientsP || localSnap?.ingredients || localSnap?.customIngredients || matchedPreset?.defaultIngredients || '');
@@ -878,7 +989,20 @@ export default function ProductPassport({
       let resolvedEnglishProduct = prodNameP || localSnap?.product || matchedPreset?.nameEnglishDefault || '';
       let computedKhName = nameKhP || localSnap?.nameKh || matchedPreset?.nameKhmerDefault || '';
 
-      if (isNoodle) {
+      if (isMilk) {
+        koreanName = '100% 순수 식물성 프리미엄 캐슈넛 밀크 (100% Plant-Based Cashew Milk 1L)';
+        defaultKhName = 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០%';
+        computedKhName = 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០%';
+        resolvedEnglishProduct = '100% Plant-Based Cashew Milk';
+        effectiveFlavor = 'cashew_milk';
+        defaultIngredients = 'ទឹកចម្រោះ 86%, គ្រាប់ស្វាយចន្ទី 12.9%, ស្ករ 0.86%, ម្សៅស្លឹកតើយ 0.13%, អំបិល 0.09%';
+        defaultBotanical = 'Fresh Artisan Pressed Cambodian Cashew Milk (Anacardium occidentale) • 100% Plant-Based, Dairy-Free & Vegan';
+        activeSpice = 'ម្សៅស្លឹកតើយ (Pandan)';
+        activeSpicePct = 0.13;
+        activeCashewPct = 12.9;
+        activeSugarPct = 0.86;
+        activeSaltPct = 0.09;
+      } else if (isNoodle) {
         koreanName = '캄보디아산 프리미엄 캐슈넛 건면 (Healthy Cashew Nut Noodles)';
         if (!nameKhP && !localSnap?.nameKh) defaultKhName = matchedPreset?.nameKhmerDefault || 'មីគ្រាប់ស្វាយចន្ទីសុខភាពធម្មជាតិ';
         if (!computedKhName || !/[\u1780-\u17FF]/.test(computedKhName)) computedKhName = matchedPreset?.nameKhmerDefault || 'មីគ្រាប់ស្វាយចន្ទីសុខភាពធម្មជាតិ';
@@ -1015,13 +1139,32 @@ export default function ProductPassport({
         if (saltMatch) activeSaltPct = parseFloat(saltMatch[1]);
       }
 
-      const resolvedKhmerName = ensureKhmerProductName(computedKhName || defaultKhName, resolvedEnglishProduct);
-      const resolvedWeight = rawWeightP || localSnap?.weight || weightP || '50g';
+      const resolvedKhmerName = registryMatch ? registryMatch.nameKh : ensureKhmerProductName(computedKhName || defaultKhName, resolvedEnglishProduct);
+      const isMilkDedicated = Boolean(
+        registryMatch?.id === 'cashew-milk-1l' ||
+        (!registryMatch && (
+          prodIdP === 'cashew-milk-1l' ||
+          pnumP === '9' ||
+          presetP === 'cashew-milk-1l' ||
+          flavorP === 'cashew_milk' ||
+          (!isSugar && !isPepper && !isChili && (
+            resolvedEnglishProduct.toLowerCase().includes('milk') ||
+            resolvedEnglishProduct.toLowerCase().includes('drink') ||
+            resolvedKhmerName.includes('ទឹកដោះគោ')
+          )) ||
+          (matchedPreset && matchedPreset.id === 'cashew-milk-1l')
+        ))
+      );
+      const resolvedWeight = registryMatch ? registryMatch.weight : (isMilkDedicated ? '1L' : (rawWeightP || localSnap?.weight || weightP || '50g'));
 
       setPackagingData({
-        batch: batchP || localSnap?.batch || batch.batch_id,
-        product: resolvedEnglishProduct,
-        flavor: isNoodle
+        batch: batchP || (registryMatch ? registryMatch.batch : (localSnap?.batch || batch.batch_id)),
+        product: registryMatch ? registryMatch.nameEn : resolvedEnglishProduct,
+        flavor: registryMatch
+          ? (registryMatch.flavor === 'cashew_milk' ? 'cashew_milk' : registryMatch.flavor === 'sugar' ? 'Sugar Coated' : registryMatch.flavor === 'pepper' ? 'Pepper Coated' : registryMatch.flavor === 'chili' ? 'Chili Coated' : registryMatch.flavor === 'pure_flour' ? '' : registryMatch.flavor)
+          : isMilkDedicated
+          ? 'cashew_milk'
+          : isNoodle
           ? 'Healthy Noodles'
           : isFlour 
           ? '' 
@@ -1039,38 +1182,42 @@ export default function ProductPassport({
           ? 'Roasted'
           : (flavorP && flavorP !== 'roasted' && flavorP !== 'pure_flour' && flavorP !== 'natural' ? flavorP : (localSnap?.flavor && localSnap.flavor !== 'roasted' && localSnap.flavor !== 'pure_flour' ? localSnap.flavor : ((batchP.includes('PEP') || batchP.includes('CKP')) ? 'Pepper Coated' : (batchP.includes('SUG') || batchP.includes('CKS')) ? 'Sugar Coated' : (batchP.includes('CHL') || batchP.includes('CKC') || (prodNameP && prodNameP.toLowerCase().includes('chili'))) ? 'Chili Coated' : ''))),
         nameKh: resolvedKhmerName,
-        nameKo: getStandardKoreanProductName(resolvedKhmerName, resolvedEnglishProduct, isFlour),
-        grade: activeGrade,
-        spice: isFlour ? '' : activeSpice,
-        spicePct: isFlour ? 0 : activeSpicePct,
-        cashewPct: isFlour ? 100 : activeCashewPct,
-        sugarPct: isFlour ? 0 : activeSugarPct,
-        saltPct: isFlour ? 0 : activeSaltPct,
+        nameKo: registryMatch ? registryMatch.nameKo : getStandardKoreanProductName(resolvedKhmerName, resolvedEnglishProduct, isFlour),
+        nameJa: registryMatch ? registryMatch.nameJa : '',
+        descriptionJa: registryMatch ? registryMatch.descriptionJa : '',
+        ingredientsJa: registryMatch ? registryMatch.ingredientsJa : '',
+        packageFormatJa: registryMatch ? registryMatch.packageFormatJa : '',
+        grade: registryMatch ? registryMatch.grade : activeGrade,
+        spice: isFlour ? '' : (registryMatch ? registryMatch.activeSpice : activeSpice),
+        spicePct: isFlour ? 0 : (registryMatch ? registryMatch.spicePct : activeSpicePct),
+        cashewPct: isFlour ? 100 : (registryMatch ? registryMatch.cashewPct : activeCashewPct),
+        sugarPct: isFlour ? 0 : (registryMatch ? registryMatch.sugarPct : activeSugarPct),
+        saltPct: isFlour ? 0 : (registryMatch ? registryMatch.saltPct : activeSaltPct),
         weight: resolvedWeight,
         company: companyP || localSnap?.company || 'Mayany Enterprise',
         stampDatesOnBag: stampP,
-        shelfLifeMonths: shelfLifeP,
+        shelfLifeMonths: registryMatch ? registryMatch.shelfLifeMonths : shelfLifeP,
         mfd: mfdP,
         exp: expP,
         scheme: schemeP,
-        origin: originP || localSnap?.origin || 'Kingdom of Cambodia (Kampong Thom)',
-        customIngredients: defaultIngredients,
-        storage: storageP || localSnap?.storage || 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម.',
-        allergen: allergenP || localSnap?.allergen || 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី',
-        description: descP || localSnap?.description || localSnap?.productDescription || matchedPreset?.productDescriptionKhmer || '',
+        origin: originP || (registryMatch ? registryMatch.originKh : (localSnap?.origin || 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)')),
+        customIngredients: registryMatch ? registryMatch.ingredientsKh : defaultIngredients,
+        storage: storageP || (registryMatch ? registryMatch.storageKh : (localSnap?.storage || (isMilkDedicated ? 'រក្សាទុកក្នុងទូទឹកកកក្រោម ៤°C ក្រោយពេលបើក។ ក្រឡុកដបឱ្យសព្វមុនពេលទទួលទាន។' : 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។ បិទគម្របឱ្យជិតក្រោយពេលបើក។'))),
+        allergen: allergenP || (registryMatch ? registryMatch.allergenKh : (localSnap?.allergen || 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)')),
+        description: descP || (registryMatch ? registryMatch.descriptionKh : (localSnap?.description || localSnap?.productDescription || (isMilkDedicated ? 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០% (Make-to-Order)។ តម្លាភាពតម្លៃសរុប ៤.៥០$ (ទឹកដោះគោ ៣.០០$ + ថ្លៃដបកែវ ១.៥០$)។ អតិថិជនអាចយកដបមកប្តូរទិញទឹកដោះគោលើកក្រោយក្នុងតម្លៃត្រឹមតែ ៣.០០$។' : matchedPreset?.productDescriptionKhmer || ''))),
         healthBenefits: params.get('benefits') || localSnap?.healthBenefits || matchedPreset?.healthBenefitsKhmer || '',
-        instructionsForUse: instructionsP || localSnap?.instructionsForUse || matchedPreset?.instructionsForUse || '',
+        instructionsForUse: instructionsP || (registryMatch ? registryMatch.instructionsKh : (localSnap?.instructionsForUse || matchedPreset?.instructionsForUse || '')),
         botanical: botanicalP || localSnap?.botanical || localSnap?.subheadingOrBotanical || defaultBotanical,
         isPackagingScan: isSpecialPackaging,
         selectedSuppliers: localSnap?.selectedSuppliers || [],
-        ean13: ean13P || localSnap?.ean13 || matchedPreset?.ean13Default || '',
-        packageFormat: pkgP || localSnap?.packageFormat || matchedPreset?.suggestedPackaging || '',
-        nutrition: localSnap?.nutrition || calculateNutritionFromRecipe(defaultIngredients).nutrition,
+        ean13: (registryMatch ? registryMatch.ean13 : (ean13P || localSnap?.ean13 || matchedPreset?.ean13Default || '')),
+        packageFormat: pkgP || (registryMatch ? registryMatch.packageFormatKh : (localSnap?.packageFormat || (isMilkDedicated ? 'ដបកែវ ១ លីត្រ (1L Glass Bottle)' : matchedPreset?.suggestedPackaging || ''))),
+        nutrition: (registryMatch ? registryMatch.nutrition : (localSnap?.nutrition || (matchedPreset?.typicalNutrition ? matchedPreset.typicalNutrition : calculateNutritionFromRecipe(defaultIngredients).nutrition))),
         customLogo: (typeof window !== 'undefined' ? (localStorage.getItem('cashewtrace_sme_brand_logo') || undefined) : undefined) || localSnap?.customBrandLogo || localSnap?.logo || undefined
       });
 
       // Background sync from Firestore: check product ID, weight-specific batch, batch, product name, product key
-      const lookupKeys = [prodIdP, (batchP && rawWeightP) ? `${batchP}_${rawWeightP.replace(/\s+/g, '')}` : '', pnumP ? `prod_${pnumP}` : '', batchP, prodNameP, prodKeyP, rawProdP, rawProdP ? `prod_${rawProdP}` : ''].filter(Boolean);
+      const lookupKeys = registryMatch ? [] : [prodIdP, (batchP && rawWeightP) ? `${batchP}_${rawWeightP.replace(/\s+/g, '')}` : '', pnumP ? `prod_${pnumP}` : '', batchP, prodNameP, prodKeyP, rawProdP, rawProdP ? `prod_${rawProdP}` : ''].filter(Boolean);
       const fetchPassportSnapshot = async () => {
         for (const key of lookupKeys) {
           try {
@@ -1407,6 +1554,95 @@ export default function ProductPassport({
       hoverColor: hoverColors[idx % hoverColors.length],
     };
   });
+
+  if (productNotFound.notFound) {
+    return (
+      <div id="product-passport" className="space-y-6 font-sans text-slate-900 pb-16 max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-2 border-amber-300 text-center space-y-6">
+          <div className="w-16 h-16 mx-auto rounded-3xl bg-amber-400 text-slate-950 flex items-center justify-center font-black shadow-md">
+            <AlertCircle size={36} />
+          </div>
+          
+          <div className="space-y-2 max-w-lg mx-auto">
+            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-100 text-amber-900 border border-amber-300 uppercase">
+              Notice: Product Not Found
+            </span>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-950 font-sans">
+              {isKhmer ? 'រកមិនឃើញវិញ្ញាបនបត្រផលិតផលនេះទេ' : 'Product Certificate Not Found'}
+            </h2>
+            <p className="text-sm text-slate-600 font-sans leading-relaxed">
+              {isKhmer 
+                ? `កូដផលិតផល ឬកូដ QR "${productNotFound.queryId}" មិនមាននៅក្នុងបញ្ជីផលិតផលផ្លូវការរបស់ Mayany Enterprise ឡើយ។ សូមជ្រើសរើសផលិតផលខាងក្រោមដើម្បីពិនិត្យវិញ្ញាបនបត្រត្រឹមត្រូវ៖` 
+                : `The product identifier or QR code link "${productNotFound.queryId}" was not found in Mayany Enterprise's registered product catalog. Please select a verified product certificate below:`}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto text-left">
+            <a
+              href="?mode=passport&batch=2026-cks-261j&product=sugar-jar-175g&view=certificate&project=passport"
+              className="p-4 rounded-2xl bg-amber-50 hover:bg-amber-100 border border-amber-300 transition flex items-center gap-3 group"
+            >
+              <span className="text-2xl">🍯</span>
+              <div>
+                <h4 className="font-bold text-sm text-slate-950 group-hover:text-amber-800">
+                  គ្រាប់ស្វាយចន្ទីស្រោបស្ករ (175g Jar)
+                </h4>
+                <p className="text-xs text-slate-500 font-mono">Sugar Coated • EAN: 8847116350085</p>
+              </div>
+            </a>
+
+            <a
+              href="?mode=passport&batch=MTO-CM-1L&product=cashew-milk-1l&view=certificate&project=passport"
+              className="p-4 rounded-2xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition flex items-center gap-3 group"
+            >
+              <span className="text-2xl">🥛</span>
+              <div>
+                <h4 className="font-bold text-sm text-slate-950 group-hover:text-emerald-800">
+                  ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០% (1L Bottle)
+                </h4>
+                <p className="text-xs text-slate-500 font-mono">100% Plant-Based • EAN: 8847116350054</p>
+              </div>
+            </a>
+
+            <a
+              href="?mode=passport&batch=2026-ckp-261j&product=pepper-jar-175g&view=certificate&project=passport"
+              className="p-4 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-300 transition flex items-center gap-3 group"
+            >
+              <span className="text-2xl">🫘</span>
+              <div>
+                <h4 className="font-bold text-sm text-slate-950 group-hover:text-slate-800">
+                  គ្រាប់ស្វាយចន្ទីស្រោបម្រេចកំពត GI (175g Jar)
+                </h4>
+                <p className="text-xs text-slate-500 font-mono">GI Kampot Pepper • EAN: 8847116350061</p>
+              </div>
+            </a>
+
+            <a
+              href="?mode=passport&batch=2026-ckc-261j&product=chili-jar-175g&view=certificate&project=passport"
+              className="p-4 rounded-2xl bg-rose-50 hover:bg-rose-100 border border-rose-300 transition flex items-center gap-3 group"
+            >
+              <span className="text-2xl">🌶️</span>
+              <div>
+                <h4 className="font-bold text-sm text-slate-950 group-hover:text-rose-800">
+                  គ្រាប់ស្វាយចន្ទីស្រោបម្ទេស (175g Jar)
+                </h4>
+                <p className="text-xs text-slate-500 font-mono">Chili Coated • EAN: 8847116350092</p>
+              </div>
+            </a>
+          </div>
+
+          <div className="pt-2">
+            <a
+              href="/?project=store"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-slate-950 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition"
+            >
+              <span>{isKhmer ? 'ត្រឡប់ទៅទំព័រទំនិញ Mayany Store' : 'Return to Mayany Enterprise Store'}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div id="product-passport" className="space-y-6 font-sans text-slate-900 pb-16">
@@ -1972,8 +2208,21 @@ export default function ProductPassport({
                       </div>
                     )}
 
-                    {/* Chili Supplier */}
-                    {(isChili || packagingData.flavor.toLowerCase().includes('chili') || (packagingData.selectedSuppliers && packagingData.selectedSuppliers.some(s => s.toLowerCase().includes('ringacam') || s.toLowerCase().includes('chili') || s.includes('ម្ទេស')))) && (
+                    {/* Pandan Powder Supplier - Ringacam Enterprise */}
+                    {(packagingData.product.toLowerCase().includes('milk') || packagingData.nameKh.includes('ទឹកដោះគោ') || packagingData.customIngredients.includes('ស្លឹកតើយ') || packagingData.customIngredients.includes('ស្លឹកតយ') || packagingData.customIngredients.toLowerCase().includes('pandan') || (packagingData.selectedSuppliers && packagingData.selectedSuppliers.some(s => (s.toLowerCase().includes('ringacam') || s.toLowerCase().includes('rincagam')) && (s.includes('ស្លឹកតើយ') || s.includes('ស្លឹកតយ') || s.toLowerCase().includes('pandan') || packagingData.nameKh.includes('ទឹកដោះគោ') || packagingData.product.toLowerCase().includes('milk'))))) && (
+                      <div className="p-3 bg-white rounded-xl border border-emerald-300 space-y-1 shadow-2xs">
+                        <span className="text-[10px] text-slate-500 font-bold block">
+                          🌿 {isKhmer ? 'ម្សៅស្លឹកតើយ' : 'Pandan Powder'}:
+                        </span>
+                        <p className="font-black text-slate-950 text-xs truncate">Ringacam Enterprise</p>
+                        <span className="text-[10px] text-emerald-700 font-medium block">
+                          {isKhmer ? 'រាជធានីភ្នំពេញ • ម្សៅស្លឹកតើយធម្មជាតិ G.D.G' : 'Phnom Penh • Natural Pandan Powder'}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Chili Supplier - strictly excluded for Milk and non-chili products */}
+                    {!packagingData.nameKh.includes('ទឹកដោះគោ') && !packagingData.product.toLowerCase().includes('milk') && (isChili || packagingData.flavor.toLowerCase().includes('chili') || (packagingData.selectedSuppliers && packagingData.selectedSuppliers.some(s => s.toLowerCase().includes('ringacam') || s.toLowerCase().includes('chili') || s.includes('ម្ទេស')))) && (
                       <div className="p-3 bg-white rounded-xl border border-emerald-300 space-y-1 shadow-2xs">
                         <span className="text-[10px] text-slate-500 font-bold block">
                           🌶️ {isKhmer ? 'ម្សៅម្ទេសធម្មជាតិ G.D.G' : 'Natural Chili Powder'}:
@@ -3050,38 +3299,69 @@ export default function ProductPassport({
             const formattedEan = formatEan13(rawEan);
             const barcodeBinary = ean13ToBinary(formattedEan);
 
+            const isMilkDedicated = Boolean(
+              packagingData.product?.toLowerCase().includes('milk') ||
+              packagingData.product?.toLowerCase().includes('drink') ||
+              packagingData.nameKh?.includes('ទឹកដោះគោ') ||
+              packagingData.flavor === 'cashew_milk' ||
+              packagingData.batch?.includes('CM') ||
+              packagingData.packageFormat?.toLowerCase().includes('bottle')
+            );
+
+            const isLiquidProduct = isMilkDedicated || Boolean(
+              packagingData.weight?.toLowerCase().includes('l') ||
+              packagingData.weight?.toLowerCase().includes('ml') ||
+              packagingData.packageFormat?.toLowerCase().includes('bottle')
+            );
+
+            const effectiveWeight = isMilkDedicated ? '1L' : packagingData.weight;
+
             const packageFormatText = isKhmer 
-              ? (isNoodle
+              ? (isMilkDedicated || packagingData.packageFormat?.toLowerCase().includes('bottle')
+                  ? 'ដបកែវសុវត្ថិភាពម្ហូបអាហារ (Food-Grade Glass Bottle)'
+                  : isNoodle
                   ? 'កញ្ចប់/ប្រអប់មីអាហារូបត្ថម្ភ (150g Noodle Bag / Box)'
                   : packagingData.packageFormat 
                   ? (packagingData.packageFormat.toLowerCase().includes('jar') ? 'ក្រឡកែវ/PET សុវត្ថិភាពម្ហូបអាហារ បិទត្រាការពារខ្យល់ (Food-Grade Jar)' : 'កញ្ចប់បាតឈរ ៥០g ជាមួយខ្សែរូត (50g Standing Pouch with Zipper)')
-                  : (packagingData.weight.includes('175') || packagingData.weight.includes('200')
+                  : (effectiveWeight.includes('175') || effectiveWeight.includes('200')
                       ? 'ក្រឡកែវ/PET សុវត្ថិភាពម្ហូបអាហារ បិទត្រាការពារខ្យល់ (Food-Grade Jar)' 
                       : 'កញ្ចប់បាតឈរ ៥០g ជាមួយខ្សែរូត (50g Standing Pouch with Zipper)'))
+              : passportLang === 'ja'
+              ? (isMilkDedicated || packagingData.packageFormat?.toLowerCase().includes('bottle')
+                  ? '1000ml 食品用衛生ガラスボトル（密閉キャップ）'
+                  : isNoodle
+                  ? '栄養カシューナッツ乾麺 パウチ/ボックス (150g)'
+                  : packagingData.packageFormatJa || (packagingData.packageFormat?.toLowerCase().includes('jar') || effectiveWeight.includes('175') || effectiveWeight.includes('200')
+                      ? '食品用誘導シール密閉ガラス瓶 (Jar)'
+                      : 'チャック付き自立型アルミ防湿パウチ (50g Standing Pouch)'))
               : passportLang === 'ko'
-              ? (isNoodle
+              ? (isMilkDedicated || packagingData.packageFormat?.toLowerCase().includes('bottle')
+                  ? '식품 등급 1L 위생 유리병 (1L Food-Grade Glass Bottle)'
+                  : isNoodle
                   ? '영양 캐슈넛 건면 포장/상자 (150g Noodle Bag / Box)'
-                  : packagingData.packageFormat?.toLowerCase().includes('jar') || packagingData.weight.includes('175') || packagingData.weight.includes('200')
+                  : packagingData.packageFormat?.toLowerCase().includes('jar') || effectiveWeight.includes('175') || effectiveWeight.includes('200')
                   ? '식품 등급 밀폐 보관 용기 (Jar)'
                   : '스탠드형 지퍼 밀봉 파우치 (50g Standing Pouch)')
-              : (isNoodle
+              : (isMilkDedicated || packagingData.packageFormat?.toLowerCase().includes('bottle')
+                  ? 'Food-Grade Glass Bottle (1L Glass Bottle with Tamper Seal)'
+                  : isNoodle
                   ? '150g Nutrient-Rich Cashew Flour Noodle Bag / Box'
-                  : packagingData.packageFormat?.toLowerCase().includes('jar') || packagingData.weight.includes('175') || packagingData.weight.includes('200')
+                  : packagingData.packageFormat?.toLowerCase().includes('jar') || effectiveWeight.includes('175') || effectiveWeight.includes('200')
                   ? 'Food-Grade Induction Sealed Jar'
                   : 'Food-Grade Stand-Up Barrier Pouch with Zipper (50g Standing Pouch)');
 
-            const isPouchWeight = Boolean(
+            const isPouchWeight = !isMilkDedicated && Boolean(
               (packagingData.packageFormat && (packagingData.packageFormat.toLowerCase().includes('pouch') || packagingData.packageFormat.includes('កញ្ចប់') || packagingData.packageFormat.includes('ថង់'))) ||
-              packagingData.weight.includes('50g') ||
-              packagingData.weight.includes('50 g')
+              effectiveWeight.includes('50g') ||
+              effectiveWeight.includes('50 g')
             );
-            const isJarWeight = Boolean(
+            const isJarWeight = !isMilkDedicated && Boolean(
               packagingData.packageFormat && (packagingData.packageFormat.toLowerCase().includes('jar') || packagingData.packageFormat.includes('កំប៉ុង') || packagingData.packageFormat.includes('ក្រឡ') || packagingData.packageFormat.includes('tub'))
             );
-            const isExplicitNetWeight = !isPouchWeight && (
+            const isExplicitNetWeight = isMilkDedicated || (!isPouchWeight && (
               isJarWeight ||
-              (packagingData.weight && (packagingData.weight.toLowerCase().includes('net') || packagingData.weight.includes('សុទ្ធ')))
-            );
+              (effectiveWeight && (effectiveWeight.toLowerCase().includes('net') || effectiveWeight.includes('សុទ្ធ')))
+            ));
 
             const storyData = getMayanyProductStory(packagingData.nameKh, packagingData.product, passportLang);
             const userCustomDesc = (packagingData.description && packagingData.description.trim()) || '';
@@ -3242,6 +3522,18 @@ export default function ProductPassport({
                       </p>
                     </div>
                   )}
+
+                  {/* Japanese Name (when Japanese is selected) */}
+                  {passportLang === 'ja' && (
+                    <div className="space-y-0.5 pt-1 border-t border-slate-100">
+                      <div className="text-xs font-semibold text-rose-700 font-sans">
+                        {tCert.productNameKoLabel || '日本語名称'}:
+                      </div>
+                      <p className="text-sm sm:text-base font-bold text-rose-950 font-sans">
+                        {packagingData.nameJa || packagingData.product}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* 3. SCIENTIFIC NAME IN ENGLISH */}
@@ -3279,24 +3571,30 @@ export default function ProductPassport({
                   </p>
                 </div>
 
-                {/* 5. WEIGHT */}
+                {/* 5. WEIGHT / VOLUME */}
                 <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-3">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                     <span className="font-black text-slate-900 text-xs sm:text-sm flex items-center gap-1.5 font-sans">
-                      <span>⚖️</span>
-                      <span>{isExplicitNetWeight ? tCert.weightHeader : tCert.weightHeaderGeneral}</span>
+                      <span>{isLiquidProduct ? '🥛' : '⚖️'}</span>
+                      <span>
+                        {isLiquidProduct 
+                          ? (tCert.volumeHeader || 'ចំណុះសុទ្ធ & ទម្រង់វេចខ្ចប់ផ្លូវការ') 
+                          : (isExplicitNetWeight ? tCert.weightHeader : tCert.weightHeaderGeneral)}
+                      </span>
                     </span>
                     <span className="text-xs font-mono font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-lg">
-                      {formatWeightBadge(packagingData.weight)}
+                      {formatWeightBadge(effectiveWeight)}
                     </span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
                       <span className="text-[10px] text-slate-500 font-bold block">
-                        {isExplicitNetWeight ? tCert.netWeightLabel : tCert.weightLabelGeneral}:
+                        {isLiquidProduct 
+                          ? (tCert.netVolumeLabel || 'ចំណុះសុទ្ធផ្លូវការ') 
+                          : (isExplicitNetWeight ? tCert.netWeightLabel : tCert.weightLabelGeneral)}:
                       </span>
                       <p className="text-base font-black text-slate-900 font-mono">
-                        {formatWeightBadge(packagingData.weight)}
+                        {formatWeightBadge(effectiveWeight)}
                       </p>
                     </div>
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
@@ -3344,7 +3642,7 @@ export default function ProductPassport({
 
                         <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
                           <span>{item.badge}</span>
-                          <span>{item.percent > 0 ? `${item.percent} ${isKhmer ? 'ក្រាម / ១០០g' : 'g / 100g'}` : (isKhmer ? 'ដានតិចតួច' : 'Trace')}</span>
+                          <span>{item.percent > 0 ? (packagingData.product.toLowerCase().includes('milk') || packagingData.nameKh.includes('ទឹកដោះគោ') || packagingData.weight?.includes('L') || packagingData.weight?.includes('ml') ? `${item.percent} ml / 100ml` : `${item.percent} ${isKhmer ? 'ក្រាម / ១០០g' : 'g / 100g'}`) : (isKhmer ? 'ដានតិចតួច' : 'Trace')}</span>
                         </div>
                       </div>
                     ))}
@@ -3403,8 +3701,21 @@ export default function ProductPassport({
                         </div>
                       )}
 
-                      {/* Chili Supplier */}
-                      {(isChili || packagingData.flavor.toLowerCase().includes('chili') || packagingData.product.toLowerCase().includes('chili') || packagingData.nameKh.includes('ម្ទេស') || packagingData.customIngredients.includes('ម្ទេស')) && (!packagingData.selectedSuppliers || packagingData.selectedSuppliers.length === 0 || packagingData.selectedSuppliers.some(s => s.includes('Ringacam') || s.includes('ម្ទេស') || s.toLowerCase().includes('chili'))) && (
+                      {/* Pandan Powder Supplier - Ringacam Enterprise */}
+                      {(packagingData.product.toLowerCase().includes('milk') || packagingData.nameKh.includes('ទឹកដោះគោ') || packagingData.customIngredients.includes('ស្លឹកតើយ') || packagingData.customIngredients.includes('ស្លឹកតយ') || packagingData.customIngredients.toLowerCase().includes('pandan') || (packagingData.selectedSuppliers && packagingData.selectedSuppliers.some(s => (s.toLowerCase().includes('ringacam') || s.toLowerCase().includes('rincagam')) && (s.includes('ស្លឹកតើយ') || s.includes('ស្លឹកតយ') || s.toLowerCase().includes('pandan') || packagingData.nameKh.includes('ទឹកដោះគោ') || packagingData.product.toLowerCase().includes('milk'))))) && (
+                        <div className="p-2.5 bg-white rounded-lg border border-slate-200 space-y-0.5">
+                          <span className="text-[10px] text-slate-500 font-bold block">
+                            🌿 {isKhmer ? 'ម្សៅស្លឹកតើយ' : 'Pandan Powder'}:
+                          </span>
+                          <p className="font-black text-slate-950 text-xs">Ringacam Enterprise</p>
+                          <span className="text-[10px] text-emerald-700 font-medium block">
+                            {isKhmer ? 'រាជធានីភ្នំពេញ • ម្សៅស្លឹកតើយធម្មជាតិ G.D.G' : 'Phnom Penh • Natural Pandan Powder'}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Chili Supplier - strictly excluded for Milk and non-chili products */}
+                      {!packagingData.nameKh.includes('ទឹកដោះគោ') && !packagingData.product.toLowerCase().includes('milk') && (isChili || packagingData.flavor.toLowerCase().includes('chili') || packagingData.product.toLowerCase().includes('chili') || packagingData.nameKh.includes('ម្ទេស') || packagingData.customIngredients.includes('ម្ទេស')) && (!packagingData.selectedSuppliers || packagingData.selectedSuppliers.length === 0 || packagingData.selectedSuppliers.some(s => s.includes('Ringacam') || s.includes('ម្ទេស') || s.toLowerCase().includes('chili'))) && (
                         <div className="p-2.5 bg-white rounded-lg border border-slate-200 space-y-0.5">
                           <span className="text-[10px] text-slate-500 font-bold block">
                             🌶️ {isKhmer ? 'ម្សៅម្ទេសធម្មជាតិ G.D.G' : 'Natural Chili Powder'}:
@@ -3798,7 +4109,7 @@ export default function ProductPassport({
                         </span>
                       </div>
                       <p className="text-sm font-black text-slate-900 font-mono">
-                        {packagingData.mfd || (isKhmer ? 'បោះលើស្លាកទី ២' : passportLang === 'ko' ? '제2라벨 날인' : 'Printed on 2nd Label')}
+                        {packagingData.mfd || (isKhmer ? 'បោះលើស្លាកបន្ថែម (MTO)' : passportLang === 'ja' ? '別添ラベル打刻 (受注生産)' : passportLang === 'ko' ? '동봉 라벨 날인' : 'Printed on Companion Label (MTO)')}
                       </p>
                       <span className="text-[9.5px] text-slate-500 block">
                         {tCert.mfdSub}
@@ -3816,7 +4127,7 @@ export default function ProductPassport({
                         </span>
                       </div>
                       <p className="text-sm font-black text-slate-900 font-mono">
-                        {packagingData.exp || (isKhmer ? 'បោះលើស្លាកទី ២' : passportLang === 'ko' ? '제2라벨 날인' : 'Printed on 2nd Label')}
+                        {packagingData.exp || (isKhmer ? 'បោះលើស្លាកបន្ថែម (MTO)' : passportLang === 'ja' ? '別添ラベル打刻 (受注生産)' : passportLang === 'ko' ? '동봉 라벨 날인' : 'Printed on Companion Label (MTO)')}
                       </p>
                       <span className="text-[9.5px] text-slate-600 block">
                         {tCert.shelfLifeLabel}: <strong>{packagingData.shelfLifeMonths || 6} {tCert.shelfLifeMonthsSuffix}</strong>
@@ -3830,11 +4141,21 @@ export default function ProductPassport({
                           18. {tCert.lotLabel}
                         </span>
                         <span className="text-[9px] font-mono font-bold bg-amber-100 text-amber-900 px-1.5 py-0.2 rounded border border-amber-300">
-                          {packagingData.batch || 'LOT-2026-KT'}
+                          {(!packagingData.batch || packagingData.batch.toLowerCase().startsWith('mto') || (typeof window !== 'undefined' && !new URLSearchParams(window.location.search).has('batch')))
+                            ? 'MTO'
+                            : packagingData.batch}
                         </span>
                       </div>
                       <p className="text-sm font-black text-amber-950 font-mono">
-                        {packagingData.batch || '2026-CKP-261J'}
+                        {(!packagingData.batch || packagingData.batch.toLowerCase().startsWith('mto') || (typeof window !== 'undefined' && !new URLSearchParams(window.location.search).has('batch')))
+                          ? (isKhmer 
+                              ? 'ស្រស់ៗតាមការបញ្ជាទិញ (Make to Order - សូមពិនិត្យស្លាកបន្ថែម)' 
+                              : passportLang === 'ja' 
+                              ? '受注生産 (Make to Order - 別添ラベル参照)' 
+                              : passportLang === 'ko' 
+                              ? '주문 즉시 생산 (Make to Order - 동봉 라벨 확인)' 
+                              : 'Make-to-Order (Freshly Batched on Companion Label)')
+                          : packagingData.batch}
                       </p>
                       <span className="text-[9.5px] text-slate-500 block truncate" title={tCert.lotSub}>
                         {tCert.lotSub}
@@ -3844,10 +4165,10 @@ export default function ProductPassport({
 
                   <div className="flex flex-wrap items-center justify-between gap-1 pt-1 border-t border-amber-200/60 text-[10.5px] font-sans">
                     <span className="text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-                      ✓ {isKhmer ? 'អនុលោមតាមស្តង់ដារជាតិ CS 001 មាត្រា ៤.៤ & ការនាំចេញអន្តរជាតិ' : passportLang === 'ko' ? '캄보디아 국가 표준 CS 001 제4.4조 및 수출 규격 준수' : 'Fully Compliant with CS 001 Rule 4.4 & International Export Standard'}
+                      ✓ {isKhmer ? 'អនុលោមតាមស្តង់ដារជាតិ CS 001 មាត្រា ៤.៤ & ការនាំចេញអន្តរជាតិ' : passportLang === 'ja' ? 'カンボジア国家規格 CS 001 第4.4条および国際輸出規格適合' : passportLang === 'ko' ? '캄보디아 국가 표준 CS 001 제4.4조 및 수출 규격 준수' : 'Fully Compliant with CS 001 Rule 4.4 & International Export Standard'}
                     </span>
                     <span className="text-slate-600 font-mono">
-                      REF: MISTI-CS001-2026-{packagingData.batch}
+                      REF: MISTI-CS001-2026-{packagingData.ean13 || packagingData.batch || 'MTO'}
                     </span>
                   </div>
                 </div>

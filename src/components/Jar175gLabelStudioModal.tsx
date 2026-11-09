@@ -41,8 +41,8 @@ export default function Jar175gLabelStudioModal({
   // Product configurations
   const productConfig = {
     pepper: {
-      id: 'ww180-pepper-jar-175g',
-      nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពតGI',
+      id: 'pepper-jar-175g',
+      nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI',
       nameEn: 'GI Kampot Black Pepper Coated Cashew Kernels',
       weight: '175g',
       netWeightText: 'Net Weight 175g',
@@ -54,7 +54,7 @@ export default function Jar175gLabelStudioModal({
       flavor: 'pepper',
     },
     chili: {
-      id: 'ww180-chili-jar-175g',
+      id: 'chili-jar-175g',
       nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេស',
       nameEn: 'Chili Coated Cashew Kernels',
       weight: '175g',
@@ -67,7 +67,7 @@ export default function Jar175gLabelStudioModal({
       flavor: 'chili',
     },
     sugar: {
-      id: 'ww180-sugar-jar-175g',
+      id: 'sugar-jar-175g',
       nameKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករ',
       nameEn: 'Sugar Coated Cashew Kernels',
       weight: '175g',
@@ -83,10 +83,9 @@ export default function Jar175gLabelStudioModal({
 
   const currentItem = productConfig[activeProduct];
 
-  // Compute live smartphone permanent product URL
+  // Compute live smartphone permanent product URL (Make-to-Order clean product identity)
   const getTargetUrl = () => {
-    const origin = getPublicOrigin() || 'https://cashewtrace.com';
-    return `${origin}/?mode=passport&ean=${currentItem.barcode}&prodId=${currentItem.id}&flv=${currentItem.flavor}&wt=${currentItem.weight}&view=certificate`;
+    return `https://mayanyenterprise.com/?mode=passport&product=${currentItem.id}&view=certificate&project=passport`;
   };
 
   // Generate verified QR Code image
@@ -770,7 +769,7 @@ export default function Jar175gLabelStudioModal({
                         🌶️ ស្រោបម្ទេស • Chili Coated
                       </div>
                       <div className="absolute top-3 right-3 bg-black/75 text-amber-300 font-mono text-[11px] font-bold px-2.5 py-1 rounded-lg">
-                        175g = $3.25
+                        175g = $4.00
                       </div>
                     </div>
                     <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
@@ -804,7 +803,7 @@ export default function Jar175gLabelStudioModal({
                         🥥 ស្រោបស្ករ • Sugar Coated
                       </div>
                       <div className="absolute top-3 right-3 bg-black/75 text-amber-300 font-mono text-[11px] font-bold px-2.5 py-1 rounded-lg">
-                        175g = $3.25
+                        175g = $4.00
                       </div>
                     </div>
                     <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
@@ -838,7 +837,7 @@ export default function Jar175gLabelStudioModal({
                         🫘 ម្រេចខ្មៅកំពត GI • Kampot Pepper
                       </div>
                       <div className="absolute top-3 right-3 bg-black/75 text-amber-300 font-mono text-[11px] font-bold px-2.5 py-1 rounded-lg">
-                        175g = $3.25
+                        175g = $4.00
                       </div>
                     </div>
                     <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">

@@ -17,6 +17,7 @@ export interface StoreProduct {
   nameKh: string;
   nameEn: string;
   nameKo: string;
+  nameJa?: string;
   category: 'pouches' | 'jars' | 'beverage';
   priceUsd: number;
   weight: string;
@@ -24,13 +25,16 @@ export interface StoreProduct {
   badgeKh: string;
   badgeEn: string;
   badgeKo: string;
+  badgeJa?: string;
   imageSrc: string;
   descriptionKh: string;
   descriptionEn: string;
   descriptionKo: string;
+  descriptionJa?: string;
   highlightsKh: string[];
   highlightsEn: string[];
   highlightsKo: string[];
+  highlightsJa?: string[];
   baristaTipKh?: string;
   baristaTipEn?: string;
   baristaTipKo?: string;
@@ -356,13 +360,14 @@ export const STORE_PRODUCTS: StoreProduct[] = [
   }
 ];
 
-type Currency = 'USD' | 'KRW' | 'GBP' | 'KHR';
+type Currency = 'USD' | 'KRW' | 'GBP' | 'KHR' | 'JPY';
 
 const CURRENCY_RATES: Record<Currency, { symbol: string; rate: number; label: string }> = {
   USD: { symbol: '$', rate: 1, label: 'USD ($)' },
   KRW: { symbol: '₩', rate: 1350, label: 'KRW (₩ South Korea)' },
   GBP: { symbol: '£', rate: 0.79, label: 'GBP (£ United Kingdom)' },
-  KHR: { symbol: '៛', rate: 4100, label: 'KHR (៛ Cambodia)' }
+  KHR: { symbol: '៛', rate: 4100, label: 'KHR (៛ Cambodia)' },
+  JPY: { symbol: '¥', rate: 155, label: 'JPY (¥ 日本・Japan)' }
 };
 
 export const getPassportBatch = (id: string): string => {
@@ -389,7 +394,7 @@ export default function MayanyStore({
   onOpenPackaging?: () => void;
   onOpenDeploy?: () => void;
 }) {
-  const { isKhmer, isKorean } = useLanguage();
+  const { isKhmer, isKorean, isJapanese } = useLanguage();
   const [currency, setCurrency] = useState<Currency>('KHR');
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'pouches' | 'jars' | 'beverage'>('all');
   const [selectedPreviewImage, setSelectedPreviewImage] = useState<string | null>(null);
@@ -413,18 +418,20 @@ export default function MayanyStore({
 
   // Auto-switch currency when language switches
   useEffect(() => {
-    if (isKorean) {
+    if (isJapanese) {
+      setCurrency('JPY');
+    } else if (isKorean) {
       setCurrency('KRW');
     } else if (isKhmer) {
       setCurrency('USD');
     }
-  }, [isKorean, isKhmer]);
+  }, [isJapanese, isKorean, isKhmer]);
 
   // Buyer Form
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
-  const [deliveryCountry, setDeliveryCountry] = useState(isKorean ? 'South Korea' : 'Cambodia');
+  const [deliveryCountry, setDeliveryCountry] = useState(isJapanese ? 'Japan' : isKorean ? 'South Korea' : 'Cambodia');
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [orderNotes, setOrderNotes] = useState('');
   const [paymentPreference, setPaymentPreference] = useState<'whatsapp' | 'khqr' | 'international_wire'>('whatsapp');
@@ -439,6 +446,9 @@ export default function MayanyStore({
   const formatPrice = (usd: number) => {
     const rateInfo = CURRENCY_RATES[currency];
     const converted = usd * rateInfo.rate;
+    if (currency === 'JPY') {
+      return `¥${Math.round(converted).toLocaleString('ja-JP')}`;
+    }
     if (currency === 'KRW') {
       return `₩${Math.round(converted).toLocaleString('en-US')}`;
     }
@@ -480,7 +490,7 @@ export default function MayanyStore({
   const buildWhatsAppMessage = () => {
     const itemsList = Object.entries(cart).map(([id, qty]) => {
       const p = STORE_PRODUCTS.find((item) => item.id === id);
-      const name = isKorean ? p?.nameKo : isKhmer ? p?.nameKh : p?.nameEn;
+      const name = isJapanese ? (p?.nameJa || p?.nameEn) : isKorean ? p?.nameKo : isKhmer ? p?.nameKh : p?.nameEn;
       return `• ${qty}x ${name || id} (${p ? '$' + (p.priceUsd * qty).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''})`;
     }).join('\n');
 
@@ -738,11 +748,11 @@ Sent via mayanyenterprise.com storefront`;
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProducts.map((product) => {
           const qtyInCart = cart[product.id] || 0;
-          const prodName = isKorean ? product.nameKo : isKhmer ? product.nameKh : product.nameEn;
-          const prodDesc = isKorean ? product.descriptionKo : isKhmer ? product.descriptionKh : product.descriptionEn;
-          const prodBadge = isKorean ? product.badgeKo : isKhmer ? product.badgeKh : product.badgeEn;
-          const prodHighlights = isKorean ? product.highlightsKo : isKhmer ? product.highlightsKh : product.highlightsEn;
-          const prodBaristaTip = isKorean ? product.baristaTipKo : isKhmer ? product.baristaTipKh : product.baristaTipEn;
+          const prodName = isJapanese ? (product.nameJa || product.nameEn) : isKorean ? product.nameKo : isKhmer ? product.nameKh : product.nameEn;
+          const prodDesc = isJapanese ? (product.descriptionJa || product.descriptionEn) : isKorean ? product.descriptionKo : isKhmer ? product.descriptionKh : product.descriptionEn;
+          const prodBadge = isJapanese ? (product.badgeJa || product.badgeEn) : isKorean ? product.badgeKo : isKhmer ? product.badgeKh : product.badgeEn;
+          const prodHighlights = isJapanese ? (product.highlightsJa || product.highlightsEn) : isKorean ? product.highlightsKo : isKhmer ? product.highlightsKh : product.highlightsEn;
+          const prodBaristaTip = isJapanese ? (product.baristaTipEn) : isKorean ? product.baristaTipKo : isKhmer ? product.baristaTipKh : product.baristaTipEn;
 
           return (
             <motion.div
@@ -847,27 +857,30 @@ Sent via mayanyenterprise.com storefront`;
                   {/* Official CS 001 Certificate & Product Passport Action Button */}
                   <div className="pt-2">
                     <a
-                      href={`?mode=passport&batch=${getPassportBatch(product.id)}&product=${product.id}&view=certificate`}
+                      href={`?mode=passport&product=${product.id}&view=certificate&project=passport`}
                       onClick={(e) => {
                         if (typeof window !== 'undefined') {
                           const url = new URL(window.location.href);
                           url.searchParams.set('mode', 'passport');
-                          url.searchParams.set('batch', getPassportBatch(product.id));
+                          url.searchParams.delete('batch');
                           url.searchParams.set('product', product.id);
                           url.searchParams.set('view', 'certificate');
+                          url.searchParams.set('project', 'passport');
                           window.history.replaceState({}, '', url.toString());
                         }
                         if (onOpenPassport) {
                           e.preventDefault();
-                          onOpenPassport(getPassportBatch(product.id));
+                          onOpenPassport(product.id);
                         }
                       }}
                       className="w-full py-2 px-3 bg-gradient-to-r from-amber-50 to-amber-100/90 hover:from-amber-100 hover:to-amber-200 text-amber-950 border border-amber-300 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition cursor-pointer shadow-2xs group/cert"
-                      title={isKhmer ? 'ពិនិត្យវិញ្ញាបនបត្រគុណភាព CS 001 និងតាមដានប្រភពកសិករ' : 'View CS 001 Quality Certificate & Origin Passport'}
+                      title={isKhmer ? 'ពិនិត្យវិញ្ញាបនបត្រគុណភាព CS 001 និងតាមដានប្រភពកសិករ' : isJapanese ? 'CS 001 品質証明書およびデジタルパスポート' : 'View CS 001 Quality Certificate & Origin Passport'}
                     >
                       <FileText size={13} className="text-amber-800 group-hover/cert:scale-110 transition-transform" />
                       <span>
-                        {isKorean 
+                        {isJapanese
+                          ? '📜 CS 001 品質証明書 & パスポート'
+                          : isKorean 
                           ? '📜 CS 001 품질 인증서 & 디지털 여권' 
                           : isKhmer 
                           ? '📜 ពិនិត្យវិញ្ញាបនបត្រគុណភាព CS 001 & Passport' 
@@ -1533,7 +1546,7 @@ Sent via mayanyenterprise.com storefront`;
                       {Object.entries(cart).map(([id, qty]) => {
                         const product = STORE_PRODUCTS.find((p) => p.id === id);
                         if (!product) return null;
-                        const pName = isKorean ? product.nameKo : isKhmer ? product.nameKh : product.nameEn;
+                        const pName = isJapanese ? (product.nameJa || product.nameEn) : isKorean ? product.nameKo : isKhmer ? product.nameKh : product.nameEn;
                         return (
                           <div
                             key={id}

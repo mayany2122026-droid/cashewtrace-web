@@ -55,7 +55,7 @@ export default function CashewMilk1LLabelModal({
       );
       return `https://wa.me/855887712862?text=${msg}`;
     }
-    return `${origin}/?mode=passport&ean=8847116350054&prodId=cashew-milk-1l&flv=milk_natural&wt=1L&view=certificate`;
+    return 'https://mayanyenterprise.com/?mode=passport&product=cashew-milk-1l&view=certificate&project=passport';
   };
 
   // Generate QR Code image data
