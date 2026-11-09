@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Layers, ChevronDown, User, Phone, LogOut, 
   Home, Sparkles, ShieldCheck, Check, Lock, BookOpen,
-  Facebook, Globe, ShoppingBag
+  Facebook, Globe, ShoppingBag, Download
 } from 'lucide-react';
 import CashewTraceLogo, { CashewTraceIcon } from './CashewTraceLogo';
 import LanguageToggle from './LanguageToggle';
@@ -107,7 +107,7 @@ export const ALL_PROJECTS: ProjectOption[] = [
     badgeKhmer: 'CS 001',
     badgeEnglish: 'CS 001',
     badgeColor: 'bg-blue-100 text-blue-900',
-    requiresSignIn: true
+    requiresSignIn: false
   },
   {
     id: 'dailypa',
@@ -191,7 +191,7 @@ export default function EcosystemHeader({
   onOpenGreeting,
   onOpenDeployModal
 }: EcosystemHeaderProps) {
-  const { isKhmer, isKorean } = useLanguage();
+  const { isKhmer, isKorean, isJapanese } = useLanguage();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const activeProjectMeta = ALL_PROJECTS.find(p => p.id === currentProject) || ALL_PROJECTS[0];
@@ -283,23 +283,23 @@ export default function EcosystemHeader({
               rel="noopener noreferrer"
               id="header-facebook-link"
               className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-2xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-800 hover:text-blue-950 text-xs sm:text-sm font-bold shadow-2xs hover:shadow-xs transition-all active:scale-95 cursor-pointer whitespace-nowrap"
-              title={isKorean ? '마얀 엔터프라이즈 공식 페이스북 (MAYANY Enterprise Facebook)' : isKhmer ? 'ទំព័រ Facebook ផ្លូវការ MAYANY Enterprise' : 'MAYANY Enterprise Official Facebook'}
+              title={isJapanese ? 'マヤン・エンタープライズ公式Facebook' : isKorean ? '마얀 엔터프라이즈 공식 페이스북 (MAYANY Enterprise Facebook)' : isKhmer ? 'ទំព័រ Facebook ផ្លូវការ MAYANY Enterprise' : 'MAYANY Enterprise Official Facebook'}
             >
               <Facebook className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-blue-600 shrink-0" />
               <span className="font-bold text-xs sm:text-sm">Mayany Enterprise FB</span>
             </a>
 
-            {/* Direct Website ZIP Download & Cloudflare Deploy Button (Hidden from public view) */}
-            <button
-              type="button"
+            {/* Direct Website ZIP Download Button */}
+            <a
+              href="/download"
+              download="product-certificate-fix.zip"
               id="header-download-zip-btn"
-              onClick={onOpenDeployModal}
-              className="hidden"
-              aria-hidden="true"
-              title="Download clean production website (.zip) & instructions for Cloudflare Pages"
+              className="flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-sm hover:shadow-md transition-all active:scale-95 cursor-pointer whitespace-nowrap border border-amber-600"
+              title={isJapanese ? '最新コードパッケージ (.zip) をダウンロード' : 'Download latest code updates (.zip)'}
             >
-              <span>📥 Download (.zip)</span>
-            </button>
+              <Download className="w-4 h-4 text-slate-950 shrink-0" />
+              <span>{isJapanese ? 'ダウンロード (.zip)' : isKhmer ? 'ទាញយក (.zip)' : 'Download (.zip)'}</span>
+            </a>
           </div>
 
           {/* Row 2 on mobile: Purchase Order button & Language Selector */}
@@ -315,12 +315,35 @@ export default function EcosystemHeader({
                   window.scrollTo({ top: 460, behavior: 'smooth' });
                 }
               }}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer whitespace-nowrap"
-              title={isKorean ? '마얀 엔터프라이즈 상품 주문' : isKhmer ? 'កុម្ម៉ង់ទិញផលិតផល MAYANY Enterprise' : 'Order MAYANY Enterprise Products'}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 sm:px-4.5 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer whitespace-nowrap"
+              title={isJapanese ? 'マヤン・エンタープライズ商品のご注文' : isKorean ? '마얀 엔터프라이즈 상품 주문' : isKhmer ? 'កុម្ម៉ង់ទិញផលិតផល MAYANY Enterprise' : 'Order MAYANY Enterprise Products'}
             >
               <ShoppingBag className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-emerald-100 shrink-0" />
-              <span>{isKorean ? '🛍️ 상품 주문' : isKhmer ? '🛍️ កុម្ម៉ង់ទិញផលិតផល' : '🛍️ Shop / Order'}</span>
+              <span>{isJapanese ? '🛍️ ご注文' : isKorean ? '🛍️ 상품 주문' : isKhmer ? '🛍️ កុម្ម៉ង់ទិញ' : '🛍️ Shop'}</span>
             </button>
+
+            {/* 3b. 13-Step Packaging Studio Quick Switcher */}
+            {currentProject === 'packaging' ? (
+              <button
+                type="button"
+                onClick={() => onSelectProject('store')}
+                className="flex items-center justify-center gap-1 px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-2xl text-xs font-black bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-sm transition-all active:scale-95 cursor-pointer whitespace-nowrap border border-amber-500"
+                title="Return to Mayany Storefront"
+              >
+                <span>🏪</span>
+                <span>{isJapanese ? '店舗' : isKhmer ? 'ហាងទំនិញ' : 'Store'}</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onSelectProject('packaging')}
+                className="flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-2xl text-xs font-bold bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 shadow-2xs hover:shadow-xs transition-all active:scale-95 cursor-pointer whitespace-nowrap"
+                title="13-Step Packaging Label Studio (CS 001)"
+              >
+                <span>🏷️</span>
+                <span className="font-extrabold">{isJapanese ? '13工程ラベル' : isKhmer ? 'ស្លាក ១៣ ជំហាន' : '13 Steps'}</span>
+              </button>
+            )}
 
             {/* 4. Language Selector (Last one) */}
             <div className="shrink-0">

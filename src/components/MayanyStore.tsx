@@ -11,6 +11,7 @@ import { useLanguage } from '../lib/LanguageContext';
 import { db } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import CashewMilk1LLabelModal from './CashewMilk1LLabelModal';
+import { MAYANY_PRODUCT_REGISTRY } from '../data/mayanyProductRegistry';
 
 export interface StoreProduct {
   id: string;
@@ -385,6 +386,76 @@ export const getPassportBatch = (id: string): string => {
   }
 };
 
+const getJapaneseHighlights = (id: string, weight: string, priceUsd: number): string[] => {
+  const yenPrice = `¥${Math.round(priceUsd * 155).toLocaleString()}`;
+  switch (id) {
+    case 'chili-pouch-50g':
+      return [
+        '50g クラフト製スタンドチャック袋（中身が見える透明窓）',
+        'ピリッとした辛さと香ばしいクリスピー食感、ビールに最適',
+        `公式価格: $1.25 / 1袋（約${yenPrice}）`
+      ];
+    case 'sugar-pouch-50g':
+      return [
+        '50g クリーンホワイトチャック袋（透明窓付き）',
+        '天然糖コーティングの繊細なキャラメル風味のクリスピー食感',
+        `公式価格: $1.25 / 1袋（約${yenPrice}）`
+      ];
+    case 'pepper-pouch-50g':
+      return [
+        '100% カンボジア原産 カンポットGI真正黒胡椒使用',
+        '50g マットブラックチャック袋（中身の見える窓付き）',
+        `公式価格: $1.25 / 1袋（約${yenPrice}）`
+      ];
+    case 'pepper-broken-pouch-50g':
+      return [
+        'ブロークン / スプリット等級（お料理・トッピングに最適）',
+        'カンポットGI黒胡椒を贅沢にコーティング',
+        `特別価格: $0.65 / 1袋（約${yenPrice}）`
+      ];
+    case 'cashew-milk-1l':
+      return [
+        '1000ml 食品衛生ガラスボトル入り（安心の密閉キャップ）',
+        '明瞭な価格設定: 飲料 $3.00 + ガラスボトル保証金 $1.50',
+        '次回ボトル返却・交換時は飲料代 $3.00 のみ',
+        '乳製品不使用・乳糖フリー・100%植物性ヴィーガンミルク',
+        'ボトル上のQRコードから簡単ダイレクト注文'
+      ];
+    case 'flour-jar-200g':
+    case 'cashew-powder-200g':
+      return [
+        '100% カンボジア産カシューナッツ低温微粉末（200g PETジャー）',
+        'グルテンフリー、乳製品不使用、自然な植物性クリーマー',
+        '温かいコーヒーや抹茶、スムージーに溶かしてカシューラテに',
+        `公式価格: $2.50 / 1個（約${yenPrice}）`
+      ];
+    case 'chili-jar-175g':
+      return [
+        '175g 透明PET密閉ジャー（インダクションアルミシール付）',
+        '旨辛クリスピーな食感、クラフトビールやバーに大人気',
+        `公式価格: $4.00 / 1個（約${yenPrice}）`
+      ];
+    case 'sugar-jar-175g':
+      return [
+        '175g 透明PET密閉ジャー（インダクションアルミシール付）',
+        'サクサクとした天然糖コーティング、上品な甘み',
+        `公式価格: $4.00 / 1個（約${yenPrice}）`
+      ];
+    case 'pepper-jar-175g':
+      return [
+        '100% 本場カンポットGI黒胡椒使用、深い芳香と余韻',
+        '175g 透明PET密閉ジャー（安心の品質保持シール）',
+        `公式価格: $4.00 / 1個（約${yenPrice}）`
+      ];
+    default:
+      return [
+        'カンボジア原産 高品質手作り加工',
+        'CS 001国家品質基準およびEUDR森林保護認証準拠',
+        `公式価格: $${priceUsd.toFixed(2)}`
+      ];
+  }
+};
+
 export default function MayanyStore({ 
   onOpenPassport,
   onOpenPackaging,
@@ -583,7 +654,9 @@ Sent via mayanyenterprise.com storefront`;
             <div className="inline-flex items-center gap-2 px-3 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase">
               <Sparkles size={13} className="text-amber-400" />
               <span>
-                {isKorean 
+                {isJapanese
+                  ? 'マヤン・エンタープライズ公式直営店 • MAYANY ENTERPRISE'
+                  : isKorean 
                   ? '마얀 엔터프라이즈 공식 직영 스토어 • MAYANY ENTERPRISE' 
                   : isKhmer 
                   ? 'ហាងកសិផលផ្លូវការ សហគ្រាស ម៉ាយ៉ានី' 
@@ -597,7 +670,7 @@ Sent via mayanyenterprise.com storefront`;
                 className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-full text-xs font-bold transition shadow-xs cursor-pointer"
               >
                 <Building size={13} />
-                <span>{isKorean ? '📖 마얀 소개' : isKhmer ? '📖 អំពីសហគ្រាស' : '📖 About Us'}</span>
+                <span>{isJapanese ? '📖 当社について' : isKorean ? '📖 마얀 소개' : isKhmer ? '📖 អំពីសហគ្រាស' : '📖 About Us'}</span>
               </a>
 
               <a
@@ -620,7 +693,9 @@ Sent via mayanyenterprise.com storefront`;
             />
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
-                {isKorean
+                {isJapanese
+                  ? 'カンボジア特産手作り農産品 • 受注生産の最高輸出品質'
+                  : isKorean
                   ? '캄보디아 프리미엄 수제 농특산물 • 신선 주문제작 수출 품질'
                   : isKhmer 
                   ? 'កសិផលកែច្នៃប្រណិតកម្ពុជា • គុណភាពនាំចេញ & ផលិតតាមការកុម្ម៉ង់' 
@@ -634,21 +709,27 @@ Sent via mayanyenterprise.com storefront`;
           
           <div className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-5xl space-y-2">
             <p className="font-semibold text-amber-200">
-              {isKorean
+              {isJapanese
+                ? 'マヤン・エンタープライズ（Mayany Enterprise）へようこそ！'
+                : isKorean
                 ? '마얀 엔터프라이즈(Mayany Enterprise)에 오신 것을 환영합니다!'
                 : isKhmer
                 ? 'សូមស្វាគមន៍មកកាន់ សហគ្រាស ម៉ាយ៉ានី!'
                 : 'Welcome to Mayany Enterprise!'}
             </p>
             <p>
-              {isKorean
+              {isJapanese
+                ? '本場カンポットGI黒胡椒、100%植物性生カシューミルク、100%純粋カシューナッツパウダー（飲料・植物性ラテ用）、そして香ばしくローストした特製カシューナッツを真心を込めてお届けします。'
+                : isKorean
                 ? '우리는 정품 캄폿 GI 흑후추, 100% 천연 캐슈 드링크(밀크), 100% 순수 캐슈넛 파우더(음료 및 식물성 라떼용), 그리고 바삭하고 고소한 수제 로스팅 캐슈넛을 정성껏 공급합니다.'
                 : isKhmer
                 ? 'យើងខ្ញុំផ្គត់ផ្គង់ ម្រេចខ្មៅកំពត GI, ទឹកដោះគោគ្រាប់ស្វាយចន្ទីធម្មជាតិ ១០០%, ម្សៅគ្រាប់ស្វាយចន្ទីសុទ្ធ ១០០% (សម្រាប់ឆុងភេសជ្ជៈ & ជំនួសទឹកដោះគោ), និងគ្រាប់ស្វាយចន្ទីលីងស្រួយរសជាតិប្រណិត។'
                 : 'We proudly supply authentic GI Kampot Black Pepper, 100% Natural Fresh Cashew Drink, 100% Pure Cashew Powder (for beverages & wholesome dairy-free recipes), and artisan roasted cashew kernels.'}
             </p>
             <p className="text-slate-400">
-              {isKorean
+              {isJapanese
+                ? 'すべての製品は受注生産（Make-to-Order）で製造され、最高の鮮度を保証します。すべての容器とパウチに貼付されたデジタルQRパスポートから、農園のトレーサビリティと品質証明書を透明にご確認いただけます。'
+                : isKorean
                 ? '모든 제품은 주문 제작(Make-to-Order)으로 갓 생산하여 최상의 신선함을 보장하며, 모든 용기와 파우치마다 부착된 디지털 QR Passport를 통해 원산지와 품질 인증서를 투명하게 확인하실 수 있습니다.'
                 : isKhmer
                 ? 'រាល់ផលិតផលទាំងអស់ត្រូវបានផលិតយ៉ាងសម្រិតសម្រាំងតាមការកុម្ម៉ង់ (Make-to-Order) ធានាថ្មីស្រស់ជានិច្ច ព្រមទាំងមានកូដ QR Passport សម្រាប់ពិនិត្យប្រភពដើម និងវិញ្ញាបនបត្របញ្ជាក់គុណភាពបានគ្រប់ដប និងកញ្ចប់។'
@@ -660,19 +741,19 @@ Sent via mayanyenterprise.com storefront`;
           <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-slate-200">
             <span className="flex items-center gap-1 px-2.5 py-1 bg-slate-800/80 rounded-lg border border-slate-700">
               <Award size={13} className="text-amber-400" />
-              <span>{isKorean ? '캄폿 GI 정품 인증' : isKhmer ? 'ម្រេចខ្មៅកំពត GI' : 'GI Kampot Certified'}</span>
+              <span>{isJapanese ? 'カンポットGI真正認証' : isKorean ? '캄폿 GI 정품 인증' : isKhmer ? 'ម្រេចខ្មៅកំពត GI' : 'GI Kampot Certified'}</span>
             </span>
             <span className="flex items-center gap-1 px-2.5 py-1 bg-slate-800/80 rounded-lg border border-slate-700">
               <Coffee size={13} className="text-emerald-400" />
-              <span>{isKorean ? '100% 캐슈 드링크 & 파우더' : isKhmer ? 'ទឹកដោះគោ & ម្សៅស្វាយចន្ទី ១០០%' : '100% Cashew Drink & Powder'}</span>
+              <span>{isJapanese ? '100% カシューミルク＆粉末' : isKorean ? '100% 캐슈 드링크 & 파우더' : isKhmer ? 'ទឹកដោះគោ & ម្សៅស្វាយចន្ទី ១០០%' : '100% Cashew Drink & Powder'}</span>
             </span>
             <span className="flex items-center gap-1 px-2.5 py-1 bg-slate-800/80 rounded-lg border border-slate-700">
               <Clock size={13} className="text-cyan-400" />
-              <span>{isKorean ? '주문제작 신선 로트' : isKhmer ? 'ផលិតថ្មីៗតាមការកុម្ម៉ង់ (Make-to-Order)' : 'Make-to-Order Fresh Batches'}</span>
+              <span>{isJapanese ? '受注生産の新鮮ロット' : isKorean ? '주문제작 신선 로트' : isKhmer ? 'ផលិតថ្មីៗតាមការកុម្ម៉ង់ (Make-to-Order)' : 'Make-to-Order Fresh Batches'}</span>
             </span>
             <span className="flex items-center gap-1 px-2.5 py-1 bg-slate-800/80 rounded-lg border border-slate-700">
               <Globe size={13} className="text-indigo-400" />
-              <span>{isKorean ? '한국, 영국, 아세안 직배송' : isKhmer ? 'ដឹកជញ្ជូនទូទាំងពិភពលោក' : 'Worldwide Delivery (Korea, UK, ASEAN)'}</span>
+              <span>{isJapanese ? '日本・韓国・英国・ASEAN直送' : isKorean ? '한국, 영국, 아세안 직배송' : isKhmer ? 'ដឹកជញ្ជូនទូទាំងពិភពលោក' : 'Worldwide Delivery (Korea, UK, ASEAN)'}</span>
             </span>
           </div>
         </div>
@@ -688,25 +769,29 @@ Sent via mayanyenterprise.com storefront`;
               id: 'all', 
               labelKh: 'ទាំងអស់ (All 9 Products)', 
               labelEn: 'All 9 Products',
-              labelKo: '전체 9개 품목 (All 9)'
+              labelKo: '전체 9개 품목 (All 9)',
+              labelJa: '全9商品 (All 9)'
             },
             { 
               id: 'jars', 
               labelKh: 'កំប៉ុង PET ១៧៥g & ២០០g ($2.50 - $4.00)', 
               labelEn: 'PET Jars ($2.50 - $4.00)',
-              labelKo: '밀폐 PET 용기 ($2.50 - $4.00)'
+              labelKo: '밀폐 PET 용기 ($2.50 - $4.00)',
+              labelJa: 'PETジャー ($2.50 - $4.00)'
             },
             { 
               id: 'pouches', 
               labelKh: 'កញ្ចប់ ៥០g ($0.65 - $1.25)', 
               labelEn: '50g Pouches ($0.65 - $1.25)',
-              labelKo: '50g 파우치 ($0.65 - $1.25)'
+              labelKo: '50g 파우치 ($0.65 - $1.25)',
+              labelJa: '50gパウチ ($0.65 - $1.25)'
             },
             { 
               id: 'beverage', 
               labelKh: 'ទឹកដោះគោ & ម្សៅឆុងកាហ្វេ', 
               labelEn: 'Milk & Flour',
-              labelKo: '밀크 & 파우더'
+              labelKo: '밀크 & 파우더',
+              labelJa: 'ミルク＆パウダー'
             }
           ].map((cat) => (
             <button
@@ -718,7 +803,7 @@ Sent via mayanyenterprise.com storefront`;
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
-              {isKorean ? cat.labelKo : isKhmer ? cat.labelKh : cat.labelEn}
+              {isJapanese ? cat.labelJa : isKorean ? cat.labelKo : isKhmer ? cat.labelKh : cat.labelEn}
             </button>
           ))}
         </div>
@@ -726,9 +811,9 @@ Sent via mayanyenterprise.com storefront`;
         {/* Currency Selector */}
         <div className="flex items-center gap-1.5 w-full sm:w-auto justify-end">
           <span className="text-xs font-bold text-slate-400 mr-1">
-            {isKorean ? '통화 선택:' : isKhmer ? 'រូបិយប័ណ្ណ:' : 'Currency:'}
+            {isJapanese ? '通貨選択:' : isKorean ? '통화 선택:' : isKhmer ? 'រូបិយប័ណ្ណ:' : 'Currency:'}
           </span>
-          {(['KHR', 'USD', 'KRW', 'GBP'] as Currency[]).map((c) => (
+          {(['KHR', 'USD', 'JPY', 'KRW', 'GBP'] as Currency[]).map((c) => (
             <button
               key={c}
               onClick={() => setCurrency(c)}
@@ -748,11 +833,16 @@ Sent via mayanyenterprise.com storefront`;
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProducts.map((product) => {
           const qtyInCart = cart[product.id] || 0;
-          const prodName = isJapanese ? (product.nameJa || product.nameEn) : isKorean ? product.nameKo : isKhmer ? product.nameKh : product.nameEn;
-          const prodDesc = isJapanese ? (product.descriptionJa || product.descriptionEn) : isKorean ? product.descriptionKo : isKhmer ? product.descriptionKh : product.descriptionEn;
-          const prodBadge = isJapanese ? (product.badgeJa || product.badgeEn) : isKorean ? product.badgeKo : isKhmer ? product.badgeKh : product.badgeEn;
-          const prodHighlights = isJapanese ? (product.highlightsJa || product.highlightsEn) : isKorean ? product.highlightsKo : isKhmer ? product.highlightsKh : product.highlightsEn;
-          const prodBaristaTip = isJapanese ? (product.baristaTipEn) : isKorean ? product.baristaTipKo : isKhmer ? product.baristaTipKh : product.baristaTipEn;
+          const regItem = MAYANY_PRODUCT_REGISTRY.find(r => r.id === product.id || r.aliases?.includes(product.id));
+          const prodName = isJapanese ? (product.nameJa || regItem?.nameJa || product.nameEn) : isKorean ? product.nameKo : isKhmer ? product.nameKh : product.nameEn;
+          const prodDesc = isJapanese ? (product.descriptionJa || regItem?.descriptionJa || product.descriptionEn) : isKorean ? product.descriptionKo : isKhmer ? product.descriptionKh : product.descriptionEn;
+          const prodBadge = isJapanese ? (product.badgeJa || `${product.weight} = ¥${Math.round(product.priceUsd * 155).toLocaleString()}`) : isKorean ? product.badgeKo : isKhmer ? product.badgeKh : product.badgeEn;
+          const prodHighlights = isJapanese 
+            ? (product.highlightsJa || getJapaneseHighlights(product.id, product.weight, product.priceUsd)) 
+            : isKorean ? product.highlightsKo : isKhmer ? product.highlightsKh : product.highlightsEn;
+          const prodBaristaTip = isJapanese 
+            ? (product.baristaTipEn ? '☕ バリスタアドバイス: ホットまたはアイスコーヒーにスプーン1〜2杯混ぜると、牛乳の代わりに豊かな植物性クレマができます！' : undefined) 
+            : isKorean ? product.baristaTipKo : isKhmer ? product.baristaTipKh : product.baristaTipEn;
 
           return (
             <motion.div
@@ -765,7 +855,7 @@ Sent via mayanyenterprise.com storefront`;
                 <div 
                   className="h-64 sm:h-72 w-full bg-gradient-to-b from-stone-50 via-slate-50 to-amber-50/20 flex items-center justify-center p-3 sm:p-4 relative rounded-t-3xl overflow-hidden cursor-pointer"
                   onClick={() => setSelectedPreviewImage(product.imageSrc)}
-                  title={isKorean ? '클릭하여 원본 사진 및 라벨 확대보기' : isKhmer ? 'ចុចដើម្បីមើលរូបភាពធំ' : 'Click to inspect full high-res photo'}
+                  title={isJapanese ? 'クリックして高解像度写真とラベルを拡大' : isKorean ? '클릭하여 원본 사진 및 라벨 확대보기' : isKhmer ? 'ចុចដើម្បីមើលរូបភាពធំ' : 'Click to inspect full high-res photo'}
                 >
                   <img
                     src={product.imageSrc}
@@ -845,7 +935,9 @@ Sent via mayanyenterprise.com storefront`;
                       >
                         <QrCode size={15} className="text-amber-400 group-hover/btn:scale-110 transition-transform" />
                         <span>
-                          {isKorean 
+                          {isJapanese
+                            ? '🏷️ 1Lボトルラベル & 注文QRコード (印刷/ダウンロード)'
+                            : isKorean 
                             ? '🏷️ 1L 병 라벨 & 주문 QR 코드 (인쇄/다운로드)' 
                             : isKhmer 
                             ? '🏷️ មើលស្លាកដប ១L & កូដ QR បញ្ជាទិញ (បោះពុម្ព)' 
@@ -941,7 +1033,7 @@ Sent via mayanyenterprise.com storefront`;
                       className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-xs transition cursor-pointer"
                     >
                       <Plus size={14} />
-                      <span>{isKorean ? '주문 담기' : isKhmer ? 'បញ្ចូលកន្ត្រក' : 'Add to Order'}</span>
+                      <span>{isJapanese ? 'カートに追加' : isKorean ? '주문 담기' : isKhmer ? 'បញ្ចូលកន្ត្រក' : 'Add to Order'}</span>
                     </button>
                   )}
                 </div>
@@ -966,7 +1058,9 @@ Sent via mayanyenterprise.com storefront`;
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 text-amber-900 border border-amber-500/30 rounded-full text-xs font-mono font-bold uppercase tracking-wider">
               <Building size={14} className="text-amber-600" />
               <span>
-                {isKorean 
+                {isJapanese
+                  ? 'マヤン・エンタープライズ企業概要 • ABOUT MAYANY ENTERPRISE'
+                  : isKorean 
                   ? '마얀 엔터프라이즈 기업 소개 • ABOUT MAYANY ENTERPRISE' 
                   : isKhmer 
                   ? 'អំពីសហគ្រាស ម៉ាយ៉ានី • ABOUT MAYANY ENTERPRISE' 
@@ -982,14 +1076,18 @@ Sent via mayanyenterprise.com storefront`;
               />
               <div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                  {isKorean 
+                  {isJapanese
+                    ? 'マヤン・エンタープライズ (MAYANY Enterprise)'
+                    : isKorean 
                     ? '마얀 엔터프라이즈(MAYANY Enterprise)' 
                     : isKhmer 
                     ? 'សហគ្រាស ម៉ាយ៉ានី (MAYANY Enterprise)' 
                     : 'MAYANY Enterprise'}
                 </h2>
                 <p className="text-xs sm:text-sm font-bold text-amber-700 font-sans">
-                  {isKorean
+                  {isJapanese
+                    ? 'カンボジア特産手作りカシューナッツ＆カンポットGI黒胡椒 輸出革新企業'
+                    : isKorean
                     ? '캄보디아 프리미엄 수제 캐슈넛 & 캄폿 GI 흑후추 수출 혁신 기업'
                     : isKhmer
                     ? 'កសិ-សហគ្រាសកែច្នៃកសិផលខ្មែរប្រណិត • គុណភាពនាំចេញ & នវានុវត្តន៍'
@@ -1000,28 +1098,36 @@ Sent via mayanyenterprise.com storefront`;
 
             <div className="text-xs sm:text-sm text-slate-600 leading-relaxed pt-1 space-y-2.5">
               <p>
-                {isKorean
+                {isJapanese
+                  ? 'マヤン・エンタープライズは、カンボジアの女性起業家マヤン・サム（Mayany SAM）氏が設立した農産物加工企業です。'
+                  : isKorean
                   ? '마얀 엔터프라이즈는 캄보디아 여성 창업가 마얀 삼(Mayany SAM) 대표가 설립한 농산물 가공 기업입니다.'
                   : isKhmer
                   ? 'សហគ្រាស ម៉ាយ៉ានី គឺជាសហគ្រាសកែច្នៃកសិផលខ្មែរដឹកនាំដោយស្ត្រី ដែលបង្កើតឡើងដោយលោកស្រី សំ ម៉ាយ៉ានី (Mayany SAM)។'
                   : 'MAYANY Enterprise is a woman-led Cambodian agricultural processing enterprise founded by Mrs. Mayany SAM.'}
               </p>
               <p>
-                {isKorean
+                {isJapanese
+                  ? '当社は、カシューナッツやカンポット胡椒をはじめとするカンボジアの優れた農産物を、厳格な品質と安全基準に基づき高付加価値な製品へと加工することに専念しています。'
+                  : isKorean
                   ? '당사는 캐슈넛과 캄폿 후추를 비롯한 캄보디아의 고잠재력 농산물을 엄격한 품질과 안전 기준을 갖춘 고품질 완제품으로 가공하는 데 전문성을 두고 전념하고 있습니다.'
                   : isKhmer
                   ? 'យើងមានឯកទេស និងប្តេជ្ញាចិត្តក្នុងការកែច្នៃកសិផលសក្តានុពលខ្មែរ រួមមានគ្រាប់ស្វាយចន្ទី និងម្រេចកំពត ឱ្យក្លាយជាផលិតផលសម្រេចប្រកបដោយគុណភាពខ្ពស់ និងសុវត្ថិភាពស្តង់ដារ។'
                   : 'We specialize in and are dedicated to processing high-potential Cambodian crops, including cashew nuts and Kampot pepper, into premium finished products with high quality and safety standards.'}
               </p>
               <p>
-                {isKorean
+                {isJapanese
+                  ? 'カンボジアカシューナッツ協会（CAC）の報告によると、カンボジアは世界第2位の生カシューナッツ生産国であり、カンポット胡椒も世界的に名高い地理的表示保護（GI）農産品です。'
+                  : isKorean
                   ? '캄보디아 캐슈넛협회(CAC) 보고서에 따르면 캄보디아는 세계 2위의 원물 캐슈넛 생산국이며, 캄폿 후추 또한 세계적으로 유명한 지리적 표시(GI) 농산물입니다.'
                   : isKhmer
                   ? 'តាមរបាយការណ៍របស់សមាគមស្វាយចន្ទីកម្ពុជា កម្ពុជាជាប្រទេសផលិតគ្រាប់ស្វាយចន្ទីឆៅធំជាងគេទីពីរលើពិភពលោក ហើយម្រេចកំពតក៏ជាផលិតផលមានសញ្ញាបង្ហាញប្រភពភូមិសាស្ត្រ (GI) ដ៏ល្បីដែរ។'
                   : 'According to the Cashew nut Association of Cambodia (CAC), Cambodia is the world\'s second largest raw cashew nut producer, and Kampot pepper is a globally renowned Geographical Indication (GI) product.'}
               </p>
               <p>
-                {isKorean
+                {isJapanese
+                  ? '当社は低付加価値な生原料の輸出から脱却し、適正衛生規範（GHP）および適正製造規範（GMP）を遵守し、HACCP認証取得を準備しながら、高付加価値の完成農産品を製造することを使命としています。'
+                  : isKorean
                   ? '당사는 저부가가치 원물 수출 관행에서 벗어나 우수위생관리기준(GHP) 및 우수제조관리기준(GMP)을 준수하고 HACCP 인증을 준비하며, 고부가가치 완제품 농가공품을 생산하는 사명을 실천하고 있습니다.'
                   : isKhmer
                   ? 'យើងមានបេសកកម្មផ្លាស់ប្តូរពីការនាំចេញគ្រាប់ឆៅតម្លៃទាប ទៅជាការផលិតកសិផលសម្រេចដែលមានតម្លៃបន្ថែមខ្ពស់ ដោយអនុវត្តតាម គោលការណ៍អនាម័យល្អ (GHP) និង ផលិតកម្មល្អ (GMP) ហើយកំពុងត្រៀមខ្លួនឆ្ពោះទៅរកវិញ្ញាបនបត្រ HACCP។'
@@ -1034,25 +1140,25 @@ Sent via mayanyenterprise.com storefront`;
           <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 w-full md:w-auto shrink-0">
             <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-left space-y-1 sm:min-w-[220px]">
               <div className="text-[10px] font-mono uppercase font-bold text-amber-800">
-                {isKorean ? '창업자 및 총괄대표' : isKhmer ? 'ស្ថាបនិក & អគ្គនាយិកា' : 'Founder & CEO'}
+                {isJapanese ? '創業者 & 最高経営責任者' : isKorean ? '창업자 및 총괄대표' : isKhmer ? 'ស្ថាបនិក & អគ្គនាយិកា' : 'Founder & CEO'}
               </div>
               <div className="text-base font-extrabold text-slate-900 font-sans">
-                {isKorean ? '마얀 삼 (Mayany SAM)' : 'សំ ម៉ាយ៉ានី (Mayany SAM)'}
+                {isJapanese ? 'マヤン・サム (Mayany SAM)' : isKorean ? '마얀 삼 (Mayany SAM)' : 'សំ ម៉ាយ៉ានី (Mayany SAM)'}
               </div>
               <div className="text-[11px] text-amber-900 leading-tight">
-                {isKorean ? '캄보디아 스타트업 런치패드 선정 창업가' : isKhmer ? 'សហគ្រិនស្រ្តីឆ្នើមក្នុងវិស័យកសិ-កែច្នៃ' : 'Cambodia Startup Launchpad Featured Founder'}
+                {isJapanese ? 'カンボジア・スタートアップ・ローンチパッド選出創業者' : isKorean ? '캄보디아 스타트업 런치패드 선정 창업가' : isKhmer ? 'សហគ្រិនស្រ្តីឆ្នើមក្នុងវិស័យកសិ-កែច្នៃ' : 'Cambodia Startup Launchpad Featured Founder'}
               </div>
             </div>
 
             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-left space-y-1 sm:min-w-[220px]">
               <div className="text-[10px] font-mono uppercase font-bold text-emerald-800">
-                {isKorean ? '원산지 및 생산 기지' : isKhmer ? 'ប្រភពកសិដ្ឋាន & រោងចក្រ' : 'Origins & Processing'}
+                {isJapanese ? '原産地および加工拠点' : isKorean ? '원산지 및 생산 기지' : isKhmer ? 'ប្រភពកសិដ្ឋាន & រោងចក្រ' : 'Origins & Processing'}
               </div>
               <div className="text-xs font-bold text-slate-900 font-sans">
-                {isKorean ? '캄퐁톰 & 캄폿 농가 → 프놈펜 시설' : isKhmer ? 'កំពង់ធំ & កំពត → រោងចក្រភ្នំពេញ' : 'Kampong Thom & Kampot → Phnom Penh'}
+                {isJapanese ? 'コンポントム＆カンポット農家 → プノンペン加工施設' : isKorean ? '캄퐁톰 & 캄폿 농가 → 프놈펜 시설' : isKhmer ? 'កំពង់ធំ & កំពត → រោងចក្រភ្នំពេញ' : 'Kampong Thom & Kampot → Phnom Penh'}
               </div>
               <div className="text-[11px] text-emerald-800 leading-tight">
-                {isKorean ? 'EUDR 산림보호 & CS 001 국가 품질 인증' : isKhmer ? 'ស្តង់ដារជាតិ CS 001 & EUDR មិនកាប់ព្រៃឈើ' : 'EUDR Deforestation-Free & CS 001'}
+                {isJapanese ? 'EUDR森林保護＆CS 001国家品質認証準拠' : isKorean ? 'EUDR 산림보호 & CS 001 국가 품질 인증' : isKhmer ? 'ស្តង់ដារជាតិ CS 001 & EUDR មិនកាប់ព្រៃឈើ' : 'EUDR Deforestation-Free & CS 001'}
               </div>
             </div>
           </div>
@@ -1063,7 +1169,9 @@ Sent via mayanyenterprise.com storefront`;
           <div className="flex items-center gap-2">
             <Sparkles size={18} className="text-amber-500" />
             <h3 className="text-lg sm:text-xl font-bold text-slate-900">
-              {isKorean 
+              {isJapanese
+                ? 'マヤン・エンタープライズの4つの基本理念'
+                : isKorean 
                 ? '마얀 엔터프라이즈의 4대 핵심 가치 및 차별점' 
                 : isKhmer 
                 ? 'សសរស្តម្ភទាំង ៤ នៃគុណតម្លៃសហគ្រាស ម៉ាយ៉ានី' 
@@ -1078,10 +1186,12 @@ Sent via mayanyenterprise.com storefront`;
                 <Users size={20} />
               </div>
               <h4 className="text-sm font-bold text-slate-900">
-                {isKorean ? '1. 직접 농가 계약 & 공정무역' : isKhmer ? '១. ទិញផ្ទាល់ពីកសិករ & យុត្តិធម៌' : '1. Direct Farm Fair Trade'}
+                {isJapanese ? '1. 農家直接契約＆フェアトレード' : isKorean ? '1. 직접 농가 계약 & 공정무역' : isKhmer ? '១. ទិញផ្ទាល់ពីកសិករ & យុត្តិធម៌' : '1. Direct Farm Fair Trade'}
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                {isKorean
+                {isJapanese
+                  ? 'コンポントム州の小規模農家組合と直接契約し、仲買人を介さず農家に市場価格より+20〜30%高い公正な対価を支払い、持続可能な農村の生活を支援しています。'
+                  : isKorean
                   ? '캄퐁톰(Kampong Thom) 소농 협동조합과 직계약하여 중간 상인 착취를 배제하고, 농가에 시세 대비 20~30% 높은 정당한 대가를 지급하여 지속 가능한 농촌 생계를 보장합니다.'
                   : isKhmer
                   ? 'សហការទិញផ្ទាល់ពីសហគមន៍កសិករខេត្តកំពង់ធំ និងកំពត ដោយមិនឆ្លងកាត់ឈ្មួញកណ្តាល ផ្តល់តម្លៃលើសទីផ្សារ +២០% ទៅ +៣០% ដើម្បីលើកកម្ពស់ជីវភាពកសិករជនបទ។'
@@ -1095,10 +1205,12 @@ Sent via mayanyenterprise.com storefront`;
                 <Award size={20} />
               </div>
               <h4 className="text-sm font-bold text-slate-900">
-                {isKorean ? '2. 정품 캄폿 GI 흑후추' : isKhmer ? '២. ម្រេចខ្មៅកំពត GI សុទ្ធ' : '2. 100% Authentic GI Pepper'}
+                {isJapanese ? '2. カンポットGI真正黒胡椒' : isKorean ? '2. 정품 캄폿 GI 흑후추' : isKhmer ? '២. ម្រេចខ្មៅកំពត GI សុទ្ធ' : '2. 100% Authentic GI Pepper'}
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                {isKorean
+                {isJapanese
+                  ? '世界的に高い評価を受けるカンボジア地理的表示（PGI）認証のカンポット黒胡椒と天然カンポット海塩を使用し、豊かな芳香と深みのある温かい辛さを生み出します。'
+                  : isKorean
                   ? '세계적으로 인정받는 캄보디아 지리적표시(PGI) 인증 정품 캄폿 흑후추와 천연 캄폿 바다 소금을 사용하여 풍부한 아로마와 깔끔하고 깊은 매운맛을 완성합니다.'
                   : isKhmer
                   ? 'ប្រើប្រាស់ម្រេចខ្មៅកំពតពិតប្រាកដដែលទទួលស្គាល់ដោយសម្ព័ន្ធផលិតផលសម្គាល់ភូមិសាស្ត្រទំនិញ (GI) និងអំបិលសមុទ្រកំពតធម្មជាតិ ផ្តល់ក្លិនក្រអូបឈ្ងុយ និងរសជាតិដិតជាប់មាត់។'
@@ -1112,10 +1224,12 @@ Sent via mayanyenterprise.com storefront`;
                 <Coffee size={20} />
               </div>
               <h4 className="text-sm font-bold text-slate-900">
-                {isKorean ? '3. 100% 순수 캐슈 드링크 & 파우더' : isKhmer ? '៣. ម្សៅ & ទឹកដោះគោស្វាយចន្ទី ១០០%' : '3. 100% Pure Cashew Drink & Flour'}
+                {isJapanese ? '3. 100%純粋カシューミルク＆パウダー' : isKorean ? '3. 100% 순수 캐슈 드링크 & 파우더' : isKhmer ? '៣. ម្សៅ & ទឹកដោះគោស្វាយចន្ទី ១០០%' : '3. 100% Pure Cashew Drink & Flour'}
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                {isKorean
+                {isJapanese
+                  ? '添加物、乳化剤、パーム油を一切加えず、100%純粋な低温微粉末カシューパウダーと天然カシューミルクを開発。飲料やコーヒーに最適なヘルシーな植物性栄養をお届けします。'
+                  : isKorean
                   ? '첨가제, 유화제, 팜유가 전혀 들어가지 않은 100% 순수 냉압착 캐슈 파우더와 천연 캐슈 드링크로, 커피와 음료를 위한 건강하고 고소한 식물성 영양을 제공합니다.'
                   : isKhmer
                   ? 'ស្រាវជ្រាវម្សៅ និងទឹកដោះគោគ្រាប់ស្វាយចន្ទីធម្មជាតិ ១០០% គ្មានជាតិគីមី គ្មានសារធាតុរក្សាទុក សម្រាប់ឆុងភេសជ្ជៈ និងកាហ្វេ ជំនួសទឹកដោះគោសត្វយ៉ាងឈ្ងុយឆ្ងាញ់ និងផ្តល់សុខភាពល្អ។'
@@ -1129,10 +1243,12 @@ Sent via mayanyenterprise.com storefront`;
                 <ShieldCheck size={20} />
               </div>
               <h4 className="text-sm font-bold text-slate-900">
-                {isKorean ? '4. 디지털 QR 여권 이력추적' : isKhmer ? '៤. កូដ QR Passport ពិនិត្យប្រភព' : '4. QR Verifiable Passport'}
+                {isJapanese ? '4. デジタルQRパスポート追跡' : isKorean ? '4. 디지털 QR 여권 이력추적' : isKhmer ? '៤. កូដ QR Passport ពិនិត្យប្រភព' : '4. QR Verifiable Passport'}
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
-                {isKorean
+                {isJapanese
+                  ? 'CashewTraceプロトコルにより、すべてのボトルやパウチで農場のGPS位置、EU森林伐採防止規則（EUDR）準拠、水分含有量検査（4.5%以下）を即座に確認できます。'
+                  : isKorean
                   ? '캐슈트레이스(CashewTrace) 프로토콜을 통해 모든 병과 파우치마다 농장 GPS 위치, EU 산림벌채방지규정(EUDR) 적합성, 수분율 검사 결과를 스마트폰으로 투명하게 확인합니다.'
                   : isKhmer
                   ? 'គ្រប់ដប និងកញ្ចប់ទាំងអស់មានភ្ជាប់កូដ QR CashewTrace Passport ដែលអនុញ្ញាតឱ្យពិនិត្យមើលកូអរដោនេចម្ការ ការមិនកាប់ព្រៃឈើ (EUDR) និងកម្រិតសំណើមបានភ្លាមៗ។'
@@ -1146,10 +1262,12 @@ Sent via mayanyenterprise.com storefront`;
         <div className="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-white rounded-2xl p-6 sm:p-8 space-y-6">
           <div className="space-y-1">
             <span className="text-xs font-mono font-bold tracking-wider text-amber-400 uppercase">
-              {isKorean ? '글로벌 시장의 관심' : isKhmer ? 'ការចាប់អារម្មណ៍ពីទីផ្សារអន្តរជាតិ' : 'INTERNATIONAL MARKET INTEREST'}
+              {isJapanese ? '国際市場での高い評価' : isKorean ? '글로벌 시장의 관심' : isKhmer ? 'ការចាប់អារម្មណ៍ពីទីផ្សារអន្តរជាតិ' : 'INTERNATIONAL MARKET INTEREST'}
             </span>
             <h3 className="text-xl sm:text-2xl font-bold text-white leading-snug">
-              {isKorean 
+              {isJapanese
+                ? '韓国のバイヤー・投資家が試飲し、英国へサンプルを届け、カンボジア国家機関の支援を受けています'
+                : isKorean 
                 ? '한국 바이어와 투자자가 당사 제품을 시음하고, 영국으로 제품 샘플이 전달되었으며, 국가 기관의 지원을 받고 있습니다' 
                 : isKhmer 
                 ? 'អ្នកទិញ និងវិនិយោគិនកូរ៉េបានភ្លក់ផលិតផលរបស់យើង ផលិតផលត្រូវបានផ្ញើទៅចក្រភពអង់គ្លេស ហើយយើងទទួលបានការគាំទ្រពីស្ថាប័នជាតិ' 
@@ -1163,11 +1281,13 @@ Sent via mayanyenterprise.com storefront`;
               <div className="flex items-center gap-2">
                 <span className="text-lg">🇰🇷</span>
                 <span className="font-bold text-amber-300 text-sm">
-                  {isKhmer ? 'កូរ៉េខាងត្បូង (សេអ៊ូល)' : isKorean ? '대한민국 서울' : 'South Korea (Seoul)'}
+                  {isJapanese ? '大韓民国（ソウル）' : isKhmer ? 'កូរ៉េខាងត្បូង (សេអ៊ូល)' : isKorean ? '대한민국 서울' : 'South Korea (Seoul)'}
                 </span>
               </div>
               <p className="text-slate-300 leading-relaxed">
-                {isKorean
+                {isJapanese
+                  ? 'ソウルにて韓国スタートアップ投資家が当社の100%純粋カシューパウダーを温かいコーヒーに混ぜて試飲し、大変好評をいただきました。韓国市場ではまだカシューパウダーを見たことがないと絶賛されました。'
+                  : isKorean
                   ? '서울에서 한 한국 스타트업 투자자가 당사의 100% 순수 캐슈 파우더를 직접 따뜻한 커피에 타서 시음한 후 매우 만족해했습니다. 그는 한국에서는 아직 캐슈 파우더를 본 적이 없다고 전했습니다.'
                   : isKhmer
                   ? 'នៅទីក្រុងសេអ៊ូល អ្នកវិនិយោគលើសហគ្រាសថ្មីៗជនជាតិកូរ៉េម្នាក់ បានភ្លក្សម្សៅគ្រាប់ស្វាយចន្ទី ១០០% របស់យើង និងបានដាក់លាយក្នុងកាហ្វេក្តៅរបស់គាត់ផ្ទាល់ ហើយបានចូលចិត្តជាខ្លាំង។ គាត់ប្រាប់ថា គាត់មិនទាន់បានឃើញមានម្សៅស្វាយចន្ទីនៅកូរ៉េនៅឡើយទេ។'
@@ -1180,11 +1300,13 @@ Sent via mayanyenterprise.com storefront`;
               <div className="flex items-center gap-2">
                 <span className="text-lg">🇬🇧</span>
                 <span className="font-bold text-cyan-300 text-sm">
-                  {isKhmer ? 'ចក្រភពអង់គ្លេស (ទីក្រុងឡុងដ៍)' : isKorean ? '영국 런던' : 'United Kingdom (London)'}
+                  {isJapanese ? '英国（ロンドン）' : isKhmer ? 'ចក្រភពអង់គ្លេស (ទីក្រុងឡុងដ៍)' : isKorean ? '영국 런던' : 'United Kingdom (London)'}
                 </span>
               </div>
               <p className="text-slate-300 leading-relaxed">
-                {isKorean
+                {isJapanese
+                  ? 'ヌオン（Ms. Nuon）女史が、ロンドンの名門クラブへギフトおよび試飲用サンプルとして紹介するため、マヤン・エンタープライズの100%純粋カシューパウダー、チリカシューナッツ、カンポットGI黒胡椒カシューナッツを選定しました。'
+                  : isKorean
                   ? '누온(Ms. Nuon) 여사는 영국 런던의 명문 클럽에 선물 및 시음용 샘플로 소개하기 위해 សហគ្រាស ម៉ាយ៉ានី(MAYANY Enterprise)의 100% 순수 캐슈 파우더, 매콤 칠리 캐슈넛, 캄폿 GI 흑후추 코팅 캐슈넛을 직접 선정하였습니다.'
                   : isKhmer
                   ? 'លោកស្រីនួន បានជ្រើសរើសផលិតផលរបស់សហគ្រាស ម៉ាយ៉ានី រួមមាន ម្សៅគ្រាប់ស្វាយចន្ទីសុទ្ធ ១០០% គ្រាប់ស្វាយចន្ទីស្រោបម្ទេសហឹរស្រួយ និងគ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត ដើម្បីណែនាំដល់ក្លឹបដ៏ល្បីមួយនៅទីក្រុងឡុងដ៍ ប្រទេសអង់គ្លេស ជាអំណោយ និងជាគំរូសម្រាប់សាកល្បង។'
@@ -1199,7 +1321,9 @@ Sent via mayanyenterprise.com storefront`;
                 <span className="font-bold text-emerald-300 text-sm">Khmer Enterprise & FTC / MISTI</span>
               </div>
               <p className="text-slate-300 leading-relaxed">
-                {isKorean
+                {isJapanese
+                  ? 'マヤン・エンタープライズはKhmer Enterprise（カンボジア政府起業支援機関）の食品安全基準プログラムに参加し、韓・カンボジア食品加工TASKセンター（FTC）にて100%純粋カシューパウダーを生産しています。'
+                  : isKorean
                   ? 'MAYANY Enterprise는 크메르 엔터프라이즈(Khmer Enterprise)의 식품 안전 표준 프로그램에 참여하고 있으며, 한-캄 식품가공 TASK 센터(FTC)에서 100% 순수 캐슈 파우더를 생산하고 있습니다.'
                   : isKhmer
                   ? 'MAYANY Enterprise ចូលរួមកម្មវិធីស្តង់ដារសុវត្ថិភាពអាហាររបស់សហគ្រិនខ្មែរ (Khmer Enterprise) ហើយផលិតម្សៅគ្រាប់ស្វាយចន្ទី ១០០% នៅមជ្ឈមណ្ឌលបច្ចេកវិទ្យាកែឆ្នៃអាហារ កម្ពុជា-កូរ៉េ (FTC)។'
@@ -1214,7 +1338,7 @@ Sent via mayanyenterprise.com storefront`;
           <div className="bg-slate-100 px-4 py-2.5 font-bold text-slate-800 flex items-center justify-between border-b border-slate-200">
             <span className="flex items-center gap-1.5">
               <FileText size={14} className="text-slate-600" />
-              <span>{isKorean ? '기업 개요 요약 (Fact Sheet)' : isKhmer ? 'ព័ត៌មានសង្ខេបសហគ្រាស (Company Fact Sheet)' : 'Company Fact Sheet & Specifications'}</span>
+              <span>{isJapanese ? '企業概要（Fact Sheet）' : isKorean ? '기업 개요 요약 (Fact Sheet)' : isKhmer ? 'ព័ត៌មានសង្ខេបសហគ្រាស (Company Fact Sheet)' : 'Company Fact Sheet & Specifications'}</span>
             </span>
             <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
               Active Cambodian Legal Entity
@@ -1223,29 +1347,31 @@ Sent via mayanyenterprise.com storefront`;
 
           <div className="divide-y divide-slate-100 bg-white">
             <div className="grid grid-cols-1 sm:grid-cols-3 p-3 gap-1">
-              <span className="font-bold text-slate-500">{isKorean ? '기업명' : isKhmer ? 'ឈ្មោះសហគ្រាស' : 'Enterprise Name'}:</span>
+              <span className="font-bold text-slate-500">{isJapanese ? '企業名' : isKorean ? '기업명' : isKhmer ? 'ឈ្មោះសហគ្រាស' : 'Enterprise Name'}:</span>
               <span className="sm:col-span-2 font-semibold text-slate-900">
                 {isKhmer ? 'សហគ្រាស ម៉ាយ៉ានី (MAYANY Enterprise)' : 'MAYANY Enterprise (សហគ្រាស ម៉ាយ៉ានី)'}
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 p-3 gap-1">
-              <span className="font-bold text-slate-500">{isKorean ? '대표자 / 창업자' : isKhmer ? 'ស្ថាបនិក & តំណាង' : 'Founder & CEO'}:</span>
+              <span className="font-bold text-slate-500">{isJapanese ? '創業者 / 代表者' : isKorean ? '대표자 / 창업자' : isKhmer ? 'ស្ថាបនិក & តំណាង' : 'Founder & CEO'}:</span>
               <span className="sm:col-span-2 font-semibold text-slate-900">
-                {isKorean ? '마얀 삼 (Mayany SAM)' : 'សំ ម៉ាយ៉ានី (Mayany SAM)'}
+                {isJapanese ? 'マヤン・サム (Mayany SAM)' : isKorean ? '마얀 삼 (Mayany SAM)' : 'សំ ម៉ាយ៉ានី (Mayany SAM)'}
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 p-3 gap-1">
-              <span className="font-bold text-slate-500">{isKorean ? '가공 시설 및 본사' : isKhmer ? 'ទីតាំងរោងចក្រ & ការិយាល័យ' : 'Processing Facility'}:</span>
+              <span className="font-bold text-slate-500">{isJapanese ? '加工施設および本社' : isKorean ? '가공 시설 및 본사' : isKhmer ? 'ទីតាំងរោងចក្រ & ការិយាល័យ' : 'Processing Facility'}:</span>
               <span className="sm:col-span-2 text-slate-800">Phnom Penh, Kingdom of Cambodia</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 p-3 gap-1">
-              <span className="font-bold text-slate-500">{isKorean ? '원물 산지 파트너십' : isKhmer ? 'ប្រភពកសិដ្ឋានចម្ការ' : 'Farm Sourcing'}:</span>
+              <span className="font-bold text-slate-500">{isJapanese ? '原料産地提携' : isKorean ? '원물 산지 파트너십' : isKhmer ? 'ប្រភពកសិដ្ឋានចម្ការ' : 'Farm Sourcing'}:</span>
               <span className="sm:col-span-2 text-slate-800">Kampong Thom Province (Cashews) & Kampot Province (PGI Black Pepper & Sea Salt)</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 p-3 gap-1">
-              <span className="font-bold text-slate-500">{isKorean ? '주요 제품군' : isKhmer ? 'ផលិតផលចម្បង' : 'Core Product Lines'}:</span>
+              <span className="font-bold text-slate-500">{isJapanese ? '主要製品ライン' : isKorean ? '주요 제품군' : isKhmer ? 'ផលិតផលចម្បង' : 'Core Product Lines'}:</span>
               <span className="sm:col-span-2 text-slate-800">
-                {isKorean 
+                {isJapanese
+                  ? 'プレミアムローストカシューナッツ（黒胡椒、シュガー、チリ）、100%純粋バリスタ用カシューナッツパウダー、天然生カシューミルク、本場カンポットGI黒胡椒'
+                  : isKorean 
                   ? '프리미엄 로스팅 캐슈넛 (흑후추, 당코팅, 칠리), 100% 순수 바리스타 캐슈넛 파우더, 천연 캐슈 밀크, 정품 캄폿 GI 흑후추'
                   : isKhmer 
                   ? 'គ្រាប់ស្វាយចន្ទីលីង (ម្រេចខ្មៅកំពត, ស្រោបស្ករ, ស្រោបម្ទេស), ម្សៅគ្រាប់ស្វាយចន្ទីសុទ្ធ ១០០%, ទឹកដោះគោស្វាយចន្ទីធម្មជាតិ, ម្រេចខ្មៅកំពត GI'
@@ -1253,11 +1379,11 @@ Sent via mayanyenterprise.com storefront`;
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 p-3 gap-1">
-              <span className="font-bold text-slate-500">{isKorean ? '품질 인증 및 표준' : isKhmer ? 'ស្តង់ដារគុណភាព & អនុលោមភាព' : 'Standards & Compliance'}:</span>
+              <span className="font-bold text-slate-500">{isJapanese ? '品質基準および認証' : isKorean ? '품질 인증 및 표준' : isKhmer ? 'ស្តង់ដារគុណភាព & អនុលោមភាព' : 'Standards & Compliance'}:</span>
               <span className="sm:col-span-2 text-slate-800">CS 001 Cambodian National Standard, PGI Kampot (KPPA), EUDR Deforestation-Free, CashewTrace QR Passport</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 p-3 gap-1">
-              <span className="font-bold text-slate-500">{isKorean ? '공식 직통 연락처' : isKhmer ? 'ទំនាក់ទំនងផ្លូវការ' : 'Official Direct Desk'}:</span>
+              <span className="font-bold text-slate-500">{isJapanese ? '公式直通窓口' : isKorean ? '공식 직통 연락처' : isKhmer ? 'ទំនាក់ទំនងផ្លូវការ' : 'Official Direct Desk'}:</span>
               <span className="sm:col-span-2 font-mono text-emerald-700 font-bold">
                 Phone & WhatsApp: +855 88 771 2862 • mayany@mayanyenterprise.com
               </span>
@@ -1272,14 +1398,16 @@ Sent via mayanyenterprise.com storefront`;
           </div>
           <div className="space-y-1">
             <p className="text-xs sm:text-sm italic leading-relaxed text-amber-950 font-serif">
-              {isKorean
+              {isJapanese
+                ? '"私たちは単にカシューナッツを加工するだけでなく、カンボジアの農産物の価値を高め、農家の生活を支え、地域の雇用を創出し、カンボジアの真の豊かな味わいを世界に届けることを目指しています。"'
+                : isKorean
                 ? '"우리는 단순한 캐슈넛 가공에 그치지 않고, 캄보디아 농산물의 가치를 높이고 농민들의 생계를 지원하며 지역 일자리를 창출하고, 캄보디아 본연의 진정한 풍미를 세계에 전하는 것을 목표로 하고 있습니다."'
                 : isKhmer
                 ? '"យើងមិនត្រឹមតែកែច្នៃគ្រាប់ស្វាយចន្ទីប៉ុណ្ណោះទេ ប៉ុន្តែយើងកំពុងខិតខំលើកកម្ពស់តម្លៃនៃផលិតផលកសិកម្មខ្មែរ គាំទ្រជីវភាពកសិករ និងបង្កើតការងារក្នុងស្រុក ហើយមានគោលដៅនាំយករសជាតិដ៏ពិតប្រាកដរបស់កម្ពុជាទៅកាន់ពិភពលោក។"'
                 : '"We do not merely process cashews; we are committed to uplifting the value of Cambodian agricultural produce, supporting farmers\' livelihoods, creating local employment, and bringing the authentic taste of Cambodia to the world."'}
             </p>
             <div className="text-[11px] font-bold text-amber-900 font-sans">
-              — {isKhmer ? 'លោកស្រី សំ ម៉ាយ៉ានី (Mayany SAM) ស្ថាបនិក & អគ្គនាយិកា សហគ្រាស ម៉ាយ៉ានី (MAYANY Enterprise)' : 'Mrs. Mayany SAM, Founder & CEO of MAYANY Enterprise'}
+              — {isJapanese ? 'マヤン・サム（Mayany SAM）創業者兼CEO、マヤン・エンタープライズ' : isKhmer ? 'លោកស្រី សំ ម៉ាយ៉ានី (Mayany SAM) ស្ថាបនិក & អគ្គនាយិកា សហគ្រាស ម៉ាយ៉ានី (MAYANY Enterprise)' : 'Mrs. Mayany SAM, Founder & CEO of MAYANY Enterprise'}
             </div>
           </div>
         </div>
@@ -1292,14 +1420,16 @@ Sent via mayanyenterprise.com storefront`;
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-full text-xs font-mono font-bold uppercase">
               <Phone size={13} className="text-emerald-400" />
               <span>
-                {isKorean ? '공식 직통 주문 및 수출 상담' : isKhmer ? '📞 ទំនាក់ទំនងបញ្ជាទិញផ្ទាល់' : '📞 Direct Order & Export Desk'}
+                {isJapanese ? '📞 公式直通注文・輸出相談デスク' : isKorean ? '공식 직통 주문 및 수출 상담' : isKhmer ? '📞 ទំនាក់ទំនងបញ្ជាទិញផ្ទាល់' : '📞 Direct Order & Export Desk'}
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              {isKorean ? '마얀 엔터프라이즈 직통 주문 및 문의' : isKhmer ? 'ទំនាក់ទំនងបញ្ជាទិញផ្ទាល់ពី សហគ្រាស ម៉ាយ៉ានី' : 'Order Direct from Mayany Enterprise'}
+              {isJapanese ? 'マヤン・エンタープライズ 直通ご注文・お問い合わせ' : isKorean ? '마얀 엔터프라이즈 직통 주문 및 문의' : isKhmer ? 'ទំនាក់ទំនងបញ្ជាទិញផ្ទាល់ពី សហគ្រាស ម៉ាយ៉ានី' : 'Order Direct from Mayany Enterprise'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              {isKorean 
+              {isJapanese
+                ? 'すべての製品は鮮度を保証するため、事前受注生産（Make-to-Order）で製造されます。商業用コンテナ輸出、サンプル注文、カフェ用バリスタパウダー供給など、お気軽にお問い合わせください。'
+                : isKorean 
                 ? '모든 제품은 신선도 유지를 위해 사전 주문 제작(Make-to-Order)으로 생산됩니다. 대량 수출, 샘플 주문, 카페용 바리스타 파우더 공급 등 궁금하신 점은 언제든 직통 연락처로 문의해 주세요.'
                 : isKhmer 
                 ? 'រាល់កសិផលទាំងអស់ត្រូវបានផលិតថ្មីៗតាមការកុម្ម៉ង់ (Make-to-Order) ដើម្បីធានាគុណភាពស្រស់ និងក្លិនឈ្ងុយ។ សម្រាប់ព័ត៌មានបន្ថែម ឬកុម្ម៉ង់ទិញជាដុំ និងរាយ សូមទាក់ទងមកយើងខ្ញុំដោយផ្ទាល់។'
@@ -1315,7 +1445,7 @@ Sent via mayanyenterprise.com storefront`;
             className="py-3.5 px-6 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2.5 transition shadow-xl hover:scale-105 cursor-pointer shrink-0"
           >
             <MessageCircle size={20} />
-            <span>{isKorean ? 'WhatsApp 상담 / 주문하기' : isKhmer ? 'Chat on WhatsApp (កុម្ម៉ង់ភ្លាមៗ)' : 'Chat on WhatsApp'}</span>
+            <span>{isJapanese ? 'WhatsAppで相談・注文する' : isKorean ? 'WhatsApp 상담 / 주문하기' : isKhmer ? 'Chat on WhatsApp (កុម្ម៉ង់ភ្លាមៗ)' : 'Chat on WhatsApp'}</span>
           </a>
         </div>
 
@@ -1327,7 +1457,7 @@ Sent via mayanyenterprise.com storefront`;
               <Phone size={20} />
             </div>
             <div>
-              <div className="text-[11px] text-slate-400 font-semibold">{isKorean ? '직통 전화 / 텔레그램' : isKhmer ? 'លេខទូរស័ព្ទ / តេឡេក្រាម' : 'Direct Phone'}</div>
+              <div className="text-[11px] text-slate-400 font-semibold">{isJapanese ? '直通電話 / Telegram' : isKorean ? '직통 전화 / 텔레그램' : isKhmer ? 'លេខទូរស័ព្ទ / តេឡេក្រាម' : 'Direct Phone'}</div>
               <a href="tel:+855887712862" className="text-sm font-bold text-white font-mono hover:text-emerald-400 transition">
                 +855 88 771 2862
               </a>
@@ -1353,7 +1483,7 @@ Sent via mayanyenterprise.com storefront`;
               <Facebook size={20} />
             </div>
             <div className="min-w-0">
-              <div className="text-[11px] text-slate-400 font-semibold">{isKorean ? '공식 페이스북' : isKhmer ? 'ទំព័រ Facebook ផ្លូវការ' : 'Official Facebook'}</div>
+              <div className="text-[11px] text-slate-400 font-semibold">{isJapanese ? '公式Facebook' : isKorean ? '공식 페이스북' : isKhmer ? 'ទំព័រ Facebook ផ្លូវការ' : 'Official Facebook'}</div>
               <a 
                 href="https://www.facebook.com/share/p/18sWyRnWDV/" 
                 target="_blank" 
@@ -1371,7 +1501,7 @@ Sent via mayanyenterprise.com storefront`;
               <Mail size={18} />
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-[10px] sm:text-[11px] text-slate-400 font-semibold">{isKorean ? '공식 이메일' : isKhmer ? 'អ៊ីមែលផ្លូវការ' : 'Official Email'}</div>
+              <div className="text-[10px] sm:text-[11px] text-slate-400 font-semibold">{isJapanese ? '公式Eメール' : isKorean ? '공식 이메일' : isKhmer ? 'អ៊ីមែលផ្លូវការ' : 'Official Email'}</div>
               <a 
                 href="mailto:mayany@mayanyenterprise.com" 
                 className="text-[11px] sm:text-xs font-mono font-bold text-white hover:text-emerald-400 transition block break-all leading-tight"
@@ -1388,7 +1518,9 @@ Sent via mayanyenterprise.com storefront`;
           <div className="flex items-center gap-2">
             <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
             <span>
-              {isKorean
+              {isJapanese
+                ? 'EUDR森林伐採防止規則準拠 • CS 001国家品質基準 • 受注生産の新鮮ロット'
+                : isKorean
                 ? 'EUDR 산림벌채방지규정 준수 • CS 001 국가 품질 인증 • Make-to-Order 신선 배치'
                 : isKhmer
                 ? 'អនុលោមភាព EUDR មិនកាប់ព្រៃឈើ • ស្តង់ដារជាតិ CS 001 • ផលិតថ្មីៗតាមការកុម្ម៉ង់'
@@ -1404,7 +1536,7 @@ Sent via mayanyenterprise.com storefront`;
                 title="Download verified site archive to deploy on cashewtrace.com / Cloudflare Pages"
               >
                 <span>🚀</span>
-                <span>{isKhmer ? 'ផ្សាយផ្ទាល់លើ cashewtrace.com' : 'Deploy to cashewtrace.com'}</span>
+                <span>{isJapanese ? 'cashewtrace.comに公開' : isKhmer ? 'ផ្សាយផ្ទាល់លើ cashewtrace.com' : 'Deploy to cashewtrace.com'}</span>
               </button>
             )}
             {onOpenPackaging && (
@@ -1415,7 +1547,7 @@ Sent via mayanyenterprise.com storefront`;
                 title="Open 13-Step Packaging Label Studio"
               >
                 <span>🏷️</span>
-                <span>{isKhmer ? 'ស្ទូឌីយោស្លាកវេចខ្ចប់ ១៣ ជំហាន (CS 001)' : '13-Step Packaging Studio'}</span>
+                <span>{isJapanese ? '13工程包装ラベルスタジオ (CS 001)' : isKhmer ? 'ស្ទូឌីយោស្លាកវេចខ្ចប់ ១៣ ជំហាន (CS 001)' : '13-Step Packaging Studio'}</span>
               </button>
             )}
             <span className="font-mono text-[11px] text-slate-500">
@@ -1446,7 +1578,7 @@ Sent via mayanyenterprise.com storefront`;
               </div>
               <div className="text-left">
                 <div className="text-xs text-slate-400">
-                  {isKorean ? '장바구니 총액' : isKhmer ? 'សរុបការកុម្ម៉ង់' : 'Cart Total'}
+                  {isJapanese ? 'カート合計' : isKorean ? '장바구니 총액' : isKhmer ? 'សរុបការកុម្ម៉ង់' : 'Cart Total'}
                 </div>
                 <div className="text-sm font-extrabold font-mono text-emerald-400">
                   {formatPrice(totalCartUsd)}
@@ -1518,7 +1650,7 @@ Sent via mayanyenterprise.com storefront`;
                   <div className="flex items-center gap-2">
                     <ShoppingBag className="w-5 h-5 text-emerald-600" />
                     <h2 className="text-lg font-bold text-slate-900">
-                      {isKorean ? '주문 장바구니' : isKhmer ? 'កន្ត្រកកុម្ម៉ង់ទំនិញ' : 'Your Order Desk'}
+                      {isJapanese ? 'ご注文デスク' : isKorean ? '주문 장바구니' : isKhmer ? 'កន្ត្រកកុម្ម៉ង់ទំនិញ' : 'Your Order Desk'}
                     </h2>
                     <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-mono font-bold">
                       {totalCartItems}
@@ -1538,7 +1670,7 @@ Sent via mayanyenterprise.com storefront`;
                     <div className="py-12 text-center text-slate-400 space-y-3">
                       <ShoppingBag size={48} className="mx-auto text-slate-300" />
                       <p className="text-sm">
-                        {isKorean ? '장바구니가 비어 있습니다.' : isKhmer ? 'កន្ត្រករបស់អ្នកមិនទាន់មានទំនិញនៅឡើយទេ' : 'Your cart is empty.'}
+                        {isJapanese ? 'カートは空です。' : isKorean ? '장바구니가 비어 있습니다.' : isKhmer ? 'កន្ត្រករបស់អ្នកមិនទាន់មានទំនិញនៅឡើយទេ' : 'Your cart is empty.'}
                       </p>
                     </div>
                   ) : (
@@ -1546,7 +1678,8 @@ Sent via mayanyenterprise.com storefront`;
                       {Object.entries(cart).map(([id, qty]) => {
                         const product = STORE_PRODUCTS.find((p) => p.id === id);
                         if (!product) return null;
-                        const pName = isJapanese ? (product.nameJa || product.nameEn) : isKorean ? product.nameKo : isKhmer ? product.nameKh : product.nameEn;
+                        const reg = MAYANY_PRODUCT_REGISTRY.find(r => r.id === product.id || r.aliases?.includes(product.id));
+                        const pName = isJapanese ? (product.nameJa || reg?.nameJa || product.nameEn) : isKorean ? product.nameKo : isKhmer ? product.nameKh : product.nameEn;
                         return (
                           <div
                             key={id}
@@ -1594,33 +1727,33 @@ Sent via mayanyenterprise.com storefront`;
                       {/* Checkout Buyer Form */}
                       <form onSubmit={handleSubmitOrder} className="pt-4 border-t border-slate-200 space-y-3 text-left">
                         <div className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                          {isKorean ? '주문자 정보 (Buyer Details)' : isKhmer ? 'ព័ត៌មានអ្នកបញ្ជាទិញ (Buyer Details)' : 'Buyer Details'}
+                          {isJapanese ? 'ご注文者様情報 (Buyer Details)' : isKorean ? '주문자 정보 (Buyer Details)' : isKhmer ? 'ព័ត៌មានអ្នកបញ្ជាទិញ (Buyer Details)' : 'Buyer Details'}
                         </div>
 
                         <div>
                           <label className="text-[11px] font-bold text-slate-600 block mb-1">
-                            {isKorean ? '성함 / 회사명' : isKhmer ? 'ឈ្មោះ / ក្រុមហ៊ុន' : 'Full Name / Company'} *
+                            {isJapanese ? 'お名前 / 貴社名' : isKorean ? '성함 / 회사명' : isKhmer ? 'ឈ្មោះ / ក្រុមហ៊ុន' : 'Full Name / Company'} *
                           </label>
                           <input
                             type="text"
                             required
                             value={customerName}
                             onChange={(e) => setCustomerName(e.target.value)}
-                            placeholder={isKorean ? '예: 김대표 (한국 스타트업)' : isKhmer ? 'ឧ. លោក សុខ' : 'e.g. John Doe / Global Partner'}
+                            placeholder={isJapanese ? '例: 山田 太郎 / 日本貿易会社' : isKorean ? '예: 김대표 (한국 스타트업)' : isKhmer ? 'ឧ. លោក សុខ' : 'e.g. John Doe / Global Partner'}
                             className="w-full text-xs p-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                           />
                         </div>
 
                         <div>
                           <label className="text-[11px] font-bold text-slate-600 block mb-1">
-                            {isKorean ? '연락처 / 왓츠앱' : isKhmer ? 'លេខទូរស័ព្ទ / WhatsApp' : 'Phone / WhatsApp'} *
+                            {isJapanese ? 'お電話番号 / WhatsApp' : isKorean ? '연락처 / 왓츠앱' : isKhmer ? 'លេខទូរស័ព្ទ / WhatsApp' : 'Phone / WhatsApp'} *
                           </label>
                           <input
                             type="text"
                             required
                             value={customerPhone}
                             onChange={(e) => setCustomerPhone(e.target.value)}
-                            placeholder="+855 ... / +82 ..."
+                            placeholder="+855 ... / +81 ... / +82 ..."
                             className="w-full text-xs p-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 font-mono"
                           />
                         </div>
@@ -1628,24 +1761,24 @@ Sent via mayanyenterprise.com storefront`;
                         <div className="grid grid-cols-2 gap-2">
                           <div>
                             <label className="text-[11px] font-bold text-slate-600 block mb-1">
-                              {isKorean ? '배송 국가' : isKhmer ? 'ប្រទេសដឹកជញ្ជូន' : 'Destination'}
+                              {isJapanese ? '配送先国' : isKorean ? '배송 국가' : isKhmer ? 'ប្រទេសដឹកជញ្ជូន' : 'Destination'}
                             </label>
                             <select
                               value={deliveryCountry}
                               onChange={(e) => setDeliveryCountry(e.target.value)}
                               className="w-full text-xs p-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 cursor-pointer"
                             >
+                              <option value="Japan">Japan (日本)</option>
                               <option value="South Korea">South Korea (대한민국)</option>
                               <option value="Cambodia">Cambodia (កម្ពុជា)</option>
                               <option value="United Kingdom">United Kingdom (UK)</option>
-                              <option value="Japan">Japan (日本)</option>
                               <option value="Singapore">Singapore</option>
                               <option value="Other">Other International</option>
                             </select>
                           </div>
                           <div>
                             <label className="text-[11px] font-bold text-slate-600 block mb-1">
-                              {isKorean ? '이메일' : isKhmer ? 'អ៊ីមែល' : 'Email'}
+                              {isJapanese ? 'Eメール' : isKorean ? '이메일' : isKhmer ? 'អ៊ីមែល' : 'Email'}
                             </label>
                             <input
                               type="email"
@@ -1659,20 +1792,20 @@ Sent via mayanyenterprise.com storefront`;
 
                         <div>
                           <label className="text-[11px] font-bold text-slate-600 block mb-1">
-                            {isKorean ? '배송 주소' : isKhmer ? 'អាសយដ្ឋានដឹកជញ្ជូន' : 'Shipping Address'}
+                            {isJapanese ? 'お届け先ご住所' : isKorean ? '배송 주소' : isKhmer ? 'អាសយដ្ឋានដឹកជញ្ជូន' : 'Shipping Address'}
                           </label>
                           <input
                             type="text"
                             value={deliveryAddress}
                             onChange={(e) => setDeliveryAddress(e.target.value)}
-                            placeholder={isKorean ? '서울시 강남구... 또는 프놈펜 배송지' : isKhmer ? 'រាជធានីភ្នំពេញ ឬខេត្ត...' : 'City, Postal code, Street address'}
+                            placeholder={isJapanese ? '東京都千代田区... またはプノンペン市内' : isKorean ? '서울시 강남구... 또는 프놈펜 배송지' : isKhmer ? 'រាជធានីភ្នំពេញ ឬខេត្ត...' : 'City, Postal code, Street address'}
                             className="w-full text-xs p-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                           />
                         </div>
 
                         <div>
                           <label className="text-[11px] font-bold text-slate-600 block mb-1">
-                            {isKorean ? '결제 방식' : isKhmer ? 'វិធីទូទាត់ប្រាក់' : 'Payment Method'}
+                            {isJapanese ? 'お支払い方法' : isKorean ? '결제 방식' : isKhmer ? 'វិធីទូទាត់ប្រាក់' : 'Payment Method'}
                           </label>
                           <select
                             value={paymentPreference}
@@ -1680,13 +1813,13 @@ Sent via mayanyenterprise.com storefront`;
                             className="w-full text-xs p-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 cursor-pointer"
                           >
                             <option value="whatsapp">
-                              {isKorean ? 'WhatsApp 직접 협의 및 인보이스' : isKhmer ? 'ពិភាក្សាផ្ទាល់តាម WhatsApp' : 'Direct Inquiry via WhatsApp'}
+                              {isJapanese ? 'WhatsApp直接相談および請求書' : isKorean ? 'WhatsApp 직접 협의 및 인보이스' : isKhmer ? 'ពិភាក្សាផ្ទាល់តាម WhatsApp' : 'Direct Inquiry via WhatsApp'}
                             </option>
                             <option value="khqr">
-                              {isKorean ? '캄보디아 KHQR (ACLEDA Bank / Bakong 전자결제)' : isKhmer ? 'ស្កេន KHQR (ACLEDA Bank / Bakong / ABA)' : 'Cambodia KHQR (ACLEDA Bank / Bakong)'}
+                              {isJapanese ? 'カンボジア KHQR（ACLEDA Bank / Bakong 電子決済）' : isKorean ? '캄보디아 KHQR (ACLEDA Bank / Bakong 전자결제)' : isKhmer ? 'ស្កេន KHQR (ACLEDA Bank / Bakong / ABA)' : 'Cambodia KHQR (ACLEDA Bank / Bakong)'}
                             </option>
                             <option value="international_wire">
-                              {isKorean ? '해외 외화 송금 (Swift Wire Transfer / L/C)' : isKhmer ? 'ផ្ទេរប្រាក់អន្តរជាតិ (Bank Swift / LC)' : 'International Bank Swift Wire / L/C'}
+                              {isJapanese ? '国際外貨送金（SWIFT電信送金 / 信用状 L/C）' : isKorean ? '해외 외화 송금 (Swift Wire Transfer / L/C)' : isKhmer ? 'ផ្ទេរប្រាក់អន្តរជាតិ (Bank Swift / LC)' : 'International Bank Swift Wire / L/C'}
                             </option>
                           </select>
                         </div>
@@ -1700,7 +1833,7 @@ Sent via mayanyenterprise.com storefront`;
                   <div className="p-6 border-t border-slate-200 bg-slate-50 space-y-3">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-slate-600">
-                        {isKorean ? '총 결제 금액 (USD)' : isKhmer ? 'សរុបប្រាក់ដុល្លារ (USD):' : 'Subtotal (USD):'}
+                        {isJapanese ? '合計金額 (USD):' : isKorean ? '총 결제 금액 (USD)' : isKhmer ? 'សរុបប្រាក់ដុល្លារ (USD):' : 'Subtotal (USD):'}
                       </span>
                       <span className="font-mono font-extrabold text-lg text-slate-900">
                         ${totalCartUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
@@ -1719,7 +1852,7 @@ Sent via mayanyenterprise.com storefront`;
                     ) : (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-slate-600">
-                          {isKorean ? '환산 금액' : 'Converted (' + currency + '):'}
+                          {isJapanese ? '換算金額' : isKorean ? '환산 금액' : 'Converted (' + currency + '):'}
                         </span>
                         <span className="font-mono font-extrabold text-lg text-emerald-700">
                           {formatPrice(totalCartUsd)}
@@ -1735,7 +1868,7 @@ Sent via mayanyenterprise.com storefront`;
                         className="py-3 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow cursor-pointer text-center"
                       >
                         <MessageCircle size={15} />
-                        <span>{isKorean ? '왓츠앱 주문' : isKhmer ? 'កុម្ម៉ង់ WhatsApp' : 'Order WhatsApp'}</span>
+                        <span>{isJapanese ? 'WhatsAppで注文' : isKorean ? '왓츠앱 주문' : isKhmer ? 'កុម្ម៉ង់ WhatsApp' : 'Order WhatsApp'}</span>
                       </a>
 
                       <button
@@ -1745,7 +1878,7 @@ Sent via mayanyenterprise.com storefront`;
                         className="py-3 px-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow cursor-pointer disabled:opacity-50"
                       >
                         <Check size={15} />
-                        <span>{isSubmitting ? '...' : isKorean ? '주문 확정' : isKhmer ? 'កត់ត្រាការទិញ' : 'Confirm Order'}</span>
+                        <span>{isSubmitting ? '...' : isJapanese ? '注文を確定' : isKorean ? '주문 확정' : isKhmer ? 'កត់ត្រាការទិញ' : 'Confirm Order'}</span>
                       </button>
                     </div>
 
@@ -1775,7 +1908,9 @@ Sent via mayanyenterprise.com storefront`;
                   <CheckCircle2 size={32} />
                 </div>
                 <h2 className="text-xl font-extrabold text-slate-900">
-                  {isKorean 
+                  {isJapanese
+                    ? 'ご注文が正常に受け付けられました！'
+                    : isKorean 
                     ? '주문이 성공적으로 접수되었습니다!' 
                     : isKhmer 
                     ? 'ការបញ្ជាទិញត្រូវបានកត់ត្រាជោគជ័យ!' 
@@ -1789,21 +1924,21 @@ Sent via mayanyenterprise.com storefront`;
               {/* Order Details Receipt */}
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 text-xs">
                 <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <span className="text-slate-500">{isKorean ? '주문자:' : 'Buyer:'}</span>
+                  <span className="text-slate-500">{isJapanese ? 'ご注文者様:' : isKorean ? '주문자:' : 'Buyer:'}</span>
                   <span className="font-bold text-slate-800">{orderSubmitted.customerName}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <span className="text-slate-500">{isKorean ? '도착지:' : 'Destination:'}</span>
+                  <span className="text-slate-500">{isJapanese ? '配送先:' : isKorean ? '도착지:' : 'Destination:'}</span>
                   <span className="font-bold text-slate-800">{orderSubmitted.deliveryCountry}</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-200 pb-2">
-                  <span className="text-slate-500">{isKorean ? '총 수량:' : 'Total Items:'}</span>
+                  <span className="text-slate-500">{isJapanese ? '総数量:' : isKorean ? '총 수량:' : 'Total Items:'}</span>
                   <span className="font-bold text-slate-800">
                     {orderSubmitted.items.reduce((s: number, i: any) => s + i.quantity, 0)} units
                   </span>
                 </div>
                 <div className="flex justify-between font-bold text-sm text-emerald-700 pt-1">
-                  <span>{isKorean ? '최종 결제 금액:' : isKhmer ? 'តម្លៃសរុប:' : 'Grand Total:'}</span>
+                  <span>{isJapanese ? '最終お支払い金額:' : isKorean ? '최종 결제 금액:' : isKhmer ? 'តម្លៃសរុប:' : 'Grand Total:'}</span>
                   <div className="text-right">
                     <div>${orderSubmitted.totalUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD</div>
                     {isKhmer ? (
@@ -1824,17 +1959,21 @@ Sent via mayanyenterprise.com storefront`;
                 <div className="font-bold flex items-center gap-1.5">
                   <DollarSign size={14} className="text-amber-700" />
                   <span>
-                    {isKorean ? '결제 및 선적 안내 (Payment & Shipping)' : isKhmer ? 'ព័ត៌មានទូទាត់ប្រាក់ (Payment Methods)' : 'Payment & Settlement Options'}
+                    {isJapanese
+                      ? 'お支払いおよび発送のご案内 (Payment & Shipping)'
+                      : isKorean ? '결제 및 선적 안내 (Payment & Shipping)' : isKhmer ? 'ព័ត៌មានទូទាត់ប្រាក់ (Payment Methods)' : 'Payment & Settlement Options'}
                   </span>
                 </div>
                 <p>
-                  <strong>• Korea, UK & International:</strong> Swift Wire Transfer to Mayany Enterprise account, PayPal invoice, or Letter of Credit (L/C) for commercial containers.
+                  <strong>• Japan, Korea, UK & International:</strong> Swift Wire Transfer to Mayany Enterprise account, PayPal invoice, or Letter of Credit (L/C) for commercial containers.
                 </p>
                 <p>
                   <strong>• Cambodia (KHQR / ACLEDA Bank / Bakong):</strong> Scan ACLEDA Bank KHQR or transfer to Mayany Enterprise official merchant account upon proforma invoice.
                 </p>
                 <p className="text-[11px] text-amber-800 italic">
-                  {isKorean
+                  {isJapanese
+                    ? 'マヤン・エンタープライズ担当チームがWhatsAppまたはお電話(+855 88 771 2862)にて配送日程および梱包ロットをご案内いたします。'
+                    : isKorean
                     ? '마얀 엔터프라이즈 전담팀이 왓츠앱 또는 전화(+855 88 771 2862)로 직접 연락하여 배송 일정 및 포장 LOT을 안내해 드립니다.'
                     : 'Our team will contact you directly on WhatsApp / Phone (+855 88 771 2862) to confirm shipping schedule and packaging LOT.'}
                 </p>
@@ -1849,7 +1988,7 @@ Sent via mayanyenterprise.com storefront`;
                   }}
                   className="flex-1 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-xs transition cursor-pointer text-center"
                 >
-                  {isKorean ? '확인 및 계속 쇼핑하기' : isKhmer ? 'បិទផ្ទាំងនេះ' : 'Done & Continue Browsing'}
+                  {isJapanese ? '完了してショッピングを続ける' : isKorean ? '확인 및 계속 쇼핑하기' : isKhmer ? 'បិទផ្ទាំងនេះ' : 'Done & Continue Browsing'}
                 </button>
               </div>
             </motion.div>
