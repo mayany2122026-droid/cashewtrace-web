@@ -1982,6 +1982,32 @@ export function translateStorageToLanguage(rawStorage: string, targetLang: strin
     return cleanKhmerStorageOnly(rawStorage);
   }
 
+  const lower = rawStorage.toLowerCase();
+  const isRefrigerated =
+    rawStorage.includes('៤°C') ||
+    rawStorage.includes('4°C') ||
+    rawStorage.includes('4℃') ||
+    rawStorage.includes('ទូទឹកកក') ||
+    lower.includes('refrigerat') ||
+    lower.includes('serve hot');
+
+  if (isRefrigerated) {
+    switch (lang) {
+      case 'fr':
+        return 'À déguster chaud, ou à conserver au réfrigérateur en dessous de 4°C. Bien agiter avant de servir et consommer avant la date limite.';
+      case 'ja':
+        return '温めて、または冷蔵（4℃以下）で保存してください。よく振ってからお召し上がりいただき、賞味期限内にお飲みください。';
+      case 'ko':
+        return '따뜻하게 드시거나 4°C 이하에서 냉장 보관하십시오. 드시기 전에 잘 흔들어 주시고 유통기한 내에 섭취하십시오.';
+      case 'de':
+        return 'Warm servieren oder gekühlt unter 4°C lagern. Vor dem Öffnen gut schütteln und vor Ablauf des Verfallsdatums verbrauchen.';
+      case 'zh':
+        return '可热饮或置于4°C以下冷藏保存。饮用前请摇匀，并在保质期内饮用完毕。';
+      default:
+        return 'Serve hot, or keep refrigerated below 4°C. Shake well and consume by the expiry date.';
+    }
+  }
+
   switch (lang) {
     case 'de':
       return 'Kühl und trocken lagern (< 25°C), vor direkter Sonneneinstrahlung schützen. Nach dem Öffnen gut wiederverschließen.';

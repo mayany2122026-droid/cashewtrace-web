@@ -189,6 +189,7 @@ export const CERTIFICATE_LANGUAGES: {
 }[] = [
   { code: 'km', name: 'ភាសាខ្មែរ', nativeName: 'ភាសាខ្មែរ (Khmer - លំនាំដើម)', flag: '🇰🇭' },
   { code: 'en', name: 'English', nativeName: 'English (International / Export)', flag: '🌐' },
+  { code: 'fr', name: 'Français', nativeName: 'Français (France / Francophonie)', flag: '🇫🇷' },
   { code: 'ko', name: '한국어', nativeName: '한국어 (Korea / Export)', flag: '🇰🇷' },
   { code: 'ja', name: '日本語', nativeName: '日本語 (Japan / Export)', flag: '🇯🇵' },
 ];
@@ -936,6 +937,192 @@ export const CERTIFICATE_TRANSLATIONS: Record<string, CertificateTranslation> = 
     labHeavyMetalsLimit: '0.1 mg/kg以下',
     labNonDetectable: '不検出 (<0.01)',
     labPass: '適合 (PASS)',
+  },
+
+  // ==========================================
+  // FRENCH (Français 🇫🇷) - FRANCOPHONIE & EU EXPORT STANDARD
+  // ==========================================
+  fr: {
+    // 1. logo and brand name
+    kingdomHeader: 'ROYAUME DU CAMBODGE',
+    motto: 'Nation • Religion • Roi',
+    brandName: 'MAYANY ENTERPRISE',
+    brandSubtitle: 'Entreprise Agro-Alimentaire Artisanale du Cambodge',
+    certTitle: 'CERTIFICAT TECHNIQUE OFFICIEL CS 001 PRODUIT & EMBALLAGE',
+    certSubtitle: 'Dossier Officiel de Conformité Qualité & Exportation Norme Nationale CS 001:2000',
+    mistiBadge: 'Norme Nationale CS 001:2000 MISTI',
+
+    // 2. product name
+    productNameSectionHeader: 'DÉNOMINATION OFFICIELLE DU PRODUIT',
+    productNameKhmerLabel: 'Nom en Khmer',
+    productNameEnLabel: 'Nom en Anglais',
+    productNameKoLabel: 'Nom en Français',
+
+    // 3. scientific name
+    scientificNameSectionHeader: 'NOM SCIENTIFIQUE (BOTANIQUE)',
+    scientificNameLabel: 'Classification Botanique Internationale',
+    scientificClassification: 'Anacardium occidentale',
+
+    // 4. product description
+    descriptionHeader: 'Description Officielle & Profil Qualité du Produit',
+    descriptionSub: 'Bonnes Pratiques de Fabrication selon CS 001 § 2.2',
+
+    // 5. weight / volume
+    weightHeader: 'Poids Net Nominal & Format d\'Emballage',
+    netWeightLabel: 'Poids Net',
+    weightHeaderGeneral: 'Contenance',
+    weightLabelGeneral: 'Contenance',
+    volumeHeader: 'Volume Net Nominal',
+    netVolumeLabel: 'Volume Net',
+    packagingFormatLabel: 'Format d\'Emballage',
+
+    // 6. ingredient list
+    ingredientsSectionHeader: 'Liste des Ingrédients & Pourcentages Exactes',
+    ingredientsSub: 'Déclaration complète par ordre décroissant (Norme CS 001 Règle 4.3)',
+    fullDeclarationHeader: 'Déclaration Complète des Ingrédients',
+
+    // 7. nutrition fact
+    nutritionHeader: 'Valeurs Nutritionnelles (pour 100 g)',
+    nutritionSub: 'Analysé en laboratoire certifié',
+    energyLabel: 'Énergie',
+    proteinLabel: 'Protéines',
+    totalFatLabel: 'Matières Grasses Totales',
+    saturatedFatLabel: 'Dont Acides Gras Saturés',
+    transFatLabel: 'Acides Gras Trans',
+    cholesterolLabel: 'Cholestérol',
+    totalCarbLabel: 'Glucides Totaux',
+    dietaryFiberLabel: 'Fibres Alimentaires',
+    totalSugarsLabel: 'Dont Sucres',
+    addedSugarsLabel: 'Sucres Ajoutés',
+    sodiumLabel: 'Sodium',
+    saltLabel: 'Sel',
+
+    // 8. health benefits
+    benefitsHeader: 'Bienfaits Nutritionnels & Santé',
+    benefitsBadge: '100% Nutriments Naturels',
+
+    // 9. how to use
+    usageHeader: 'Conseils d\'Utilisation & Dégustation',
+    usageSub: 'Recommandations pour préserver la qualité optimale',
+
+    // 10. storage info
+    storageHeader: 'Conditions de Conservation',
+    storageSub: 'Température et hygrométrie recommandées',
+
+    // 11. allergen info
+    allergenAdvisoryHeader: 'Déclaration Obligatoire des Allergènes',
+    allergenSub: 'Conforme au Codex Alimentarius & Réglementation UE',
+
+    // 12. Product Story
+    storyHeader: 'De la Ferme à Votre Table : Histoire d\'Approvisionnement Durable',
+    storyBadge: '100% Direct Producteurs Partenaires',
+
+    // 13. manufactured by
+    producerHeader: 'Fabricant Officiel & Exportateur',
+    producerNameLabel: 'Nom de l\'Entreprise',
+    producerName: 'Mayany Enterprise',
+
+    // 14. address
+    addressHeader: 'Adresse & Localisation du Site de Production',
+    addressLabel: 'Site de Transformation',
+    addressText: 'Phnom Penh, Royaume du Cambodge',
+    originSourcingLabel: 'Région d\'Origine des Récoltes',
+    originSourcingText: 'Fermes partenaires de la province de Kampong Thom, Royaume du Cambodge',
+
+    // 15. contact info
+    contactHeader: 'Contact Officiel & Service Export',
+    phoneLabel: 'Téléphone / WhatsApp',
+    emailLabel: 'E-mail',
+    websiteLabel: 'Site Officiel',
+    facebookLabel: 'Page Facebook Officielle',
+
+    // 16. mfd date
+    mfdLabel: 'Date de Fabrication (MFD)',
+    mfdSub: 'Imprimée sur l\'étiquette d\'accompagnement (Fabrication à la commande)',
+
+    // 17. exp date
+    expLabel: 'À Consommer de Préférence Avant le (EXP)',
+    shelfLifeLabel: 'Durée de Conservation Officielle',
+    shelfLifeMonthsSuffix: 'mois',
+
+    // 18. Lot number
+    lotLabel: 'Numéro de Lot (LOT / Batch)',
+    lotSub: 'Identifiant unique de traçabilité (Fabrication à la commande)',
+
+    // Secondary Label (2nd Label) Packaging Specification Notice
+    secondLabelNoticeTitle: 'Note Spécifique sur l\'Emballage (2ème Étiquette / Vignette) :',
+    secondLabelNoticeText: 'Le numéro de lot, la date de fabrication (MFD) et la date limite (EXP) sont apposés individuellement par étiquette d\'accompagnement pour chaque lot fabriqué à la commande.',
+    secondLabelJarNotice: 'Pour Bocaux PET / Verre : La 2ème étiquette avec LOT, MFD et EXP est apposée sur le couvercle ou le fond du bocal.',
+    secondLabelPouchNotice: 'Pour Sachets : La 2ème étiquette avec LOT, MFD et EXP est imprimée dans le cadre prévu au dos du sachet.',
+    secondLabelBadge: '2ème Étiquette (Vignette)',
+
+    // 19. barcode
+    barcodeLabel: 'Code-barres GS1 (EAN-13)',
+    barcodeSub: 'Identifiant commercial international standard pour point de vente',
+
+    // 20. product of cambodia & standards
+    originBadge: 'Produit du Cambodge (Product of Cambodia)',
+    productOfCambodiaTitle: 'Origine Cambodge Certifiée Authentique',
+    standardsHeader: 'Normes de Qualité & Conformité Internationale',
+    standardsBadge: 'Certifié CS 001',
+    stdCs001Title: 'Norme Nationale CS 001:2000',
+    stdCs001Sub: 'Certifié MISTI',
+    stdGhpTitle: 'Bonnes Pratiques d\'Hygiène (BPH/GHP)',
+    stdGhpSub: 'Contrôle Sanitaire',
+    stdGmpTitle: 'Bonnes Pratiques de Fabrication (BPF/GMP)',
+    stdGmpSub: 'Conformité Atelier',
+    stdHaccpTitle: 'Protocole HACCP Sécurité Alimentaire',
+    stdHaccpSub: 'Maîtrise des Points Critiques',
+    stdEudrTitle: 'Règlement UE Déforestation (RDUE/EUDR)',
+    stdEudrSub: 'Conforme Export Europe',
+    stdCamGapTitle: 'Bonnes Pratiques Agricoles CamGAP',
+    stdCamGapSub: 'Producteurs de Kampong Thom',
+    complianceIconsHeader: 'Icônes de Conformité Emballage',
+    iconRecyclable: 'Emballage Recyclable',
+    iconAntiDrug: 'Certifié Sans Substances Illicites',
+    iconFoodGrade: 'Contact Alimentaire Sûr',
+    iconNoChemicals: 'Zéro Conservateur Chimique',
+    iconSupportKhmer: 'Soutien aux Producteurs Khmers',
+    verificationHeader: 'Vérification Numérique Officielle du Produit',
+    qrScanNotice: 'Scannez ce code QR avec n\'importe quel smartphone pour vérifier en temps réel la traçabilité de l\'exploitation et la conformité MISTI CS 001.',
+    digitalSealTitle: 'Protocole MISTI',
+    conformanceSealBadge: 'Attestation Officielle de Conformité Qualité',
+    cashewTraceProtocolBadge: 'Traçabilité CashewTrace 2026',
+
+    // Utilities
+    copyBtn: 'Copier le Texte du Certificat',
+    printBtn: 'Imprimer le Certificat (PDF)',
+    closeBtn: 'Fermer',
+    langSelectLabel: 'Choisir la langue du certificat',
+    stampedNotice: 'Vérifiez la date de fabrication (MFD), la date d\'expiration (EXP) et le numéro de lot (LOT) imprimés sur l\'étiquette d\'accompagnement.',
+    stampedBadge: 'Vignette d\'Accompagnement Apposée',
+    printedNotice: 'Étiquette Imprimée',
+    allergenWarningLabel: 'Avertissement Allergènes',
+    qrPassportLabel: 'Passeport Numérique (QR)',
+    standardTitle: 'Norme Nationale du Cambodge CS 001:2000',
+    standardSubtitle: 'Document Technique d\'Emballage du Ministère de l\'Industrie, des Sciences, de la Technologie et de l\'Innovation (MISTI / ISC)',
+    productIdentityTitle: 'IDENTIFICATION DU PRODUIT & CLASSIFICATION BOTANIQUE',
+    botanicalSubtitleFallback: 'Noix de Cajou du Cambodge Sélectionnées (Anacardium occidentale)',
+    batchHeader: 'Spécifications du Lot de Production (Fabrication à la commande)',
+    formulationHeader: 'Déclaration des Ingrédients & Pourcentages (CS 001 § 4.3)',
+    usageLabel: 'Mode d\'Emploi',
+    storageLabel: 'Conservation',
+    labHeader: 'Résultats d\'Analyse Laboratoire Qualité & Sécurité :',
+    labBadge: '100% Conforme aux Normes',
+    labParamHeader: 'Paramètre Analysé',
+    labLimitHeader: 'Seuil Réglementaire (CS 001)',
+    labResultHeader: 'Résultat Mesuré',
+    labStatusHeader: 'Statut',
+    labMoistureLabel: 'Taux d\'Humidité',
+    labMoistureLimit: 'Max 5,0% (masse)',
+    labDefectLabel: 'Cernes & Défauts de Grain',
+    labDefectLimit: 'Max 8,0%',
+    labAflatoxinLabel: 'Aflatoxines Totales (B1+B2+G1+G2)',
+    labAflatoxinLimit: 'Max 4,0 ppb (Norme Codex / UE)',
+    labHeavyMetalsLabel: 'Métaux Lourds (Plomb Pb, Cadmium Cd)',
+    labHeavyMetalsLimit: 'Max 0,1 mg/kg',
+    labNonDetectable: 'Non Détectable (<0,01)',
+    labPass: 'CONFORME (PASS)',
   },
 };
 

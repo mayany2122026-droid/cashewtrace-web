@@ -17,6 +17,7 @@ interface LanguageContextType {
   isEnglish: boolean;
   isKorean: boolean;
   isJapanese: boolean;
+  // Compatibility getters for legacy references
   isKhmer: boolean;
   isGerman: boolean;
   isFrench: boolean;
@@ -75,23 +76,36 @@ const LanguageContext = createContext<LanguageContextType>({
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<AppLanguage>(() => {
     if (typeof window !== 'undefined') {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = (urlParams.get('lang') || urlParams.get('locale') || '').toLowerCase();
+        if (urlLang === 'fr' || urlLang === 'fr-fr') return 'fr';
+        if (urlLang === 'ja' || urlLang === 'jp') return 'ja';
+        if (urlLang === 'ko' || urlLang === 'kr') return 'ko';
+        if (urlLang === 'en') return 'en';
+        if (urlLang === 'km' || urlLang === 'kh') return 'km';
+      } catch (e) {
+        // Ignore URL parsing errors
+      }
+
       const saved = localStorage.getItem('cashewtrace_app_language') as AppLanguage | null;
-      if (saved && (saved === 'en' || saved === 'ko' || saved === 'km' || saved === 'kh' || saved === 'ja')) {
+      if (saved && (saved === 'en' || saved === 'ko' || saved === 'km' || saved === 'kh' || saved === 'ja' || saved === 'fr')) {
         return saved === 'kh' ? 'km' : saved;
       }
     }
-    return 'km';
+    return 'km'; // Default to Khmer as requested
   });
 
   const setLanguage = (lang: AppLanguage) => {
     const targetLang: AppLanguage = (lang === 'km' || lang === 'kh') 
       ? 'km' 
-      : (lang === 'ko' ? 'ko' : (lang === 'ja' ? 'ja' : 'en'));
+      : (lang === 'ko' ? 'ko' : (lang === 'ja' ? 'ja' : (lang === 'fr' ? 'fr' : 'en')));
     setLanguageState(targetLang);
     if (typeof window !== 'undefined') {
       localStorage.setItem('cashewtrace_app_language', targetLang);
       document.documentElement.lang = targetLang;
 
+      // Sync with DailyPA / MyDailyPA language & currency
       localStorage.setItem('dailypa_lang', targetLang);
 
       const meta = SUPPORTED_LANGUAGES.find(l => l.code === targetLang) || defaultMeta;
@@ -137,7 +151,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const isJapanese = language === 'ja';
   const isKhmer = language === 'km' || language === 'kh';
   const isGerman = false;
-  const isFrench = false;
+  const isFrench = language === 'fr';
   const isVietnamese = false;
   const isThai = false;
   const isIndonesian = false;
@@ -165,11 +179,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return dict[key] || TRANSLATIONS.en[key] || '';
   };
 
+  /**
+   * Universal translation helper:
+   * Returns Japanese, Korean, Khmer, or English based on active language.
+   */
   const t = (
     khmerText: string, 
     englishText?: string, 
     other?: Partial<Record<AppLanguage, string>> | string
   ): string => {
+    if (language === 'fr') {
+      if (other && typeof other === 'object' && (other as any).fr) {
+        return (other as any).fr;
+      }
+      return englishText || khmerText;
+    }
+
     if (language === 'ja') {
       if (other && typeof other === 'object' && (other as any).ja) {
         return (other as any).ja;
