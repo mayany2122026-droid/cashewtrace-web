@@ -230,12 +230,123 @@ export function getMayanyProductStory(
   const normKh = productNameKh.toLowerCase();
   const normEn = productNameEn.toLowerCase();
 
-  const isFlour = normKh.includes('ម្សៅ') || normEn.includes('flour') || normEn.includes('powder');
-  const isSugar = normKh.includes('ស្ករ') || normEn.includes('sugar');
-  const isChili = normKh.includes('ម្ទេស') || normEn.includes('chili');
-  const isPepper = normKh.includes('ម្រេច') || normEn.includes('pepper') || normKh.includes('កំពត');
+  const isMilk = normKh.includes('ទឹកដោះគោ') || normEn.includes('milk') || normEn.includes('beverage') || normEn.includes('drink');
+  const isFlour = !isMilk && (normKh.includes('ម្សៅ') || normEn.includes('flour') || normEn.includes('powder'));
+  const isSugar = !isMilk && (normKh.includes('ស្ករ') || normEn.includes('sugar'));
+  const isChili = !isMilk && (normKh.includes('ម្ទេស') || normEn.includes('chili'));
+  const isPepper = !isMilk && (normKh.includes('ម្រេច') || normEn.includes('pepper') || normKh.includes('កំពត'));
 
   const lang = (langCode || 'en').toLowerCase();
+
+  if (isMilk) {
+    if (lang === 'kh' || lang === 'km') {
+      const p1 = 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០% (100% Plant-Based Cashew Milk) ត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីកម្ពុជាគុណភាពខ្ពស់ ទឹកចម្រោះបរិសុទ្ធ ស្ករធម្មជាតិ និងម្សៅស្លឹកតើយ។ ភេសជ្ជៈស្រស់ប្រណិត (Make-to-Order) ឆ្លងកាត់ការកិននិងចម្រាញ់យ៉ាងម៉ត់ខៃ គ្មានជាតិទឹកដោះគោគោ (Dairy-Free & Vegan) គ្មានជាតិ Gluten និងគ្មានសារធាតុរក្សាទុកគីមី។';
+      const p2 = 'ផលិតផលនេះ មិនបន្ថែមសារធាតុរក្សាទុក មិនបន្ថែមក្លិនសិប្បនិម្មិត និងមិនបន្ថែមពណ៌ ដើម្បីរក្សាបាននូវរសជាតិឈ្ងុយស្រទន់បែបធម្មជាតិ និងសារធាតុចិញ្ចឹមដ៏មានតម្លៃបំផុត។';
+      const p3 = 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទីផ្តល់នូវប្រូតេអ៊ីនរុក្ខជាតិធម្មជាតិ ខ្លាញ់ល្អមិនឆ្អែត ម៉ាញ៉េស្យូម និងជាតិកាល់ស្យូម។ អាចទទួលទានផ្ទាល់ភ្លាមៗ ក្រឡុកធ្វើជា Smoothie ឬឆុងជាមួយកាហ្វេ (Barista Cashew Latte) បង្កើតជាក្រែមធម្មជាតិជំនួសទឹកដោះគោគោបានយ៉ាងល្អឥតខ្ចោះ។';
+      return {
+        title: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០%',
+        paragraphs: [p1, p2, p3],
+        story: `${p1}\n\n${p2}\n\n${p3}`,
+        benefitsHeader: 'អត្ថប្រយោជន៍នៃទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០% រុក្ខជាតិ',
+        benefits: [
+          { title: '១០០% ប្រភពពីរុក្ខជាតិ (Plant-Based)', desc: 'គ្មានជាតិទឹកដោះគោគោ (Dairy-Free & Lactose-Free) មិនធ្វើឱ្យពិបាករំលាយអាហារ ឬអាឡែកហ្ស៊ីទឹកដោះគោ។' },
+          { title: 'ប្រូតេអ៊ីនរុក្ខជាតិធម្មជាតិ', desc: 'សម្បូរប្រូតេអ៊ីនធម្មជាតិពីគ្រាប់ស្វាយចន្ទី ជំនួយដល់សុខភាពសាច់ដុំ និងថាមពលរាងកាយប្រចាំថ្ងៃ។' },
+          { title: 'ខ្លាញ់មិនឆ្អែតល្អសម្រាប់បេះដូង', desc: 'ផ្ទុកអាស៊ីតខ្លាញ់មិនឆ្អែតល្អ ដែលជួយទ្រទ្រង់សុខភាពបេះដូង និងកាត់បន្ថយខ្លាញ់អាក្រក់។' },
+          { title: 'គ្មានសារធាតុរក្សាទុក និងគីមី', desc: 'ផលិតស្រស់ៗថ្មីៗ (Make to Order) មិនបន្ថែមសារធាតុរក្សាទុក មិនបន្ថែមក្លិន និងមិនបន្ថែមពណ៌។' },
+          { title: 'ក្រែមធម្មជាតិសម្រាប់កាហ្វេ', desc: 'អាចឆុងជាមួយកាហ្វេ Espresso បង្កើតជា Barista Cashew Latte ឈ្ងុយស្រទន់ដោយមិនចាំបាច់ប្រើទឹកដោះគោគោ។' },
+          { title: 'ដបកែវអនាម័យអាចប្តូរប្រើឡើងវិញ', desc: 'វេចខ្ចប់ក្នុងដបកែវអនាម័យ ១ លីត្រ អាចយកដបមកប្តូរទិញតែភេសជ្ជៈសន្សំសំចៃថ្លៃដប និងការពារបរិស្ថាន។' }
+        ],
+        badges: [
+          '១០០% ប្រភពពីរុក្ខជាតិ',
+          'គ្មានជាតិទឹកដោះគោ (Dairy-Free)',
+          'គ្មានសារធាតុរក្សាទុក (0%)',
+          'គ្មានជាតិ Gluten',
+          'ស្តង់ដារ CS 001',
+          'ដបកែវ ១ លីត្រ (1L Glass Bottle)'
+        ]
+      };
+    }
+    if (lang === 'ko' || lang === 'kr') {
+      const p1 = '100% 순수 식물성 캐슈넛 밀크(100% Plant-Based Cashew Milk 1L)는 엄선된 캄보디아산 프리미엄 캐슈넛 커널로 신선하게 착유하여 생산합니다. 유당과 동물성 유제품이 전혀 없는(Dairy-Free & Lactose-Free) 100% 비건 음료입니다.';
+      const p2 = '방부제, 인공 착향료 및 합성 착색료를 전혀 첨가하지 않아 자연 그대로의 건강하고 깔끔한 풍미를 선사합니다.';
+      const p3 = '풍부한 식물성 단백질과 불포화지방산, 필수 미네랄을 함유하고 있어 그대로 시원하게 마시거나 시리얼, 과일 스무디, 또는 바리스타 비건 캐슈 라떼(Cashew Latte) 베이스로 탁월합니다.';
+      return {
+        title: '100% 식물성 프리미엄 캐슈넛 밀크 (100% Plant-Based Cashew Milk)',
+        paragraphs: [p1, p2, p3],
+        story: `${p1}\n\n${p2}\n\n${p3}`,
+        benefitsHeader: '100% 식물성 캐슈넛 밀크의 주요 영양 및 건강 효과',
+        benefits: [
+          { title: '100% 순수 식물성 비건 밀크', desc: '유당 및 동물성 유제품 0%로 유당불내증이 있는 분도 편안하게 즐기실 수 있습니다.' },
+          { title: '풍부한 천연 식물성 단백질', desc: '캐슈넛 원물의 풍부한 식물성 단백질이 일상 활력과 근육 건강을 지원합니다.' },
+          { title: '심장 건강을 돕는 불포화지방산', desc: '혈관 건강에 유익한 천연 불포화지방산이 풍부하게 함유되어 있습니다.' },
+          { title: '무방부제 & 무인공첨가물', desc: '방부제, 인공 향료 및 색소를 일체 첨가하지 않은 신선한 오더메이드 제조 방식입니다.' },
+          { title: '바리스타 캐슈 라떼 전용 베이스', desc: '에스프레소나 커피와 블렌딩 시 부드러운 천연 식물성 크레마 라떼를 완성합니다.' },
+          { title: '1L 친환경 위생 유리병 포장', desc: '신선도와 위생을 극대화한 1L 유리병 포장으로 공병 반납 시 리필 할인이 적용됩니다.' }
+        ],
+        badges: [
+          '100% 식물성 (Plant-Based)',
+          '유당/유제품 0% (Dairy-Free)',
+          '무방부제 (0% Preservatives)',
+          '글루텐 프리 (Gluten-Free)',
+          'CS 001 표준 준수',
+          '1L 위생 유리병 (Glass Bottle)'
+        ]
+      };
+    }
+    if (lang === 'fr') {
+      const p1 = 'Le Lait de Noix de Cajou 100% Végétal (100% Plant-Based Cashew Milk 1L) est préparé à la commande à partir de noix de cajou du Cambodge rigoureusement sélectionnées, d\'eau purifiée, d\'une touche de sucre naturel et de feuille de pandan aromatique. Naturellement sans lactose, sans produits laitiers et 100% végan.';
+      const p2 = 'Ce produit est élaboré sans aucun conservateur ajouté, sans arôme artificiel et sans colorant de synthèse, afin de préserver la douceur veloutée et la pureté nutritionnelle authentique de la noix de cajou cambodgienne.';
+      const p3 = 'Riche en protéines végétales, en acides gras insaturés bénéfiques pour le cœur et en minéraux essentiels (magnésium, potassium). À déguster bien frais, dans vos smoothies, céréales ou émulsionné avec un espresso pour un Cashew Latte crémeux digne d\'un barista.';
+      return {
+        title: 'Lait de Noix de Cajou 100% Végétal (CS 001 §4.2)',
+        paragraphs: [p1, p2, p3],
+        story: `${p1}\n\n${p2}\n\n${p3}`,
+        benefitsHeader: 'Bienfaits Nutritionnels du Lait de Noix de Cajou 100% Végétal',
+        benefits: [
+          { title: '100% Végétal & Sans Lactose', desc: 'Naturellement sans lait animal, sans lactose et végan, offrant une digestion légère et confortable.' },
+          { title: 'Protéines Végétales Pures', desc: 'Apporte des protéines végétales digestes pour soutenir l\'énergie quotidienne et le maintien musculaire.' },
+          { title: 'Bons Acides Gras pour le Cœur', desc: 'Riche en acides gras mono- et polyinsaturés favorables à l\'équilibre cardiovasculaire.' },
+          { title: 'Zéro Conservateur & Zéro Additif', desc: 'Fabriqué frais à la commande (Make-to-Order) sans conservateurs chimiques, ni colorants ni arômes artificiels.' },
+          { title: 'Base Barista pour Cashew Latte', desc: 'Mousse aisément avec un café espresso pour créer un latte végétal onctueux et gourmand.' },
+          { title: 'Bouteille en Verre Sanitaire Réutilisable 1L', desc: 'Conditionné en bouteille en verre stérile de 1 litre rechargeable et échangeable dans une démarche zéro déchet.' }
+        ],
+        badges: [
+          '100% Végétal',
+          'Sans Lactose & Végan',
+          '0% Conservateurs',
+          'Sans Gluten',
+          'Conforme CS 001',
+          'Bouteille en Verre 1L'
+        ]
+      };
+    }
+    // English default
+    const p1 = '100% Plant-Based Cashew Milk is freshly crafted from premium Cambodian cashew kernels, purified water, natural sugar, a hint of fragrant pandan, and a pinch of salt. Meticulously cold-extracted to produce a creamy, velvety botanical milk that is naturally 100% dairy-free, lactose-free, and vegan.';
+    const p2 = 'This product contains zero added preservatives, zero artificial aroma or odor, and zero artificial colors, preserving the authentic natural taste and pristine character of Cambodian cashew nuts.';
+    const p3 = 'Cashew milk delivers rich plant protein, heart-healthy unsaturated fatty acids, and essential minerals including magnesium and potassium. Enjoy chilled straight from the bottle, blend into nourishing smoothies, or froth into velvety artisan cashew lattes with zero dairy.';
+    return {
+      title: '100% Plant-Based Cashew Milk (CS 001 §4.2)',
+      paragraphs: [p1, p2, p3],
+      story: `${p1}\n\n${p2}\n\n${p3}`,
+      benefitsHeader: 'Health & Nutritional Benefits of 100% Plant-Based Cashew Milk',
+      benefits: [
+        { title: '100% Plant-Based & Dairy-Free', desc: 'Naturally dairy-free, lactose-free, and vegan with zero stomach discomfort for lactose-sensitive individuals.' },
+        { title: 'Clean Plant Protein', desc: 'Provides wholesome, easily digestible plant protein to support daily energy and active muscle wellness.' },
+        { title: 'Heart-Healthy Unsaturated Fats', desc: 'Rich in beneficial mono- and polyunsaturated fatty acids that support cardiovascular wellness.' },
+        { title: 'Zero Preservatives or Chemicals', desc: 'Made to order with zero chemical preservatives, no synthetic aroma, and zero artificial coloring.' },
+        { title: 'Barista Cashew Latte Creation', desc: 'Froths beautifully into espresso for a silky, nutty plant-based latte alternative.' },
+        { title: '1L Reusable Sanitary Glass Bottle', desc: 'Packaged in a sterile 1L glass bottle that can be exchanged or refilled for sustainable closed-loop reuse.' }
+      ],
+      badges: [
+        '100% Plant-Based',
+        'Dairy-Free & Vegan',
+        '0% Preservatives',
+        'Gluten-Free',
+        'CS 001 Compliant',
+        '1L Glass Bottle'
+      ]
+    };
+  }
 
   if (isFlour) {
     if (lang === 'kh' || lang === 'km') {

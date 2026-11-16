@@ -22,27 +22,34 @@ export interface MayanyProductRecord {
   nameEn: string;                  // Official English Product Name
   nameKo: string;                  // Official Korean Product Name
   nameJa: string;                  // Official Japanese Product Name
+  nameFr: string;                  // Official French Product Name
   packageFormatKh: string;         // Packaging format description in Khmer
   packageFormatEn: string;         // Packaging format description in English
   packageFormatJa: string;         // Packaging format description in Japanese
+  packageFormatFr: string;         // Packaging format description in French
   ingredientsKh: string;           // Khmer ingredients with percentages
   ingredientsEn: string;           // English ingredients
   ingredientsJa: string;           // Japanese ingredients
+  ingredientsFr: string;           // French ingredients
   cleanIngredients: string;        // Simple ingredient list
   allergenKh: string;              // Khmer allergen advice
   allergenEn: string;              // English allergen advice
   allergenJa: string;              // Japanese allergen advice
+  allergenFr: string;              // French allergen advice
   storageKh: string;               // Khmer storage instructions
   storageEn: string;               // English storage instructions
   storageJa: string;               // Japanese storage instructions
+  storageFr: string;               // French storage instructions
   instructionsKh: string;          // Instructions for use
   instructionsEn: string;          // Instructions for use
   instructionsJa: string;          // Instructions for use
+  instructionsFr: string;          // Instructions for use (French)
   shelfLifeMonths: number;         // Shelf life in months
   grade: string;                   // Cashew grade (WW180, BB, etc.)
   originKh: string;                // Country of origin (Khmer)
   originEn: string;                // Country of origin (English)
   originJa: string;                // Country of origin (Japanese)
+  originFr: string;                // Country of origin (French)
   requiresRefrigeration: boolean;  // Requires refrigeration (<4°C)
   cashewPct: number;
   sugarPct: number;
@@ -63,6 +70,7 @@ export interface MayanyProductRecord {
   descriptionKh: string;
   descriptionEn: string;
   descriptionJa: string;
+  descriptionFr: string;
 }
 
 export const CANONICAL_DOMAIN = 'https://mayanyenterprise.com';
@@ -90,27 +98,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: '100% Plant-Based Cashew Milk',
     nameKo: '100% 순수 식물성 프리미엄 캐슈넛 밀크 (1L Bottle)',
     nameJa: '100%植物性カシューミルク (1Lボトル)',
+    nameFr: 'Lait de Noix de Cajou 100% Végétal (Bouteille 1L)',
     packageFormatKh: 'ដបកែវ ១ លីត្រ (1L Food-Grade Glass Bottle with Tamper Seal)',
     packageFormatEn: '1L Food-Grade Sanitary Glass Bottle with Tamper Evident Seal',
     packageFormatJa: '1000ml 食品用衛生ガラスボトル（密閉キャップ）',
+    packageFormatFr: 'Bouteille en Verre Sanitaire de Qualité Alimentaire 1L avec Bague d\'Inviolabilité',
     ingredientsKh: 'ទឹកចម្រោះ 86%, គ្រាប់ស្វាយចន្ទី 12.9%, ស្ករ 0.86%, ម្សៅស្លឹកតើយ 0.13%, អំបិល 0.09%',
     ingredientsEn: 'Purified water 86%, cashew kernels 12.9%, sugar 0.86%, pandan powder 0.13%, salt 0.09%',
     ingredientsJa: '精製水 86%、カシューナッツ 12.9%、砂糖 0.86%、パンダン粉末 0.13%、塩 0.09%',
+    ingredientsFr: 'Eau purifiée 86%, noix de cajou 12,9%, sucre naturel 0,86%, poudre de feuilles de pandan 0,13%, sel 0,09%',
     cleanIngredients: 'Water, cashew kernels, sugar, pandan powder, salt',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ（特定原材料に準ずるもの）',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកក្នុងទូទឹកកកក្រោម ៤°C ក្រោយពេលបើក។ ក្រឡុកដបឱ្យសព្វមុនពេលទទួលទាន។',
     storageEn: 'Serve hot, or keep refrigerated below 4°C. Consume by the expiry date.',
     storageJa: '要冷蔵（4℃以下保存）。開栓後は冷蔵庫に保管し賞味期限内にお召し上がりください。',
+    storageFr: 'À déguster chaud, ou à conserver au réfrigérateur en dessous de 4°C. Consommer avant la date limite.',
     instructionsKh: 'ភេសជ្ជៈប្រណិត អាចទទួលទានផ្ទាល់ភ្លាមៗ ឬលាយជាមួយកាហ្វេ តែ និងគ្រាប់ធញ្ញជាតិ។',
     instructionsEn: 'Ready-to-drink fresh beverage. Enjoy chilled or warmed, blend in smoothies or froth for artisan cashew lattes.',
     instructionsJa: 'ストレートでそのまま美味しくお召し上がりいただけます。温めてホットミルクや、カシューラテ用フォームミルクとしても最適です。',
+    instructionsFr: 'Boisson fraîche prête à boire. À savourer bien fraîche ou chaude, en smoothie ou émulsionnée pour un Cashew Latte artisanal.',
     shelfLifeMonths: 3,
     grade: 'Premium Kernels (គ្រាប់កែច្នៃស្រស់)',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: true,
     cashewPct: 12.9,
     sugarPct: 0.86,
@@ -130,7 +145,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'ទឹកដោះគោគ្រាប់ស្វាយចន្ទី ១០០% (Make-to-Order)។ តម្លាភាពតម្លៃសរុប ៤.៥០$ (ទឹកដោះគោ ៣.០០$ + ថ្លៃដបកែវ ១.៥០$)។ អតិថិជនអាចយកដបមកប្តូរទិញទឹកដោះគោលើកក្រោយក្នុងតម្លៃត្រឹមតែ ៣.០០$។ គ្មានជាតិទឹកដោះគោ (Dairy-Free) និងគ្មានសារធាតុរក្សាទុកគីមី។',
     descriptionEn: '100% Plant-Based Cambodian Cashew Milk. Transparent pricing: $4.50 Total ($3.00 Drink + $1.50 Glass Bottle). Bottle is exchangeable/reusable for future refills at $3.00 only. Naturally lactose-free, dairy-free, and rich in healthy plant protein.',
-    descriptionJa: '100%植物性プレミアムカシューミルク。完全受注生産（Make-to-Order）。乳製品不使用（Dairy-Free）、保存料・人工添加物ゼロ。濃厚でクリーミーな味わいと良質な植物性タンパク質をお届けします。'
+    descriptionJa: '100%植物性プレミアムカシューミルク。完全受注生産（Make-to-Order）。乳製品不使用（Dairy-Free）、保存料・人工添加物ゼロ。濃厚でクリーミーな味わいと良質な植物性タンパク質をお届けします。',
+    descriptionFr: 'Lait de noix de cajou 100% végétal du Cambodge (Fabriqué à la commande). Tarification transparente : 4,50 $ au total (3,00 $ boisson + 1,50 $ bouteille en verre consigne réutilisable). Naturellement sans lactose et sans produits laitiers.'
   },
 
   // 2. Chili Coated Cashew Kernels Jar (175g) Whole - Barcode: 8847116350092
@@ -153,27 +169,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: 'Chili Coated Cashew Kernels Jar (175g) Whole',
     nameKo: '칠리 코팅 매콤 캐슈넛 (175g Jar)',
     nameJa: '有機チリコーティング カシューナッツ大粒 (175g 瓶)',
+    nameFr: 'Noix de Cajou Entières Enrobées au Piment (Bocal 175 g)',
     packageFormatKh: 'ក្រឡបិទជិត ១៧៥g (175g Clear Air-Tight Induction Jar)',
     packageFormatEn: '175g Clear Air-Tight Food-Grade Jar with Induction Seal',
     packageFormatJa: '175g 食品用密閉ガラス瓶（誘導シール密封）',
+    packageFormatFr: 'Bocal Alimentaire Hermétique Transparent 175 g avec Opercule à Induction',
     ingredientsKh: 'គ្រាប់ស្វាយចន្ទី WW180 កម្ពុជា ៩២%, ម្ទេសហិរធម្មជាតិ ៤%, ខ្ទឹមស ២%, អំបិលសមុទ្រ ២%',
     ingredientsEn: 'Cambodian Cashew Kernels (WW180) 92%, Natural Chili 4%, Garlic 2%, Sea Salt 2%',
     ingredientsJa: 'カンボジア産カシューナッツ(WW180) 92%、有機赤唐辛子 4%、乾燥ガーリック 2%、天然海塩 2%',
+    ingredientsFr: 'Noix de cajou du Cambodge (WW180) 92%, piment naturel 4%, ail 2%, sel de mer 2%',
     cleanIngredients: 'Cashew kernels, chili, garlic, salt',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។ បិទគម្របឱ្យជិតក្រោយពេលបើក។',
     storageEn: 'Store in a cool, dry place. Keep tightly closed after opening.',
     storageJa: '直射日光・高温多湿を避け、25℃以下の涼しい場所で密閉保存してください。',
+    storageFr: 'Conserver dans un endroit frais et sec (< 25°C). Bien refermer après ouverture.',
     instructionsKh: 'អាហារសម្រន់ប្រណិតធម្មជាតិញ៉ាំភ្លាមៗ ឬក្លែមជាមួយភេសជ្ជៈ។',
     instructionsEn: 'Ready-to-eat gourmet spicy snack.',
     instructionsJa: 'そのまま香ばしいおつまみやおやつとしてお召し上がりいただけます。',
+    instructionsFr: 'Collation gastronomique épicée prête à déguster, idéale à l\'apéritif.',
     shelfLifeMonths: 9,
     grade: 'WW180 (King Size Jumbo)',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: false,
     cashewPct: 92,
     sugarPct: 0,
@@ -193,7 +216,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេសហឹរធម្មជាតិ ត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទី WW180 កម្ពុជាគុណភាពខ្ពស់ ស្រោបម្ទេសធម្មជាតិ និងខ្ទឹមស។ ស្រួយឆ្ងាញ់ហឹរឈ្ងុយ គ្មានសារធាតុគីមីរក្សាទុក។',
     descriptionEn: 'Chili Coated Cashew Kernels combine crunchy WW180 King-Size cashews with authentic sun-dried Cambodian chili and aromatic garlic.',
-    descriptionJa: 'カンボジア産最高峰キングサイズWW180カシューナッツに、天日干し唐辛子とガーリック、天然塩を香ばしくコーティングした旨辛スナック。'
+    descriptionJa: 'カンボジア産最高峰キングサイズWW180カシューナッツに、天日干し唐辛子とガーリック、天然塩を香ばしくコーティングした旨辛スナック。',
+    descriptionFr: 'Nos noix de cajou entières calibrées WW180 King-Size sont délicatement torréfiées et enrobées de piment cambodgien séché au soleil et d\'ail aromatique.'
   },
 
   // 3. GI Kampot Black Pepper Coated Cashew Kernels Jar (175g) Whole - Barcode: 8847116350061
@@ -216,27 +240,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: 'GI Kampot Black Pepper Coated Cashew Kernels Jar (175g) Whole',
     nameKo: 'GI 캄폿 후추 코팅 프리미엄 캐슈넛 (175g Jar)',
     nameJa: 'GIカンポット黒胡椒 カシューナッツ大粒 (175g 瓶)',
+    nameFr: 'Noix de Cajou Entières au Poivre Noir de Kampot IGP (Bocal 175 g)',
     packageFormatKh: 'ក្រឡបិទជិត ១៧៥g (175g Clear Air-Tight Induction Jar)',
     packageFormatEn: '175g Clear Air-Tight Food-Grade Jar with Induction Seal',
     packageFormatJa: '175g 食品用密閉ガラス瓶（誘導シール密封）',
+    packageFormatFr: 'Bocal Alimentaire Hermétique Transparent 175 g avec Opercule à Induction',
     ingredientsKh: 'គ្រាប់ស្វាយចន្ទី WW180 កម្ពុជា ៩៣%, ម្រេចខ្មៅកំពត GI YAS ៥%, អំបិលសមុទ្រ ២%',
     ingredientsEn: 'Cambodian Cashew Kernels (WW180) 93%, GI Kampot Black Pepper 5%, Sea Salt 2%',
     ingredientsJa: 'カンボジア産カシューナッツ(WW180) 93%、GI認定カンポット黒胡椒 5%、天然海塩 2%',
+    ingredientsFr: 'Noix de cajou du Cambodge (WW180) 93%, poivre noir de Kampot IGP 5%, sel de mer 2%',
     cleanIngredients: 'Cashew kernels, GI Kampot black pepper, salt',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។ បិទគម្របឱ្យជិតក្រោយពេលបើក។',
     storageEn: 'Store in a cool, dry place. Keep tightly closed after opening.',
     storageJa: '直射日光・高温多湿を避け、涼しい乾燥した場所で密閉保存してください。',
+    storageFr: 'Conserver dans un endroit frais et sec (< 25°C). Bien refermer après ouverture.',
     instructionsKh: 'អាហារសម្រន់ប្រណិតធម្មជាតិញ៉ាំភ្លាមៗ ឬក្លែមជាមួយភេសជ្ជៈ និងតែ។',
     instructionsEn: 'Ready-to-eat gourmet snack. Enjoy directly or serve with tea and fine beverages.',
     instructionsJa: 'そのまま風味豊かなおやつとして、または上質なお茶やお酒のお供としてお楽しみください。',
+    instructionsFr: 'Collation gastronomique prête à déguster, idéale à l\'apéritif, avec un thé fin ou en accompagnement.',
     shelfLifeMonths: 9,
     grade: 'WW180 (King Size Jumbo)',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: false,
     cashewPct: 93,
     sugarPct: 0,
@@ -256,7 +287,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI ត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីកម្ពុជាគុណភាពខ្ពស់ និងម្រេចខ្មៅកំពត GI ដ៏ល្បីល្បាញលើពិភពលោក។ គ្រប់ដំណាក់កាលនៃផលិតកម្មត្រូវបានសម្រិតសម្រាំង និងយកចិត្តទុកដាក់ខ្ពស់ដើម្បីគុណភាព សុវត្ថិភាព និងអនាម័យស្របតាមស្តង់ដារសុវត្ថិភាពម្ហូបអាហារ CS 001 ដោយមិនបន្ថែមសារធាតុរក្សាទុក មិនបន្ថែមក្លិន មិនបន្ថែមពណ៌។ គ្រាប់ស្វាយចន្ទីស្រោបម្រេចកំពតផ្តល់នូវរសជាតិឈ្ងុយហឹរស្រាល ស្រួយឆ្ងាញ់ធម្មជាតិ និងជាអាហារសម្រន់សុខភាពប្រចាំថ្ងៃ។',
     descriptionEn: 'GI Kampot Black Pepper Coated Cashew Kernels pair jumbo WW180 Cambodian cashews with world-renowned Protected Geographical Indication (GI) Kampot black pepper and natural sea salt.',
-    descriptionJa: '世界的名声を誇る地理的表示(GI)保護認証の「カンポット黒胡椒」を贅沢に使用。大粒カシューナッツの甘みと胡椒の芳醇なアロマが絶妙に調和した逸品。'
+    descriptionJa: '世界的名声を誇る地理的表示(GI)保護認証の「カンポット黒胡椒」を贅沢に使用。大粒カシューナッツの甘みと胡椒の芳醇なアロマが絶妙に調和した逸品。',
+    descriptionFr: 'L\'alliance prestigieuse de nos noix de cajou entières WW180 du Cambodge et du célèbre Poivre Noir de Kampot IGP (Indication Géographique Protégée) relevé au sel marin naturel.'
   },
 
   // 4. Sugar Coated Cashew Kernels Jar (175g) Whole - Barcode: 8847116350085
@@ -280,27 +312,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: 'Sugar Coated Cashew Kernels Jar (175g) Whole',
     nameKo: '슈가 코팅 프리미엄 캐슈넛 (175g Jar)',
     nameJa: 'シュガーコーティング カシューナッツ大粒 (175g 瓶)',
+    nameFr: 'Noix de Cajou Entières Caramélisées au Sucre Naturel (Bocal 175 g)',
     packageFormatKh: 'ក្រឡបិទជិត ១៧៥g (175g Clear Air-Tight Induction Jar)',
     packageFormatEn: '175g Clear Air-Tight Food-Grade Jar with Induction Seal',
     packageFormatJa: '175g 食品用密閉ガラス瓶（誘導シール密封）',
+    packageFormatFr: 'Bocal Alimentaire Hermétique Transparent 175 g avec Opercule à Induction',
     ingredientsKh: 'គ្រាប់ស្វាយចន្ទី WW180 កម្ពុជា ៩០%, ស្ករសធម្មជាតិ ៨%, អំបិលសមុទ្រ ២%',
     ingredientsEn: 'Cambodian Cashew Kernels (WW180) 90%, Natural Sugar 8%, Sea Salt 2%',
     ingredientsJa: 'カンボジア産カシューナッツ(WW180) 90%、天然糖 8%、天然海塩 2%',
+    ingredientsFr: 'Noix de cajou du Cambodge (WW180) 90%, sucre naturel 8%, sel de mer 2%',
     cleanIngredients: 'Cashew kernels, sugar, salt',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts / Tree nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។ បិទគម្របឱ្យជិតក្រោយពេលបើក។',
     storageEn: 'Store in a cool, dry place. Keep tightly closed after opening.',
     storageJa: '直射日光・高温多湿を避け、涼しい乾燥した場所で密閉保存してください。',
+    storageFr: 'Conserver dans un endroit frais et sec (< 25°C). Bien refermer après ouverture.',
     instructionsKh: 'អាហារសម្រន់ប្រណិតធម្មជាតិញ៉ាំភ្លាមៗ ឬប្រើជាបង្អែមស្រួយឆ្ងាញ់សម្រាប់ទទួលភ្ញៀវ។',
     instructionsEn: 'Ready-to-eat gourmet snack. Enjoy directly or serve with tea and desserts.',
     instructionsJa: 'そのままサクサク香ばしいおやつとして、またはデザートやお茶請けとしてお召し上がりいただけます。',
+    instructionsFr: 'Collation gourmande et croquante prête à déguster, idéale avec le café, le thé ou en dessert.',
     shelfLifeMonths: 9,
     grade: 'WW180 (King Size Jumbo)',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: false,
     cashewPct: 90,
     sugarPct: 8,
@@ -320,7 +359,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'គ្រាប់ស្វាយចន្ទី WW180 ស្រោបស្ករសធម្មជាតិ ត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីកម្ពុជាគុណភាពខ្ពស់បំផុត និងស្ករធម្មជាតិ។ គ្រប់ដំណាក់កាលនៃផលិតកម្មត្រូវបានសម្រិតសម្រាំង និងយកចិត្តទុកដាក់ខ្ពស់ដើម្បីគុណភាព សុវត្ថិភាព និងអនាម័យស្របតាមស្តង់ដារសុវត្ថិភាពម្ហូបអាហារ CS 001 ដោយមិនបន្ថែមសារធាតុរក្សាទុក មិនបន្ថែមក្លិន មិនបន្ថែមពណ៌។ គ្រាប់ស្វាយចន្ទីស្រោបស្ករផ្តល់នូវរសជាតិផ្អែមស្រាល ស្រួយឈ្ងុយឆ្ងាញ់ធម្មជាតិ និងជាអាហារសម្រន់សុខភាពប្រចាំថ្ងៃ។',
     descriptionEn: 'Sugar Coated Cashew Kernels are crafted from premium grade WW180 King-Size Cambodian cashews coated in natural golden sugar glaze and a pinch of sea salt. Meticulously roasted under CS 001 standards with zero artificial preservatives, colors, or flavors.',
-    descriptionJa: '大粒WW180最高級カシューナッツに天然糖の薄い飴衣を丁寧にコーティング。ほんのり上品な甘さとカリッとした歯ごたえが特長の伝統菓子。'
+    descriptionJa: '大粒WW180最高級カシューナッツに天然糖の薄い飴衣を丁寧にコーティング。ほんのり上品な甘さとカリッとした歯ごたえが特長の伝統菓子。',
+    descriptionFr: 'Noix de cajou géantes WW180 du Cambodge délicatement enrobées d\'un fin glaçage de sucre naturel doré et d\'une pointe de fleur de sel marin, torréfiées sans aucun conservateur selon la norme CS 001.'
   },
 
   // 5. 50g Pouches Whole - Sugar Coated Cashew Kernels - Barcode: 8847116350023
@@ -343,27 +383,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: '50g Pouches Whole - Sugar Coated Cashew Kernels',
     nameKo: '슈가 코팅 프리미엄 캐슈넛 (50g Pouch)',
     nameJa: 'シュガーコーティング カシューナッツ (50g パウチ)',
+    nameFr: 'Noix de Cajou Caramélisées au Sucre Naturel (Sachet 50 g)',
     packageFormatKh: 'កញ្ចប់បាតឈរ ៥០g ជាមួយខ្សែរូត (50g Standing Pouch with Zipper)',
     packageFormatEn: '50g Food-Grade Stand-Up Barrier Pouch with Zipper',
     packageFormatJa: '50g チャック付き自立型アルミ防湿パウチ',
+    packageFormatFr: 'Sachet Stand-Up Hermétique avec Zip Refermable 50 g',
     ingredientsKh: 'គ្រាប់ស្វាយចន្ទី WW180 កម្ពុជា ៩០%, ស្ករសធម្មជាតិ ៨%, អំបិលសមុទ្រ ២%',
     ingredientsEn: 'Cambodian Cashew Kernels (WW180) 90%, Natural Sugar 8%, Sea Salt 2%',
     ingredientsJa: 'カンボジア産カシューナッツ(WW180) 90%、天然糖 8%、天然海塩 2%',
+    ingredientsFr: 'Noix de cajou du Cambodge (WW180) 90%, sucre naturel 8%, sel de mer 2%',
     cleanIngredients: 'Cashew kernels, sugar, salt',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។',
     storageEn: 'Store in a cool, dry place. Keep sealed.',
     storageJa: '直射日光・高温多湿を避け、涼しい場所でチャックを閉めて保存してください。',
+    storageFr: 'Conserver dans un endroit frais et sec (< 25°C). Bien refermer le zip après ouverture.',
     instructionsKh: 'អាហារសម្រន់ប្រណិតធម្មជាតិញ៉ាំភ្លាមៗ។',
     instructionsEn: 'Ready-to-eat gourmet snack.',
     instructionsJa: '手軽に持ち運べるおやつとしてお召し上がりください。',
+    instructionsFr: 'En-cas gastronomique croquant prêt à savourer à tout moment.',
     shelfLifeMonths: 9,
     grade: 'WW180 (King Size Jumbo)',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: false,
     cashewPct: 90,
     sugarPct: 8,
@@ -383,7 +430,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបស្ករធម្មជាតិ កញ្ចប់ ៥០ ក្រាម ងាយស្រួលយកតាមខ្លួន ស្រួយឆ្ងាញ់ផ្អែមស្រាល។',
     descriptionEn: 'Sugar Coated Cashew Kernels in a convenient 50g stand-up zipper pouch.',
-    descriptionJa: '持ち運びに便利な50gスタンドパウチ。やさしい甘さのシュガーコーティングカシューナッツ。'
+    descriptionJa: '持ち運びに便利な50gスタンドパウチ。やさしい甘さのシュガーコーティングカシューナッツ。',
+    descriptionFr: 'Noix de cajou entières caramélisées au sucre naturel en format nomade pratique de 50 g avec zip fraîcheur.'
   },
 
   // 6. 50g Pouches Whole - Chili Coated Cashew Kernels - Barcode: 8847116350078
@@ -406,27 +454,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: '50g Pouches Whole - Chili Coated Cashew Kernels',
     nameKo: '칠리 코팅 매콤 캐슈넛 (50g Pouch)',
     nameJa: '有機チリコーティング カシューナッツ (50g パウチ)',
+    nameFr: 'Noix de Cajou Enrobées au Piment (Sachet 50 g)',
     packageFormatKh: 'កញ្ចប់បាតឈរ ៥០g ជាមួយខ្សែរូត (50g Standing Pouch with Zipper)',
     packageFormatEn: '50g Food-Grade Stand-Up Barrier Pouch with Zipper',
     packageFormatJa: '50g チャック付き自立型アルミ防湿パウチ',
+    packageFormatFr: 'Sachet Stand-Up Hermétique avec Zip Refermable 50 g',
     ingredientsKh: 'គ្រាប់ស្វាយចន្ទី WW180 កម្ពុជា ៩២%, ម្ទេសហិរធម្មជាតិ ៤%, ខ្ទឹមស ២%, អំបិលសមុទ្រ ២%',
     ingredientsEn: 'Cambodian Cashew Kernels (WW180) 92%, Natural Chili 4%, Garlic 2%, Sea Salt 2%',
     ingredientsJa: 'カンボジア産カシューナッツ(WW180) 92%、有機赤唐辛子 4%、乾燥ガーリック 2%、天然海塩 2%',
+    ingredientsFr: 'Noix de cajou du Cambodge (WW180) 92%, piment naturel 4%, ail 2%, sel de mer 2%',
     cleanIngredients: 'Cashew kernels, chili, garlic, salt',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។',
     storageEn: 'Store in a cool, dry place. Keep sealed.',
     storageJa: '直射日光・高温多湿を避け、涼しい場所でチャックを閉めて保存してください。',
+    storageFr: 'Conserver dans un endroit frais et sec (< 25°C). Bien refermer le zip après ouverture.',
     instructionsKh: 'អាហារសម្រន់ប្រណិតធម្មជាតិញ៉ាំភ្លាមៗ។',
     instructionsEn: 'Ready-to-eat gourmet spicy snack.',
     instructionsJa: '手軽に楽しめるスパイシーなおつまみとしてお召し上がりください。',
+    instructionsFr: 'Collation épicée prête à déguster, parfaite à l\'apéritif.',
     shelfLifeMonths: 9,
     grade: 'WW180 (King Size Jumbo)',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: false,
     cashewPct: 92,
     sugarPct: 0,
@@ -446,7 +501,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្ទេសហឹរ កញ្ចប់ ៥០g ងាយស្រួលយកតាមខ្លួន ស្រួយឆ្ងាញ់ហឹរឈ្ងុយ។',
     descriptionEn: 'Chili Coated Cashew Kernels in a convenient 50g stand-up zipper pouch.',
-    descriptionJa: 'ピリッと旨辛い有機唐辛子仕立ての50gパウチ。ビールやお酒のおつまみに最適です。'
+    descriptionJa: 'ピリッと旨辛い有機唐辛子仕立ての50gパウチ。ビールやお酒のおつまみに最適です。',
+    descriptionFr: 'Noix de cajou entières relevées au piment cambodgien en sachet stand-up refermable de 50 g. Croquant savoureux idéal pour l\'apéritif.'
   },
 
   // 7. 50g Pouches Whole - GI Kampot Black Pepper Coated Cashew Kernels - Barcode: 8847116350016
@@ -469,27 +525,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: '50g Pouches Whole - GI Kampot Black Pepper Coated Cashew Kernels',
     nameKo: 'GI 캄폿 후추 코팅 프리미엄 캐슈넛 (50g Pouch)',
     nameJa: 'GIカンポット黒胡椒 カシューナッツ (50g パウチ)',
+    nameFr: 'Noix de Cajou au Poivre Noir de Kampot IGP (Sachet 50 g)',
     packageFormatKh: 'កញ្ចប់បាតឈរ ៥០g ជាមួយខ្សែរូត (50g Standing Pouch with Zipper)',
     packageFormatEn: '50g Food-Grade Stand-Up Barrier Pouch with Zipper',
     packageFormatJa: '50g チャック付き自立型アルミ防湿パウチ',
+    packageFormatFr: 'Sachet Stand-Up Hermétique avec Zip Refermable 50 g',
     ingredientsKh: 'គ្រាប់ស្វាយចន្ទី WW180 កម្ពុជា ៩៣%, ម្រេចខ្មៅកំពត GI YAS ៥%, អំបិលសមុទ្រ ២%',
     ingredientsEn: 'Cambodian Cashew Kernels (WW180) 93%, GI Kampot Black Pepper 5%, Sea Salt 2%',
     ingredientsJa: 'カンボジア産カシューナッツ(WW180) 93%、GI認定カンポット黒胡椒 5%、天然海塩 2%',
+    ingredientsFr: 'Noix de cajou du Cambodge (WW180) 93%, poivre noir de Kampot IGP 5%, sel de mer 2%',
     cleanIngredients: 'Cashew kernels, GI Kampot black pepper, salt',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។',
     storageEn: 'Store in a cool, dry place. Keep sealed.',
     storageJa: '直射日光・高温多湿を避け、涼しい場所でチャックを閉めて保存してください。',
+    storageFr: 'Conserver dans un endroit frais et sec (< 25°C). Bien refermer le zip après ouverture.',
     instructionsKh: 'អាហារសម្រន់ប្រណិតធម្មជាតិញ៉ាំភ្លាមៗ។',
     instructionsEn: 'Ready-to-eat gourmet snack.',
     instructionsJa: '手軽に楽しめる香り高いプレミアムナッツとしてお召し上がりください。',
+    instructionsFr: 'Dégustation prête à l\'emploi : collation gastronomique au parfum intense de poivre de Kampot.',
     shelfLifeMonths: 9,
     grade: 'WW180 (King Size Jumbo)',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: false,
     cashewPct: 93,
     sugarPct: 0,
@@ -509,7 +572,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI កញ្ចប់ ៥០g ងាយស្រួលយកតាមខ្លួន ស្រួយឆ្ងាញ់ឈ្ងុយហឹរស្រាល។',
     descriptionEn: 'GI Kampot Black Pepper Coated Cashew Kernels in a convenient 50g stand-up zipper pouch.',
-    descriptionJa: '世界遺産級の香りを誇るGI認定カンポット黒胡椒をまとわせた50gパウチ。'
+    descriptionJa: '世界遺産級の香りを誇るGI認定カンポット黒胡椒をまとわせた50gパウチ。',
+    descriptionFr: 'Noix de cajou entières enrobées de véritable Poivre Noir de Kampot IGP en sachet stand-up refermable de 50 g.'
   },
 
   // 8. 50g Pouches Broken Grade - GI Kampot Black Pepper Coated Cashew Kernels - Barcode: 8847116350108
@@ -531,27 +595,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: '50g Pouches Broken Grade - GI Kampot Black Pepper Coated Cashew Kernels',
     nameKo: 'GI 캄폿 후추 코팅 조각 캐슈넛 (50g BB Pouch)',
     nameJa: 'GIカンポット黒胡椒 割れカシューナッツお徳用 (50g パウチ)',
+    nameFr: 'Éclats de Noix de Cajou au Poivre Noir de Kampot IGP - Grade Brisures (Sachet 50 g)',
     packageFormatKh: 'កញ្ចប់បាតឈរ ៥០g ជាមួយខ្សែរូត (50g Standing Pouch with Zipper)',
     packageFormatEn: '50g Food-Grade Stand-Up Barrier Pouch with Zipper',
     packageFormatJa: '50g チャック付き自立型アルミ防湿パウチ',
+    packageFormatFr: 'Sachet Stand-Up Hermétique avec Zip Refermable 50 g',
     ingredientsKh: 'គ្រាប់ស្វាយចន្ទីបាក់ BB កម្ពុជា ៩៣%, ម្រេចខ្មៅកំពត GI YAS ៥%, អំបិលសមុទ្រ ២%',
     ingredientsEn: 'Cambodian Broken Cashews (BB) 93%, GI Kampot Black Pepper 5%, Sea Salt 2%',
     ingredientsJa: 'カンボジア産割れカシューナッツ(BBグレード) 93%、GI認定カンポット黒胡椒 5%、天然海塩 2%',
+    ingredientsFr: 'Brisures de noix de cajou du Cambodge (BB) 93%, poivre noir de Kampot IGP 5%, sel de mer 2%',
     cleanIngredients: 'Broken cashew kernels (BB), GI Kampot black pepper, salt',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។',
     storageEn: 'Store in a cool, dry place. Keep sealed.',
     storageJa: '直射日光・高温多湿を避け、涼しい場所でチャックを閉めて保存してください。',
+    storageFr: 'Conserver dans un endroit frais et sec (< 25°C). Bien refermer le zip après ouverture.',
     instructionsKh: 'អាហារសម្រន់ប្រណិតធម្មជាតិញ៉ាំភ្លាមៗ ឬប្រើជាគ្រឿងបន្ថែមលើម្ហូប។',
     instructionsEn: 'Ready-to-eat gourmet broken cashew snack.',
     instructionsJa: '手軽なおやつやおつまみはもちろん、サラダや料理のトッピングにも重宝します。',
+    instructionsFr: 'Idéal en collation gastronomique, en garniture de salades, plats cuisinés ou pâtisseries.',
     shelfLifeMonths: 9,
     grade: 'BB (Broken Kernels)',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: false,
     cashewPct: 93,
     sugarPct: 0,
@@ -571,7 +642,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'គ្រាប់ស្វាយចន្ទីបាក់ (BB) ស្រោបម្រេចខ្មៅកំពត GI កញ្ចប់ ៥០g តម្លៃសមរម្យ រសជាតិឆ្ងាញ់ដូចគ្នា។',
     descriptionEn: 'Broken (BB) Kampot Black Pepper Cashews in a 50g pouch. Premium flavor at everyday value.',
-    descriptionJa: '高品質BBグレード（割れ）カシューナッツを使用したお買い得パック。GIカンポット黒胡椒のスパイシーな風味はそのまま。'
+    descriptionJa: '高品質BBグレード（割れ）カシューナッツを使用したお買い得パック。GIカンポット黒胡椒のスパイシーな風味はそのまま。',
+    descriptionFr: 'Brisures de noix de cajou (grade BB) enrobées au Poivre Noir de Kampot IGP en sachet de 50 g. La même saveur gastronomique à prix accessible.'
   },
 
   // 9. 100% Pure Cashew Kernel Flour 200g Jar - Barcode: 8847116350047
@@ -593,27 +665,34 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     nameEn: '100% Pure Cashew Kernel Flour 200g Jar',
     nameKo: '100% 순수 캐슈넛 분말 가루 (200g Jar)',
     nameJa: '純カシューナッツ粉末 / ローストフラワー (200g 瓶)',
+    nameFr: 'Farine Pure de Noix de Cajou 100% (Bocal 200 g)',
     packageFormatKh: 'ក្រឡកែវ/PET ២០០g (200g Clear Food-Grade Jar)',
     packageFormatEn: '200g Clear Food-Grade Sealed Jar',
     packageFormatJa: '200g 食品用密閉ガラス瓶',
+    packageFormatFr: 'Bocal Alimentaire Hermétique Transparent 200 g',
     ingredientsKh: 'គ្រាប់ស្វាយចន្ទីកម្ពុជា ១០០%',
     ingredientsEn: 'Cambodian Cashew Kernels 100%',
     ingredientsJa: 'カンボジア産ローストカシューナッツ 100%',
+    ingredientsFr: 'Noix de cajou du Cambodge 100%',
     cleanIngredients: '100% pure cashew kernels',
     allergenKh: 'ផ្ទុកសារធាតុអាឡែហ្ស៊ី: គ្រាប់ស្វាយចន្ទី (Contains: Cashew Nuts)',
     allergenEn: 'Contains: Cashew nuts (tree nuts)',
     allergenJa: 'アレルギー物質表示：カシューナッツ',
+    allergenFr: 'Allergène : Contient des fruits à coque (noix de cajou)',
     storageKh: 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។',
     storageEn: 'Store in a cool, dry place. Keep tightly closed.',
     storageJa: '直射日光・高温多湿を避け、25℃以下の冷暗所で密閉保存してください。',
+    storageFr: 'Conserver dans un endroit frais et sec (< 25°C). Bien refermer après usage.',
     instructionsKh: 'សម្រាប់ឆុងកាហ្វេ (Cashew Latte/Creamer) ធ្វើទឹកដោះគ្រាប់ ធ្វើនំ និងអាហារសុខភាព។',
     instructionsEn: 'Ideal for coffee creamer (cashew latte), plant milk, baking, and healthy cooking.',
     instructionsJa: 'カシューラテ用のコーヒークリーマー、自家製カシューミルク、製菓・グルテンフリー料理に幅広くご利用いただけます。',
+    instructionsFr: 'Idéal comme crème végétale pour café (Cashew Latte), lait de cajou maison, pâtisserie sans gluten et cuisine saine.',
     shelfLifeMonths: 9,
     grade: 'Pure Cold-Milled Kernel Flour',
     originKh: 'ព្រះរាជាណាចក្រកម្ពុជា (Product of Cambodia)',
     originEn: 'Kingdom of Cambodia (Product of Cambodia)',
     originJa: 'カンボジア王国（カンボジア産）',
+    originFr: 'Royaume du Cambodge (Produit du Cambodge)',
     requiresRefrigeration: false,
     cashewPct: 100,
     sugarPct: 0,
@@ -633,7 +712,8 @@ export const MAYANY_PRODUCT_REGISTRY: MayanyProductRecord[] = [
     },
     descriptionKh: 'ម្សៅគ្រាប់ស្វាយចន្ទីត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីដែលដាំដុះ និងបកសំបកនៅក្នុងខេត្តកំពង់ធំ ព្រះរាជាណាចក្រកម្ពុជា។ មិនបន្ថែមសារធាតុរក្សាទុក មិនបន្ថែមក្លិន និងមិនបន្ថែមពណ៌ ដើម្បីរក្សារសជាតិ និងលក្ខណៈធម្មជាតិរបស់គ្រាប់ស្វាយចន្ទី។',
     descriptionEn: 'Pure cashew kernel flour produced from single-origin Cambodian cashews grown in Kampong Thom province. 100% natural, dairy-free, gluten-free, with zero added sugars, salt, or fillers.',
-    descriptionJa: 'カンポン・トム州産の契約農家カシューナッツを100%使用した無添加パウダー。グルテンフリー、乳製品不使用。'
+    descriptionJa: 'カンポン・トム州産の契約農家カシューナッツを100%使用した無添加パウダー。グルテンフリー、乳製品不使用。',
+    descriptionFr: 'Farine pure moulue à froid à partir de noix de cajou d\'origine unique de Kampong Thom, Cambodge. 100% naturelle, sans produits laitiers, sans gluten, sans sucre ni sel ajouté.'
   }
 ];
 
