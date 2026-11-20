@@ -187,30 +187,68 @@ export function parseIngredientsWithPercentages(
         else name = cleanIngredientsToKhmerOnly(name) || 'គ្រឿងផ្សំធម្មជាតិ';
       }
     } else {
-      // Multilingual mode: translate known Khmer terms or extract English inside brackets
+      // Multilingual mode: translate known Khmer terms or extract English inside brackets (ignoring pure grade qualifiers like Broken, WW180, BB)
       const engMatch = part.match(/\(([A-Za-z\s/&.-]+)\)/);
-      if (engMatch && engMatch[1].trim()) {
-        name = engMatch[1].trim();
-      } else if (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko')) {
+      const isBrokenCashew =
+        name.includes('បំបែក') ||
+        name.includes('បែក') ||
+        name.toLowerCase().includes('broken') ||
+        part.toLowerCase().includes('(broken)') ||
+        name.toLowerCase().includes('split');
+      const rawBracketText = engMatch ? engMatch[1].trim() : '';
+      const isGradeQualifierOnly = /^(broken|bb|ws|ww\d+|whole|split|jumbo|pieces?)$/i.test(rawBracketText);
+      const isFrMode = normLang === 'fr';
+      const isJaMode = normLang === 'ja' || normLang === 'jp';
+      const isKoMode = normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko');
+
+      if (engMatch && rawBracketText && !isGradeQualifierOnly && !isFrMode && !isJaMode && !isKoMode) {
+        name = rawBracketText;
+      } else if (isKoMode) {
         if (name.includes('ទឹក') || name.toLowerCase().includes('water')) name = '정제수 (Purified Water)';
         else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan')) name = '천연 판단 분말 (Pandan Powder)';
         else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour')) name = '100% 순수 캄보디아산 캐슈넛 파우더';
+        else if (isBrokenCashew) name = '조각 캐슈넛 (Broken)';
         else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('កម្ពុជា')) name = '캄보디아산 캐슈넛';
         else if (name.includes('ម្ទេស') || name.toLowerCase().includes('chili')) name = '천연 칠리';
-        else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper')) name = '깜폿 흑후추 GI';
-        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = '정제 설탕 (Sugar)';
-        else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = '깜폿 천일염 (Salt)';
+        else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper')) name = 'GI 캄폿 흑후추';
+        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = '설탕 (Sugar)';
+        else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = '천일염 (Sea Salt)';
         else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic')) name = '신선한 천연 마늘';
         else name = '천연 원료';
+      } else if (isFrMode) {
+        if (name.includes('ទឹក') || name.toLowerCase().includes('water')) name = 'Eau Purifiée';
+        else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan')) name = 'Poudre de Pandan';
+        else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour')) name = 'Farine Pure de Cajou 100%';
+        else if (isBrokenCashew) name = 'Brisures de Noix de Cajou';
+        else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('កម្ពុជា')) name = 'Noix de Cajou du Cambodge';
+        else if (name.includes('ម្ទេស') || name.toLowerCase().includes('chili')) name = 'Piment Naturel du Cambodge';
+        else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper')) name = 'Poivre Noir de Kampot IGP';
+        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = 'Sucre';
+        else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = 'Sel de Mer';
+        else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic')) name = 'Ail Frais Naturel';
+        else name = 'Ingrédient Naturel';
+      } else if (isJaMode) {
+        if (name.includes('ទឹក') || name.toLowerCase().includes('water')) name = '精製水';
+        else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan')) name = '天然パンダン粉末';
+        else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour')) name = '100% 純カシューナッツ粉末';
+        else if (isBrokenCashew) name = '割れカシューナッツ (ブロークン)';
+        else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('កម្ពុជា')) name = 'カンボジア産カシューナッツ';
+        else if (name.includes('ម្ទេស') || name.toLowerCase().includes('chili')) name = '天然クメール唐辛子';
+        else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper')) name = 'GIカンポット黒胡椒';
+        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = '砂糖';
+        else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = '海塩';
+        else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic')) name = '新鮮なニンニク';
+        else name = '天然原材料';
       } else {
         if (name.includes('ទឹក') || name.toLowerCase().includes('water')) name = 'Purified Water';
         else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan')) name = 'Natural Pandan Leaf Powder';
         else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour')) name = '100% Pure Cashew Kernel Flour';
+        else if (isBrokenCashew) name = 'Broken Cashew Kernels';
         else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('កម្ពុជា')) name = 'Cambodian Cashew Kernels';
         else if (name.includes('ម្ទេស') || name.toLowerCase().includes('chili')) name = 'Natural Khmer Chili';
         else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper')) name = 'GI Kampot Black Pepper';
-        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = 'Refined Cane Sugar';
-        else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = 'Kampot Sea Salt';
+        else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar')) name = 'Sugar';
+        else if (name.includes('អំបិល') || name.toLowerCase().includes('salt')) name = 'Sea Salt';
         else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic')) name = 'Fresh Natural Garlic';
         else name = 'Natural Ingredient';
       }
@@ -218,35 +256,38 @@ export function parseIngredientsWithPercentages(
 
     if (!name) continue;
 
-    let badge = isKhmerMode ? 'គ្រឿងផ្សំធម្មជាតិ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '천연 원료' : 'Natural Ingredient');
+    const isFrModeBadge = normLang === 'fr';
+    const isJaModeBadge = normLang === 'ja' || normLang === 'jp';
+    const isKoModeBadge = normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko');
+    let badge = isKhmerMode ? 'គ្រឿងផ្សំធម្មជាតិ' : isKoModeBadge ? '천연 원료' : isFrModeBadge ? 'Ingrédient Naturel' : isJaModeBadge ? '天然原材料' : 'Natural Ingredient';
     let color = palette[i % palette.length];
 
-    if (name.includes('ទឹក') || name.toLowerCase().includes('water') || name.includes('정제수')) {
-      badge = isKhmerMode ? 'ទឹកចម្រោះបរិសុទ្ធ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '정제수' : 'Purified Water');
+    if (name.includes('ទឹក') || name.toLowerCase().includes('water') || name.includes('정제수') || name.includes('Eau') || name.includes('精製水')) {
+      badge = isKhmerMode ? 'ទឹកចម្រោះបរិសុទ្ធ' : isKoModeBadge ? '정제수' : isFrModeBadge ? 'Eau Purifiée' : isJaModeBadge ? '精製水' : 'Purified Water';
       color = 'bg-sky-600';
-    } else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan') || name.includes('판단')) {
-      badge = isKhmerMode ? 'ម្សៅស្លឹកតើយធម្មជាតិ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '천연 판단 분말' : 'Natural Pandan Powder');
+    } else if (name.includes('ស្លឹកតើយ') || name.includes('ស្លឹកតយ') || name.toLowerCase().includes('pandan') || name.includes('판단') || name.includes('パンダン')) {
+      badge = isKhmerMode ? 'ម្សៅស្លឹកតើយធម្មជាតិ' : isKoModeBadge ? '천연 판단 분말' : isFrModeBadge ? 'Poudre de Pandan' : isJaModeBadge ? 'パンダン粉末' : 'Natural Pandan Powder';
       color = 'bg-emerald-600';
-    } else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour') || name.toLowerCase().includes('kernel flour')) {
-      badge = isKhmerMode ? 'វត្ថុធាតុដើមសុទ្ធ ១០០%' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '100% 순수 원료' : '100% Pure Raw Material');
+    } else if (name.includes('ម្សៅគ្រាប់ស្វាយចន្ទី') || name.toLowerCase().includes('cashew flour') || name.toLowerCase().includes('kernel flour') || name.includes('Farine') || name.includes('粉末')) {
+      badge = isKhmerMode ? 'វត្ថុធាតុដើមសុទ្ធ ១០០%' : isKoModeBadge ? '100% 순수 원료' : isFrModeBadge ? '100% Matière Pure' : isJaModeBadge ? '100% 純原材料' : '100% Pure Raw Material';
       color = 'bg-amber-600';
-    } else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('캐슈넛') || name.includes('កម្ពុជា')) {
-      badge = isKhmerMode ? 'កសិផលចម្បងកម្ពុជា' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '주원료 캐슈넛' : 'Primary Cambodian Cashew');
+    } else if (name.includes('ចន្ទី') || name.toLowerCase().includes('cashew') || name.includes('캐슈넛') || name.includes('កម្ពុជា') || name.includes('Cajou') || name.includes('カシューナッツ')) {
+      badge = isKhmerMode ? 'កសិផលចម្បងកម្ពុជា' : isKoModeBadge ? '주원료 캐슈넛' : isFrModeBadge ? 'Cajou du Cambodge' : isJaModeBadge ? '主原料カシューナッツ' : 'Primary Cambodian Cashew';
       color = 'bg-amber-600';
-    } else if (name.includes('ម្ទេស') || name.toLowerCase().includes('chili') || name.includes('칠리')) {
-      badge = isKhmerMode ? 'ម្ទេសហឹរខ្មែរធម្មជាតិ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '천연 매콤 칠리' : 'Natural Khmer Chili');
+    } else if (name.includes('ម្ទេស') || name.toLowerCase().includes('chili') || name.includes('칠리') || name.includes('Piment') || name.includes('唐辛子')) {
+      badge = isKhmerMode ? 'ម្ទេសហឹរខ្មែរធម្មជាតិ' : isKoModeBadge ? '천연 매콤 칠리' : isFrModeBadge ? 'Piment Cambodgien' : isJaModeBadge ? '天然クメール唐辛子' : 'Natural Khmer Chili';
       color = 'bg-rose-600';
-    } else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper') || name.includes('후추')) {
-      badge = isKhmerMode ? 'ម្រេចខ្មៅកំពត GI' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '깜폿 흑후추 GI' : 'GI Kampot Black Pepper');
+    } else if (name.includes('ម្រេច') || name.toLowerCase().includes('pepper') || name.includes('후추') || name.includes('Poivre') || name.includes('黒胡椒')) {
+      badge = isKhmerMode ? 'ម្រេចខ្មៅកំពត GI' : isKoModeBadge ? '깜폿 흑후추 GI' : isFrModeBadge ? 'Poivre de Kampot IGP' : isJaModeBadge ? 'GIカンポット黒胡椒' : 'GI Kampot Black Pepper';
       color = 'bg-slate-800';
-    } else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic') || name.includes('마늘')) {
-      badge = isKhmerMode ? 'ខ្ទឹមសធម្មជាតិ' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '천연 생마늘' : 'Fresh Natural Garlic');
+    } else if (name.includes('ខ្ទឹម') || name.toLowerCase().includes('garlic') || name.includes('마늘') || name.includes('Ail') || name.includes('ニンニク')) {
+      badge = isKhmerMode ? 'ខ្ទឹមសធម្មជាតិ' : isKoModeBadge ? '천연 생마늘' : isFrModeBadge ? 'Ail Naturel' : isJaModeBadge ? '新鮮ニンニク' : 'Fresh Natural Garlic';
       color = 'bg-emerald-600';
-    } else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar') || name.includes('설탕') || name.includes('팜슈가')) {
-      badge = isKhmerMode ? 'ស្ករត្នោត / ស្ករសចម្រាញ់' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '정제 설탕' : 'Refined / Palm Sugar');
+    } else if (name.includes('ស្ករ') || name.toLowerCase().includes('sugar') || name.includes('설탕') || name.includes('팜슈가') || name.includes('Sucre') || name.includes('砂糖')) {
+      badge = isKhmerMode ? 'ស្ករធម្មជាតិ' : isKoModeBadge ? '설탕' : isFrModeBadge ? 'Sucre' : isJaModeBadge ? '砂糖' : 'Sugar';
       color = 'bg-amber-700';
-    } else if (name.includes('អំបិល') || name.toLowerCase().includes('salt') || name.includes('천일염')) {
-      badge = isKhmerMode ? 'អំបិលសមុទ្រកំពត' : (normLang === 'ko' || normLang === 'kr' || normLang.startsWith('ko') ? '깜폿 천일염' : 'Kampot Sea Salt');
+    } else if (name.includes('អំបិល') || name.toLowerCase().includes('salt') || name.includes('천일염') || name.includes('Sel') || name.includes('塩')) {
+      badge = isKhmerMode ? 'អំបិលសមុទ្រ' : isKoModeBadge ? '천일염' : isFrModeBadge ? 'Sel de Mer' : isJaModeBadge ? '海塩' : 'Sea Salt';
       color = 'bg-sky-700';
     }
 
@@ -457,15 +498,16 @@ export default function ProductPassport({
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
   const [activeDisclosureTab, setActiveDisclosureTab] = useState<'all' | 'stories' | 'pepper_cashew' | 'korean' | 'gallery'>('all');
 
-  // Multilingual state: Khmer (default), English, Korean & Japanese (日本語)
+  // Multilingual state: Khmer (default), English, Korean, Japanese & French
   const [passportLang, setPassportLangState] = useState<AppLanguage>(() => {
     if (typeof window !== 'undefined') {
       const p = new URLSearchParams(window.location.search);
       const urlLang = p.get('lang')?.toLowerCase() as AppLanguage | undefined;
-      if (urlLang === 'km' || urlLang === 'kh' || urlLang === 'en' || urlLang === 'ko' || urlLang === 'ja') {
+      if (urlLang === 'km' || urlLang === 'kh' || urlLang === 'en' || urlLang === 'ko' || urlLang === 'ja' || urlLang === 'fr') {
         return urlLang === 'kh' ? 'km' : urlLang;
       }
     }
+    if (globalLang === 'fr') return 'fr';
     if (globalLang === 'ja') return 'ja';
     if (globalLang === 'ko') return 'ko';
     if (globalLang === 'en') return 'en';
@@ -526,6 +568,38 @@ export default function ProductPassport({
     descriptionJa?: string;
     ingredientsJa?: string;
     packageFormatJa?: string;
+    storageJa?: string;
+    allergenJa?: string;
+    instructionsJa?: string;
+    nameFr?: string;
+    descriptionFr?: string;
+    ingredientsFr?: string;
+    packageFormatFr?: string;
+    storageFr?: string;
+    allergenFr?: string;
+    instructionsFr?: string;
+    descriptionEn?: string;
+    ingredientsEn?: string;
+    packageFormatEn?: string;
+    storageEn?: string;
+    allergenEn?: string;
+    instructionsEn?: string;
+    descriptionKo?: string;
+    ingredientsKo?: string;
+    packageFormatKo?: string;
+    storageKo?: string;
+    allergenKo?: string;
+    instructionsKo?: string;
+    originEn?: string;
+    originKo?: string;
+    originJa?: string;
+    originFr?: string;
+    storyKh?: string;
+    storyEn?: string;
+    storyFr?: string;
+    storyKo?: string;
+    storyJa?: string;
+    benefitsByLang?: Partial<Record<'km' | 'en' | 'fr' | 'ko' | 'ja', Array<{ title: string; desc?: string }>>>;
     grade: string;
     spice: string;
     spicePct: number;
@@ -560,6 +634,7 @@ export default function ProductPassport({
     nameKh: 'ម្សៅគ្រាប់ស្វាយចន្ទីសុទ្ធ ១០០%',
     nameKo: '100% 순수 캄보디아산 캐슈넛 파우더 (100% Pure Cashew Kernel Flour)',
     nameJa: '純カシューナッツ粉末 / ローストフラワー (100% Pure Cashew Flour)',
+    nameFr: 'Farine Pure de Noix de Cajou 100%',
     grade: 'WW180',
     spice: '',
     spicePct: 0,
@@ -1187,6 +1262,38 @@ export default function ProductPassport({
         descriptionJa: registryMatch ? registryMatch.descriptionJa : '',
         ingredientsJa: registryMatch ? registryMatch.ingredientsJa : '',
         packageFormatJa: registryMatch ? registryMatch.packageFormatJa : '',
+        storageJa: registryMatch ? registryMatch.storageJa : '',
+        allergenJa: registryMatch ? registryMatch.allergenJa : '',
+        instructionsJa: registryMatch ? registryMatch.instructionsJa : '',
+        nameFr: registryMatch ? registryMatch.nameFr : '',
+        descriptionFr: registryMatch ? registryMatch.descriptionFr : '',
+        ingredientsFr: registryMatch ? registryMatch.ingredientsFr : '',
+        packageFormatFr: registryMatch ? registryMatch.packageFormatFr : '',
+        storageFr: registryMatch ? registryMatch.storageFr : '',
+        allergenFr: registryMatch ? registryMatch.allergenFr : '',
+        instructionsFr: registryMatch ? registryMatch.instructionsFr : '',
+        descriptionEn: registryMatch ? registryMatch.descriptionEn : '',
+        ingredientsEn: registryMatch ? registryMatch.ingredientsEn : '',
+        packageFormatEn: registryMatch ? registryMatch.packageFormatEn : '',
+        storageEn: registryMatch ? registryMatch.storageEn : '',
+        allergenEn: registryMatch ? registryMatch.allergenEn : '',
+        instructionsEn: registryMatch ? registryMatch.instructionsEn : '',
+        descriptionKo: registryMatch ? (registryMatch.descriptionKo || '') : '',
+        ingredientsKo: registryMatch ? (registryMatch.ingredientsKo || '') : '',
+        packageFormatKo: registryMatch ? (registryMatch.packageFormatKo || '') : '',
+        storageKo: registryMatch ? (registryMatch.storageKo || '') : '',
+        allergenKo: registryMatch ? (registryMatch.allergenKo || '') : '',
+        instructionsKo: registryMatch ? (registryMatch.instructionsKo || '') : '',
+        originEn: registryMatch ? registryMatch.originEn : '',
+        originKo: registryMatch ? (registryMatch.originKo || '') : '',
+        originJa: registryMatch ? registryMatch.originJa : '',
+        originFr: registryMatch ? registryMatch.originFr : '',
+        storyKh: registryMatch ? (registryMatch.storyKh || '') : '',
+        storyEn: registryMatch ? (registryMatch.storyEn || '') : '',
+        storyFr: registryMatch ? (registryMatch.storyFr || '') : '',
+        storyKo: registryMatch ? (registryMatch.storyKo || '') : '',
+        storyJa: registryMatch ? (registryMatch.storyJa || '') : '',
+        benefitsByLang: registryMatch ? registryMatch.benefitsByLang : undefined,
         grade: registryMatch ? registryMatch.grade : activeGrade,
         spice: isFlour ? '' : (registryMatch ? registryMatch.activeSpice : activeSpice),
         spicePct: isFlour ? 0 : (registryMatch ? registryMatch.spicePct : activeSpicePct),
@@ -1673,12 +1780,12 @@ export default function ProductPassport({
 
         {/* Action Buttons: Multi-Market Language Selector & Share */}
         <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
-          {/* Multilingual Selector: English & Korean */}
-          <div className="bg-slate-800 p-1 rounded-xl border border-slate-700 flex items-center gap-1 text-xs">
+          {/* Multilingual Selector: English, Korean, Japanese & French */}
+          <div className="bg-slate-800 p-1 rounded-xl border border-slate-700 flex flex-wrap items-center gap-1 text-xs">
             <button
               type="button"
               onClick={() => setPassportLang('en')}
-              className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
+              className={`px-2.5 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
                 passportLang === 'en' ? 'bg-amber-400 text-slate-950 shadow-sm font-black' : 'text-slate-300 hover:text-white'
               }`}
               title="English (International & Global)"
@@ -1688,12 +1795,32 @@ export default function ProductPassport({
             <button
               type="button"
               onClick={() => setPassportLang('ko')}
-              className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
+              className={`px-2.5 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
                 passportLang === 'ko' ? 'bg-amber-400 text-slate-950 shadow-sm font-black' : 'text-slate-300 hover:text-white'
               }`}
               title="한국어 (Korean Market)"
             >
               <span>🇰🇷 한국어</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPassportLang('ja')}
+              className={`px-2.5 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                passportLang === 'ja' ? 'bg-amber-400 text-slate-950 shadow-sm font-black' : 'text-slate-300 hover:text-white'
+              }`}
+              title="日本語 (Japanese Market)"
+            >
+              <span>🇯🇵 日本語</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPassportLang('fr')}
+              className={`px-2.5 py-1.5 rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                passportLang === 'fr' ? 'bg-amber-400 text-slate-950 shadow-sm font-black' : 'text-slate-300 hover:text-white'
+              }`}
+              title="Français (Francophonie & Europe)"
+            >
+              <span>🇫🇷 Français</span>
             </button>
           </div>
 
@@ -1705,7 +1832,11 @@ export default function ProductPassport({
             title="Copy Public Scannable Passport Link"
           >
             {copiedLink ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-            <span>{copiedLink ? 'បានចម្លង Link (Copied)' : 'ចម្លង Link (Copy Link)'}</span>
+            <span>
+              {copiedLink
+                ? (passportLang === 'fr' ? 'Lien Copié' : 'បានចម្លង Link (Copied)')
+                : (passportLang === 'fr' ? 'Copier le Lien' : 'ចម្លង Link (Copy Link)')}
+            </span>
           </button>
         </div>
       </div>
@@ -2479,8 +2610,16 @@ export default function ProductPassport({
                           {isFlour ? '100% Pure Flour' : (isKhmer ? 'រូបមន្តប្រណិត' : 'Gourmet Recipe')}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-700 leading-relaxed font-sans">
-                        {isKhmer
+                      <p className="text-xs text-slate-700 leading-relaxed font-sans whitespace-pre-line">
+                        {passportLang === 'fr' && packagingData.descriptionFr
+                          ? packagingData.descriptionFr
+                          : passportLang === 'ja' && packagingData.descriptionJa
+                          ? packagingData.descriptionJa
+                          : passportLang === 'ko' && packagingData.descriptionKo
+                          ? packagingData.descriptionKo
+                          : !isKhmer && passportLang === 'en' && packagingData.descriptionEn
+                          ? packagingData.descriptionEn
+                          : isKhmer
                           ? (isDescKhmer
                               ? packagingData.description
                               : (passportStoryData.paragraphs && passportStoryData.paragraphs.length > 0
@@ -2524,24 +2663,59 @@ export default function ProductPassport({
                           </h4>
                         </div>
                         <span className="text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full font-bold">
-                          {isKhmer ? `អាយុកាលរក្សាទុក៖ ${packagingData.shelfLifeMonths || 9} ខែ` : passportLang === 'ko' ? `유통기한: ${packagingData.shelfLifeMonths || 9}개월` : `Shelf-Life: ${packagingData.shelfLifeMonths || 9} Mo`}
+                          {isKhmer
+                            ? `អាយុកាលរក្សាទុក៖ ${packagingData.shelfLifeMonths || 9} ខែ`
+                            : passportLang === 'ko'
+                            ? `유통기한: ${packagingData.shelfLifeMonths || 9}개월`
+                            : passportLang === 'fr'
+                            ? `Conservation : ${packagingData.shelfLifeMonths || 9} mois`
+                            : `Shelf-Life: ${packagingData.shelfLifeMonths || 9} Mo`}
                         </span>
                       </div>
                       
                       <div className="grid grid-cols-2 gap-2 text-[11px] font-sans">
                         <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1">
-                          <span className="font-bold text-slate-900 block">🌡️ សីតុណ្ហភាពរក្សាទុក៖</span>
-                          <span className="text-slate-600">{translateStorageToLanguage(packagingData.storage || (isKhmer ? 'រក្សាទុកក្នុងកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។' : 'Store in a cool, dry place (< 25°C). Keep away from direct sunlight and moisture.'), passportLang)}</span>
+                          <span className="font-bold text-slate-900 block">
+                            {passportLang === 'fr' ? '🌡️ Température de conservation :' : '🌡️ សីតុណ្ហភាពរក្សាទុក៖'}
+                          </span>
+                          <span className="text-slate-600">
+                            {passportLang === 'fr' && packagingData.storageFr
+                              ? packagingData.storageFr
+                              : passportLang === 'ja' && packagingData.storageJa
+                              ? packagingData.storageJa
+                              : passportLang === 'ko' && packagingData.storageKo
+                              ? packagingData.storageKo
+                              : !isKhmer && passportLang === 'en' && packagingData.storageEn
+                              ? packagingData.storageEn
+                              : translateStorageToLanguage(packagingData.storage || (isKhmer ? 'រក្សាទុកក្នុងកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។' : 'Store in a cool, dry place (< 25°C). Keep away from direct sunlight and moisture.'), passportLang)}
+                          </span>
                         </div>
                         <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1">
-                          <span className="font-bold text-slate-900 block">🔒 បន្ទាប់ពីបើកគម្រប៖</span>
-                          <span className="text-slate-600">{translateUsageToLanguage(packagingData.instructionsForUse || (isKhmer ? 'ត្រូវបិទខ្សែហ្ស៊ីប ឬគម្របឲ្យជិត និងទទួលទានក្នុងរយៈពេល ៣០ ថ្ងៃ។' : 'Reseal tightly after opening and consume within 30 days.'), passportLang, isFlour)}</span>
+                          <span className="font-bold text-slate-900 block">
+                            {passportLang === 'fr' ? '🔒 Après ouverture :' : '🔒 បន្ទាប់ពីបើកគម្រប៖'}
+                          </span>
+                          <span className="text-slate-600 whitespace-pre-line">
+                            {passportLang === 'fr' && packagingData.instructionsFr
+                              ? packagingData.instructionsFr
+                              : passportLang === 'ja' && packagingData.instructionsJa
+                              ? packagingData.instructionsJa
+                              : passportLang === 'ko' && packagingData.instructionsKo
+                              ? packagingData.instructionsKo
+                              : !isKhmer && passportLang === 'en' && packagingData.instructionsEn
+                              ? packagingData.instructionsEn
+                              : translateUsageToLanguage(packagingData.instructionsForUse || (isKhmer ? 'ត្រូវបិទខ្សែហ្ស៊ីប ឬគម្របឲ្យជិត និងទទួលទានក្នុងរយៈពេល ៣០ ថ្ងៃ។' : 'Reseal tightly after opening and consume within 30 days.'), passportLang, isFlour)}
+                          </span>
                         </div>
                       </div>
 
                       {passportLang === 'ko' && (
                         <div className="bg-slate-50 p-2 rounded-xl text-[10px] text-slate-600 font-sans border border-slate-200">
                           <strong className="text-slate-800">🇰🇷 보관 안내:</strong> {packagingData.storage ? `${packagingData.storage} (직사광선 및 고온 다습한 곳을 피하여 건냉한 곳에 밀봉 보관)` : '직사광선 및 고온 다습한 곳을 피하여 건냉한 곳에 밀봉 보관하십시오. 개봉 후에는 밀봉하여 빠른 시일 내에 섭취하십시오.'}
+                        </div>
+                      )}
+                      {passportLang === 'fr' && (
+                        <div className="bg-slate-50 p-2 rounded-xl text-[10px] text-slate-600 font-sans border border-slate-200">
+                          <strong className="text-slate-800">🇫🇷 Conservation :</strong> {packagingData.storageFr || 'Conserver dans un endroit frais et sec (< 25°C) à l\'abri de la lumière directe et de l\'humidité. Bien refermer après ouverture.'}
                         </div>
                       )}
                     </div>
@@ -2604,6 +2778,8 @@ export default function ProductPassport({
                           <p>
                             {passportLang === 'ko'
                               ? 'Mayany 100% 순수 캐슈넛 파우더는 식품 등급 정밀 분쇄 기술을 통해 뭉침 없이 부드러우며 장기 보관이 가능한 프리미엄 품질을 자랑합니다.'
+                              : passportLang === 'fr'
+                              ? 'La Farine Pure de Noix de Cajou 100% Mayany est produite par mouture de précision de qualité alimentaire pour obtenir une poudre ultra-fine, sans grumeaux et naturellement stable.'
                               : passportLang === 'en'
                               ? 'Mayany 100% Pure Cashew Kernel Flour is produced using food-grade precision milling to achieve an ultra-fine, lump-free flour with extended natural shelf life.'
                               : 'ម្សៅគ្រាប់ស្វាយចន្ទី Mayany ត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីខ្មែរ ១០០% តាមរយៈបច្ចេកវិទ្យាកិនកម្រិតស្តង់ដារចំណីអាហារ ដើម្បីទទួលបានម្សៅស្ងួត ម៉ដ្ឋស្រាល មិនកកដុំ និងរក្សាទុកបានយូរ។'}
@@ -2612,6 +2788,8 @@ export default function ProductPassport({
                             <div className="font-bold">
                               {passportLang === 'ko'
                                 ? '✓ 글루텐 프리 • 무설탕 • 무염 • 무방부제'
+                                : passportLang === 'fr'
+                                ? '✓ Sans Gluten • Sans Sucre Ajouté • Sans Sel Ajouté • Sans Conservateurs'
                                 : passportLang === 'en'
                                 ? '✓ Gluten-Free • Zero Sugar • Zero Salt • No Preservatives'
                                 : '✓ គ្មានជាតិ Gluten • គ្មានជាតិស្ករ • គ្មានជាតិអំបិល • គ្មានសារធាតុគីមីរក្សាទុក'}
@@ -2619,6 +2797,8 @@ export default function ProductPassport({
                             <div className="text-slate-600 text-[10.5px]">
                               {passportLang === 'ko'
                                 ? '식물성 단백질, 식이섬유 및 천연 미네랄(철분, 마그네슘, 아연)이 풍부합니다.'
+                                : passportLang === 'fr'
+                                ? 'Riche en protéines végétales, fibres alimentaires et minéraux naturels (Fer, Magnésium, Zinc).'
                                 : passportLang === 'en'
                                 ? 'Rich in plant-based protein, dietary fiber, and natural minerals (Iron, Magnesium, Zinc).'
                                 : 'សម្បូរដោយជាតិប្រូតេអ៊ីនរុក្ខជាតិ កាកសរសៃអាហារ និងជាតិរ៉ែធម្មជាតិ (Iron, Magnesium, Zinc)។'}
@@ -2839,7 +3019,7 @@ export default function ProductPassport({
                         <tbody>
                           <tr className="border-b border-slate-200">
                             <td className="bg-slate-100 px-3 py-2 font-bold w-1/4 border-r border-slate-300 text-[11px]">제품명</td>
-                            <td className="px-3 py-2 font-semibold">{getStandardKoreanProductName(packagingData.nameKh, packagingData.product, isFlour)}</td>
+                            <td className="px-3 py-2 font-semibold">{packagingData.nameKo || getStandardKoreanProductName(packagingData.nameKh, packagingData.product, isFlour)}</td>
                           </tr>
                           <tr className="border-b border-slate-200">
                             <td className="bg-slate-100 px-3 py-2 font-bold border-r border-slate-300 text-[11px]">식품유형</td>
@@ -3098,10 +3278,14 @@ export default function ProductPassport({
               </div>
               <div>
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider font-sans">
-                  {isKhmer ? 'វិញ្ញាបនបត្របច្ចេកទេសគុណភាពកសិផលស្តង់ដារជាតិ' : 'Official Technical Product Certificate'}
+                  {isKhmer
+                    ? 'វិញ្ញាបនបត្របច្ចេកទេសគុណភាពកសិផលស្តង់ដារជាតិ'
+                    : passportLang === 'fr'
+                    ? 'Certificat Technique Officiel du Produit'
+                    : 'Official Technical Product Certificate'}
                 </h3>
                 <p className="text-[10px] text-slate-400 font-mono">
-                  {isKhmer ? 'លេខយោង' : 'REF'}: MISTI-CS001-2026-{packagingData.batch}
+                  {isKhmer ? 'លេខយោង' : passportLang === 'fr' ? 'RÉF' : 'REF'}: MISTI-CS001-2026-{packagingData.batch}
                 </p>
               </div>
             </div>
@@ -3116,13 +3300,13 @@ export default function ProductPassport({
                     ? 'bg-rose-500 hover:bg-rose-600 text-white animate-pulse'
                     : 'bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black'
                 }`}
-                title={isKhmer ? 'អានវិញ្ញាបនបត្រឮៗ' : 'Read Aloud Audio Narration'}
+                title={isKhmer ? 'អានវិញ្ញាបនបត្រឮៗ' : passportLang === 'fr' ? 'Lecture audio du certificat' : 'Read Aloud Audio Narration'}
               >
                 {isSpeaking ? (isPaused ? <Play size={14} /> : <Pause size={14} />) : <Volume2 size={14} />}
                 <span>
                   {isSpeaking 
-                    ? (isPaused ? (isKhmer ? 'បន្តអាន' : 'Resume') : (isKhmer ? 'ផ្អាកអាន' : 'Pause'))
-                    : (isKhmer ? 'អានឮៗ 🔊' : 'Read Aloud 🔊')}
+                    ? (isPaused ? (isKhmer ? 'បន្តអាន' : passportLang === 'fr' ? 'Reprendre' : 'Resume') : (isKhmer ? 'ផ្អាកអាន' : passportLang === 'fr' ? 'Pause' : 'Pause'))
+                    : (isKhmer ? 'អានឮៗ 🔊' : passportLang === 'fr' ? 'Lire à Voix Haute 🔊' : 'Read Aloud 🔊')}
                 </span>
               </button>
 
@@ -3132,7 +3316,7 @@ export default function ProductPassport({
                 className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition cursor-pointer shadow-xs"
               >
                 <Printer size={14} />
-                <span>{isKhmer ? 'បោះពុម្ពវិញ្ញាបនបត្រ' : 'Print Certificate (PDF)'}</span>
+                <span>{isKhmer ? 'បោះពុម្ពវិញ្ញាបនបត្រ' : passportLang === 'fr' ? 'Imprimer Certificat (PDF)' : 'Print Certificate (PDF)'}</span>
               </button>
               <button
                 type="button"
@@ -3140,7 +3324,11 @@ export default function ProductPassport({
                 className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition cursor-pointer border border-slate-700"
               >
                 {copiedLink ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                <span>{copiedLink ? (isKhmer ? 'បានចម្លង' : 'Copied') : (isKhmer ? 'ចម្លងតំណភ្ជាប់' : 'Copy Link')}</span>
+                <span>
+                  {copiedLink
+                    ? (isKhmer ? 'បានចម្លង' : passportLang === 'fr' ? 'Copié' : 'Copied')
+                    : (isKhmer ? 'ចម្លងតំណភ្ជាប់' : passportLang === 'fr' ? 'Copier le Lien' : 'Copy Link')}
+                </span>
               </button>
             </div>
           </div>
@@ -3150,7 +3338,15 @@ export default function ProductPassport({
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4 text-amber-400 shrink-0" />
               <span className="text-xs font-black text-amber-300 uppercase tracking-wider font-sans">
-                {isKhmer ? 'ជ្រើសរើសភាសាចេញវិញ្ញាបនបត្រផ្លូវការ៖' : passportLang === 'ko' ? '인증서 발급 언어 선택:' : 'Choose Certificate Language:'}
+                {isKhmer
+                  ? 'ជ្រើសរើសភាសាចេញវិញ្ញាបនបត្រផ្លូវការ៖'
+                  : passportLang === 'ko'
+                  ? '인증서 발급 언어 선택:'
+                  : passportLang === 'ja'
+                  ? '証明書の発行言語を選択:'
+                  : passportLang === 'fr'
+                  ? 'Choisir la langue du certificat :'
+                  : 'Choose Certificate Language:'}
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-1.5">
@@ -3321,11 +3517,21 @@ export default function ProductPassport({
                   ? 'ដបកែវសុវត្ថិភាពម្ហូបអាហារ (Food-Grade Glass Bottle)'
                   : isNoodle
                   ? 'កញ្ចប់/ប្រអប់មីអាហារូបត្ថម្ភ (150g Noodle Bag / Box)'
+                  : (packagingData.packageFormat && /[\u1780-\u17FF]/.test(packagingData.packageFormat))
+                  ? packagingData.packageFormat
                   : packagingData.packageFormat 
                   ? (packagingData.packageFormat.toLowerCase().includes('jar') ? 'ក្រឡកែវ/PET សុវត្ថិភាពម្ហូបអាហារ បិទត្រាការពារខ្យល់ (Food-Grade Jar)' : 'កញ្ចប់បាតឈរ ៥០g ជាមួយខ្សែរូត (50g Standing Pouch with Zipper)')
                   : (effectiveWeight.includes('175') || effectiveWeight.includes('200')
                       ? 'ក្រឡកែវ/PET សុវត្ថិភាពម្ហូបអាហារ បិទត្រាការពារខ្យល់ (Food-Grade Jar)' 
                       : 'កញ្ចប់បាតឈរ ៥០g ជាមួយខ្សែរូត (50g Standing Pouch with Zipper)'))
+              : passportLang === 'fr'
+              ? (isMilkDedicated || packagingData.packageFormat?.toLowerCase().includes('bottle')
+                  ? 'Bouteille en verre alimentaire 1L avec bague d\'inviolabilité'
+                  : isNoodle
+                  ? 'Sachet / Boîte alimentaire 150g de nouilles aux noix de cajou'
+                  : packagingData.packageFormatFr || (packagingData.packageFormat?.toLowerCase().includes('jar') || effectiveWeight.includes('175') || effectiveWeight.includes('200')
+                      ? 'Bocal alimentaire PET / Verre à fermeture hermétique par induction'
+                      : 'Sachet souple refermable (Standing Pouch 50g avec zip)'))
               : passportLang === 'ja'
               ? (isMilkDedicated || packagingData.packageFormat?.toLowerCase().includes('bottle')
                   ? '1000ml 食品用衛生ガラスボトル（密閉キャップ）'
@@ -3339,16 +3545,16 @@ export default function ProductPassport({
                   ? '식품 등급 1L 위생 유리병 (1L Food-Grade Glass Bottle)'
                   : isNoodle
                   ? '영양 캐슈넛 건면 포장/상자 (150g Noodle Bag / Box)'
-                  : packagingData.packageFormat?.toLowerCase().includes('jar') || effectiveWeight.includes('175') || effectiveWeight.includes('200')
-                  ? '식품 등급 밀폐 보관 용기 (Jar)'
-                  : '스탠드형 지퍼 밀봉 파우치 (50g Standing Pouch)')
+                  : packagingData.packageFormatKo || (packagingData.packageFormat?.toLowerCase().includes('jar') || effectiveWeight.includes('175') || effectiveWeight.includes('200')
+                      ? '식품 등급 밀폐 보관 용기 (Jar)'
+                      : '스탠드형 지퍼 밀봉 파우치 (50g Standing Pouch)'))
               : (isMilkDedicated || packagingData.packageFormat?.toLowerCase().includes('bottle')
                   ? 'Food-Grade Glass Bottle (1L Glass Bottle with Tamper Seal)'
                   : isNoodle
                   ? '150g Nutrient-Rich Cashew Flour Noodle Bag / Box'
-                  : packagingData.packageFormat?.toLowerCase().includes('jar') || effectiveWeight.includes('175') || effectiveWeight.includes('200')
-                  ? 'Food-Grade Induction Sealed Jar'
-                  : 'Food-Grade Stand-Up Barrier Pouch with Zipper (50g Standing Pouch)');
+                  : packagingData.packageFormatEn || (packagingData.packageFormat?.toLowerCase().includes('jar') || effectiveWeight.includes('175') || effectiveWeight.includes('200')
+                      ? 'Food-Grade Induction Sealed Jar'
+                      : 'Food-Grade Stand-Up Barrier Pouch with Zipper (50g Standing Pouch)'));
 
             const isPouchWeight = !isMilkDedicated && Boolean(
               (packagingData.packageFormat && (packagingData.packageFormat.toLowerCase().includes('pouch') || packagingData.packageFormat.includes('កញ្ចប់') || packagingData.packageFormat.includes('ថង់'))) ||
@@ -3378,7 +3584,23 @@ export default function ProductPassport({
               packagingData.nameKh?.includes('ម្ទេស') ||
               packagingData.customIngredients?.includes('ម្ទេស')
             );
-            const officialDescription = (isKhmer && !isDescKhmer)
+            const officialDescription = passportLang === 'fr'
+              ? (packagingData.descriptionFr || (storyData.paragraphs && storyData.paragraphs.length > 0
+                  ? storyData.paragraphs.join('\n\n')
+                  : (isFlour
+                      ? 'Farine pure de noix de cajou produite à partir de noix cultivées et décortiquées dans la province de Kampong Thom, Royaume du Cambodge. Moulue à froid selon des protocoles stricts de sécurité alimentaire, sans sel ajouté, sans sucre et sans conservateurs.'
+                      : `${packagingData.nameFr || packagingData.product} est élaboré à partir de noix de cajou cambodgiennes sélectionnées et récoltées à la main dans la province de Kampong Thom, transformées selon les normes de sécurité alimentaire CS 001.`)))
+              : passportLang === 'ja'
+              ? (packagingData.descriptionJa || (storyData.paragraphs && storyData.paragraphs.length > 0
+                  ? storyData.paragraphs.join('\n\n')
+                  : `${packagingData.nameJa || packagingData.product}（カンボジア王国コンポントム州産）`))
+              : passportLang === 'ko'
+              ? (packagingData.descriptionKo || (storyData.paragraphs && storyData.paragraphs.length > 0
+                  ? storyData.paragraphs.join('\n\n')
+                  : (isFlour
+                      ? '100% 순수 캐슈넛 가루는 캄보디아 왕국 캄퐁톰(Kampong Thom) 지역에서 재배되고 탈각된 프리미엄 캐슈넛으로 제조됩니다. 모든 생산 과정은 식품 안전 원칙에 따라 품질, 안전 및 위생을 철저히 유지하기 위해 세심하게 관리됩니다. 방부제, 인공 향료 및 색소를 일체 첨가하지 않았습니다.'
+                      : `${packagingData.nameKo || packagingData.product}은(는) 캄보디아 캄퐁톰 지역의 현지 농가에서 직접 수확한 프리미엄 캐슈넛으로 제조되며, 엄격한 위생 및 안전 기준을 준수하여 생산됩니다.`)))
+              : (isKhmer && !isDescKhmer)
               ? (storyData.paragraphs && storyData.paragraphs.length > 0
                   ? storyData.paragraphs.join('\n\n')
                   : (isFlour
@@ -3386,33 +3608,36 @@ export default function ProductPassport({
                       : (isPepper
                           ? 'គ្រាប់ស្វាយចន្ទីស្រោបម្រេចខ្មៅកំពត GI ត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីកម្ពុជាគុណភាពខ្ពស់ និងម្រេចខ្មៅកំពត GI ដ៏ល្បីល្បាញលើពិភពលោក។ គ្រប់ដំណាក់កាលនៃផលិតកម្មត្រូវបានសម្រិតសម្រាំង និងយកចិត្តទុកដាក់ខ្ពស់ដើម្បីគុណភាព សុវត្ថិភាព និងអនាម័យស្របតាមស្តង់ដារសុវត្ថិភាពម្ហូបអាហារ CS 001 ដោយមិនបន្ថែមសារធាតុរក្សាទុក មិនបន្ថែមក្លិន មិនបន្ថែមពណ៌។ គ្រាប់ស្វាយចន្ទីស្រោបម្រេចកំពតផ្តល់នូវរសជាតិឈ្ងុយហឹរស្រាល ស្រួយឆ្ងាញ់ធម្មជាតិ និងជាអាហារសម្រន់សុខភាពប្រចាំថ្ងៃ។'
                           : `${packagingData.nameKh || ensureKhmerProductName(packagingData.nameKh, packagingData.product)} ត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីកម្ពុជាធម្មជាតិដែលប្រមូលផលដោយដៃពីចម្ការកសិករក្នុងខេត្តកំពង់ធំ។ ឆ្លងកាត់ការកែច្នៃសម្រិតសម្រាំង និងលីងស្រោបគ្រឿងទេសធម្មជាតិកម្ពុជា ស្របតាមស្តង់ដារគុណភាព និងអនាម័យខ្ពស់បំផុត។`)))
+              : (!isKhmer && packagingData.descriptionEn)
+              ? packagingData.descriptionEn
               : (!isKhmer && isDescKhmer)
               ? (storyData.paragraphs && storyData.paragraphs.length > 0
                   ? storyData.paragraphs.join('\n\n')
-                  : (passportLang === 'ko'
-                      ? (isFlour
-                          ? '100% 순수 캐슈넛 가루는 캄보디아 왕국 캄퐁톰(Kampong Thom) 지역에서 재배되고 탈각된 프리미엄 캐슈넛으로 제조됩니다. 모든 생산 과정은 식품 안전 원칙에 따라 품질, 안전 및 위생을 철저히 유지하기 위해 세심하게 관리됩니다. 방부제, 인공 향료 및 색소를 일체 첨가하지 않았습니다.'
-                          : `${packagingData.nameKo || packagingData.product}은(는) 캄보디아 캄퐁톰 지역의 현지 농가에서 직접 수확한 프리미엄 캐슈넛으로 제조되며, 엄격한 위생 및 안전 기준을 준수하여 생산됩니다.`)
-                      : (isFlour
-                          ? 'Pure cashew kernel flour produced from cashew nuts grown and shelled in Kampong Thom province, Kingdom of Cambodia. Meticulously cold-milled under strict food safety protocols with zero added salt, zero sugar, and no preservatives.'
-                          : `${packagingData.product} is crafted from selected Cambodian cashews hand-harvested by local farming communities in Kampong Thom province, naturally seasoned to perfection.`)))
+                  : (isFlour
+                      ? 'Pure cashew kernel flour produced from cashew nuts grown and shelled in Kampong Thom province, Kingdom of Cambodia. Meticulously cold-milled under strict food safety protocols with zero added salt, zero sugar, and no preservatives.'
+                      : `${packagingData.product} is crafted from selected Cambodian cashews hand-harvested by local farming communities in Kampong Thom province, naturally seasoned to perfection.`))
               : (userCustomDesc || (storyData.paragraphs && storyData.paragraphs.length > 0
                   ? storyData.paragraphs.join('\n\n')
                   : (isFlour
                       ? (isKhmer
                           ? 'ម្សៅគ្រាប់ស្វាយចន្ទីត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីដែលដាំដុះ និងបកសំបកនៅក្នុងខេត្តកំពង់ធំ ព្រះរាជាណាចក្រកម្ពុជា។ រាល់ដំណាក់កាលនៃការផលិតត្រូវបានយកចិត្តទុកដាក់ និងសម្រិតសម្រាំង ដើម្បីរក្សាបាននូវគុណភាព សុវត្ថិភាព និងអនាម័យស្របតាមគោលការណ៍សុវត្ថិភាពម្ហូបអាហារ។ ផលិតផលនេះមិនបន្ថែមសារធាតុរក្សាទុក មិនបន្ថែមក្លិន និងមិនបន្ថែមពណ៌ ដើម្បីរក្សារសជាតិ និងលក្ខណៈធម្មជាតិរបស់គ្រាប់ស្វាយចន្ទី។'
-                          : passportLang === 'ko'
-                          ? '100% 순수 캐슈넛 가루는 캄보디아 왕국 캄퐁톰(Kampong Thom) 지역에서 재배되고 탈각된 프리미엄 캐슈넛으로 제조됩니다. 모든 생산 과정은 식품 안전 원칙에 따라 품질, 안전 및 위생을 철저히 유지하기 위해 세심하게 관리됩니다. 방부제, 인공 향료 및 색소를 일체 첨가하지 않았습니다.'
                           : 'Pure cashew kernel flour produced from cashew nuts grown and shelled in Kampong Thom province, Kingdom of Cambodia. Meticulously cold-milled under strict food safety protocols with zero added salt, zero sugar, and no preservatives.')
                       : (isKhmer
                           ? `${packagingData.nameKh} ត្រូវបានផលិតចេញពីគ្រាប់ស្វាយចន្ទីកម្ពុជាធម្មជាតិដែលប្រមូលផលដោយដៃពីចម្ការកសិករក្នុងខេត្តកំពង់ធំ។ ឆ្លងកាត់ការកែច្នៃសម្រិតសម្រាំង និងលីងស្រោបគ្រឿងទេសធម្មជាតិកម្ពុជា ស្របតាមស្តង់ដារគុណភាព និងអនាម័យខ្ពស់បំផុត។`
-                          : passportLang === 'ko'
-                          ? `${packagingData.nameKo || packagingData.product}은(는) 캄보디아 캄퐁톰 지역의 현지 농가에서 직접 수확한 프리미엄 캐슈넛으로 제조되며, 엄격한 위생 및 안전 기준을 준수하여 생산됩니다.`
                           : `${packagingData.product} is crafted from selected Cambodian cashews hand-harvested by local farming communities in Kampong Thom province, naturally seasoned to perfection.`))));
 
             const userCustomStory = (packagingData.botanical && packagingData.botanical.trim() && !packagingData.botanical.includes('Anacardium')) ? packagingData.botanical.trim() : '';
             const isStoryKhmer = userCustomStory && /[\u1780-\u17FF]/.test(userCustomStory);
-            const storyParagraphs = (isKhmer && !isStoryKhmer)
+            const registryStory =
+              isKhmer ? packagingData.storyKh :
+              passportLang === 'fr' ? packagingData.storyFr :
+              passportLang === 'ko' ? packagingData.storyKo :
+              passportLang === 'ja' ? packagingData.storyJa :
+              packagingData.storyEn;
+
+            const storyParagraphs = registryStory && registryStory.trim()
+              ? registryStory.split(/\n\n+/).map(p => p.trim()).filter(Boolean)
+              : (isKhmer && !isStoryKhmer)
               ? storyData.paragraphs
               : (!isKhmer && isStoryKhmer)
               ? storyData.paragraphs
@@ -3420,7 +3645,16 @@ export default function ProductPassport({
                   ? userCustomStory.split('\n').filter(p => p.trim())
                   : storyData.paragraphs);
 
-            const benefitsList = (storyData.benefits && storyData.benefits.length > 0) ? storyData.benefits : [];
+            const benefitLangKey: 'km' | 'en' | 'fr' | 'ko' | 'ja' =
+              isKhmer ? 'km' :
+              passportLang === 'fr' ? 'fr' :
+              passportLang === 'ko' ? 'ko' :
+              passportLang === 'ja' ? 'ja' :
+              'en';
+            const registryBenefits = packagingData.benefitsByLang?.[benefitLangKey];
+            const benefitsList = (registryBenefits && registryBenefits.length > 0)
+              ? registryBenefits
+              : ((storyData.benefits && storyData.benefits.length > 0) ? storyData.benefits : []);
 
             const certParsedIngredients = parseIngredientsWithPercentages(
               packagingData.customIngredients,
@@ -3518,7 +3752,7 @@ export default function ProductPassport({
                         {tCert.productNameKoLabel}:
                       </div>
                       <p className="text-sm sm:text-base font-bold text-indigo-950 font-sans">
-                        {getStandardKoreanProductName(packagingData.nameKh, packagingData.product, isFlour)}
+                        {packagingData.nameKo || getStandardKoreanProductName(packagingData.nameKh, packagingData.product, isFlour)}
                       </p>
                     </div>
                   )}
@@ -3531,6 +3765,18 @@ export default function ProductPassport({
                       </div>
                       <p className="text-sm sm:text-base font-bold text-rose-950 font-sans">
                         {packagingData.nameJa || packagingData.product}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* French Name (when French is selected) */}
+                  {passportLang === 'fr' && (
+                    <div className="space-y-0.5 pt-1 border-t border-slate-100">
+                      <div className="text-xs font-semibold text-blue-700 font-sans">
+                        {tCert.productNameKoLabel || 'Nom en Français'}:
+                      </div>
+                      <p className="text-sm sm:text-base font-bold text-blue-950 font-sans">
+                        {packagingData.nameFr || packagingData.product}
                       </p>
                     </div>
                   )}
@@ -3616,7 +3862,7 @@ export default function ProductPassport({
                       </p>
                     </div>
                     <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg font-bold border border-emerald-200 flex items-center gap-1">
-                      ✓ {isKhmer ? 'ម៉ាស់សរុប ១០០%' : passportLang === 'ko' ? '총 함량 100%' : 'Total 100% Mass'}
+                      ✓ {isKhmer ? 'ម៉ាស់សរុប ១០០%' : passportLang === 'ko' ? '총 함량 100%' : passportLang === 'fr' ? 'Masse Totale 100%' : 'Total 100% Mass'}
                     </span>
                   </div>
 
@@ -3642,7 +3888,7 @@ export default function ProductPassport({
 
                         <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
                           <span>{item.badge}</span>
-                          <span>{item.percent > 0 ? (packagingData.product.toLowerCase().includes('milk') || packagingData.nameKh.includes('ទឹកដោះគោ') || packagingData.weight?.includes('L') || packagingData.weight?.includes('ml') ? `${item.percent} ml / 100ml` : `${item.percent} ${isKhmer ? 'ក្រាម / ១០០g' : 'g / 100g'}`) : (isKhmer ? 'ដានតិចតួច' : 'Trace')}</span>
+                          <span>{item.percent > 0 ? (packagingData.product.toLowerCase().includes('milk') || packagingData.nameKh.includes('ទឹកដោះគោ') || packagingData.weight?.includes('L') || packagingData.weight?.includes('ml') ? `${item.percent} ml / 100ml` : `${item.percent} ${isKhmer ? 'ក្រាម / ១០០g' : 'g / 100g'}`) : (isKhmer ? 'ដានតិចតួច' : passportLang === 'fr' ? 'Traces' : 'Trace')}</span>
                         </div>
                       </div>
                     ))}
@@ -3655,12 +3901,20 @@ export default function ProductPassport({
                       <span>{tCert.fullDeclarationHeader}</span>
                     </div>
                     <div className="text-slate-800">
-                      {translateIngredientsToLanguage(
-                        packagingData.customIngredients || (isFlour
-                          ? 'ម្សៅគ្រាប់ស្វាយចន្ទីកម្ពុជា ១០០% • គ្មានបន្ថែមអំបិល គ្មានស្ករ គ្មានសារធាតុរក្សាទុក គ្មានបន្ថែមក្លិន គ្មានបន្ថែមពណ៌'
-                          : `${packagingData.nameKh || packagingData.product}៖ គ្រាប់ស្វាយចន្ទី ${packagingData.grade || ''} (${packagingData.cashewPct || 92}%), គ្រឿងទេសធម្មជាតិ (${packagingData.spicePct || 5}%), ស្ករត្នោត (${packagingData.sugarPct || 2}%), អំបិលសមុទ្រ (${packagingData.saltPct || 1}%)។`),
-                        passportLang
-                      )}
+                      {passportLang === 'fr' && packagingData.ingredientsFr
+                        ? packagingData.ingredientsFr
+                        : passportLang === 'ja' && packagingData.ingredientsJa
+                        ? packagingData.ingredientsJa
+                        : passportLang === 'ko' && packagingData.ingredientsKo
+                        ? packagingData.ingredientsKo
+                        : !isKhmer && passportLang === 'en' && packagingData.ingredientsEn
+                        ? packagingData.ingredientsEn
+                        : translateIngredientsToLanguage(
+                            packagingData.customIngredients || (isFlour
+                              ? 'ម្សៅគ្រាប់ស្វាយចន្ទីកម្ពុជា ១០០% • គ្មានបន្ថែមអំបិល គ្មានស្ករ គ្មានសារធាតុរក្សាទុក គ្មានបន្ថែមក្លិន គ្មានបន្ថែមពណ៌'
+                              : `${packagingData.nameKh || packagingData.product}៖ គ្រាប់ស្វាយចន្ទី ${packagingData.grade || ''} (${packagingData.cashewPct || 92}%), គ្រឿងទេសធម្មជាតិ (${packagingData.spicePct || 5}%), ស្ករត្នោត (${packagingData.sugarPct || 2}%), អំបិលសមុទ្រ (${packagingData.saltPct || 1}%)។`),
+                            passportLang
+                          )}
                     </div>
                   </div>
 
@@ -3669,10 +3923,18 @@ export default function ProductPassport({
                     <div className="flex flex-wrap items-center justify-between gap-1.5 border-b border-slate-200 pb-1.5">
                       <span className="font-black text-slate-900 text-xs flex items-center gap-1.5">
                         <span>🌱</span>
-                        <span>{isKhmer ? 'បញ្ជីអ្នកផ្គត់ផ្គង់តាមគ្រឿងផ្សំនីមួយៗ' : passportLang === 'ko' ? '원재료별 공급업체 목록 (Ingredient Suppliers)' : 'Ingredient Suppliers Traceability List'}</span>
+                        <span>
+                          {isKhmer
+                            ? 'បញ្ជីអ្នកផ្គត់ផ្គង់តាមគ្រឿងផ្សំនីមួយៗ'
+                            : passportLang === 'ko'
+                            ? '원재료별 공급업체 목록 (Ingredient Suppliers)'
+                            : passportLang === 'fr'
+                            ? 'Liste de Traçabilité des Fournisseurs par Ingrédient'
+                            : 'Ingredient Suppliers Traceability List'}
+                        </span>
                       </span>
                       <span className="text-[10px] font-mono text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-                        ✓ {isKhmer ? 'ប្រភពកម្ពុជា ១០០%' : '100% Cambodian Sourced'}
+                        ✓ {isKhmer ? 'ប្រភពកម្ពុជា ១០០%' : passportLang === 'fr' ? '100% Origine Cambodge' : '100% Cambodian Sourced'}
                       </span>
                     </div>
 
@@ -3680,23 +3942,23 @@ export default function ProductPassport({
                       {/* Cashew Supplier */}
                       <div className="p-2.5 bg-white rounded-lg border border-slate-200 space-y-0.5">
                         <span className="text-[10px] text-slate-500 font-bold block">
-                          🥜 {isKhmer ? 'គ្រាប់ស្វាយចន្ទី' : 'Cashew Kernels'}:
+                          🥜 {isKhmer ? 'គ្រាប់ស្វាយចន្ទី' : passportLang === 'fr' ? 'Noix de Cajou' : 'Cashew Kernels'}:
                         </span>
                         <p className="font-black text-slate-950 text-xs">Mirarth Agri Tech Co., Ltd.</p>
                         <span className="text-[10px] text-emerald-700 font-medium block">
-                          {isKhmer ? 'កំពង់ធំ • រោងចក្របកសំបក' : 'Kampong Thom • Peeling Facility'}
+                          {isKhmer ? 'កំពង់ធំ • រោងចក្របកសំបក' : passportLang === 'fr' ? 'Kampong Thom • Décorticage' : 'Kampong Thom • Peeling Facility'}
                         </span>
                       </div>
 
-                      {/* Pepper Supplier - strictly excluded for Chili products and when not in selectedSuppliers */}
-                      {(!isChili && (packagingData.flavor.toLowerCase().includes('pepper') || packagingData.product.toLowerCase().includes('pepper') || packagingData.nameKh.includes('ម្រេច') || packagingData.customIngredients.includes('ម្រេច')) && (packagingData.selectedSuppliers && packagingData.selectedSuppliers.some(s => s.includes('BOH') || s.includes('ម្រេច') || s.toLowerCase().includes('pepper')))) && (
+                      {/* Pepper Supplier - strictly excluded for Chili products */}
+                      {(!isChili && (isPepper || packagingData.flavor.toLowerCase().includes('pepper') || packagingData.product.toLowerCase().includes('pepper') || packagingData.nameKh.includes('ម្រេច') || packagingData.customIngredients.includes('ម្រេច')) && (!packagingData.selectedSuppliers || packagingData.selectedSuppliers.length === 0 || packagingData.selectedSuppliers.some(s => s.includes('BOH') || s.includes('ម្រេច') || s.toLowerCase().includes('pepper')))) && (
                         <div className="p-2.5 bg-white rounded-lg border border-slate-200 space-y-0.5">
                           <span className="text-[10px] text-slate-500 font-bold block">
-                            🌿 {isKhmer ? 'ម្រេចខ្មៅកំពត GI' : 'GI Kampot Pepper'}:
+                            🌿 {isKhmer ? 'ម្រេចខ្មៅកំពត GI' : passportLang === 'fr' ? 'Poivre Noir de Kampot IGP' : 'GI Kampot Pepper'}:
                           </span>
                           <p className="font-black text-slate-950 text-xs">BOH Co., Ltd.</p>
                           <span className="text-[10px] text-emerald-700 font-medium block">
-                            {isKhmer ? 'ខេត្តកំពត • សមាគមម្រេចកំពត GI' : 'Kampot • Certified GI Association'}
+                            {isKhmer ? 'ខេត្តកំពត • សមាគមម្រេចកំពត GI' : passportLang === 'fr' ? 'Kampot • Association IGP Certifiée' : 'Kampot • Certified GI Association'}
                           </span>
                         </div>
                       )}
@@ -3806,67 +4068,67 @@ export default function ProductPassport({
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.proteinLabel}</span>
                       <span className="font-black text-emerald-800 text-sm">{packagingData.nutrition?.protein || '18.2'} g</span>
-                      <span className="text-[9.5px] text-emerald-700 block font-sans">{isKhmer ? 'ប្រូតេអ៊ីនរុក្ខជាតិ' : passportLang === 'ko' ? '식물성 단백질' : 'Plant Protein'}</span>
+                      <span className="text-[9.5px] text-emerald-700 block font-sans">{isKhmer ? 'ប្រូតេអ៊ីនរុក្ខជាតិ' : passportLang === 'ko' ? '식물성 단백질' : passportLang === 'fr' ? 'Protéines végétales' : 'Plant Protein'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.totalFatLabel}</span>
                       <span className="font-black text-slate-950 text-sm">{packagingData.nutrition?.totalFat || '43.8'} g</span>
-                      <span className="text-[9.5px] text-slate-500 block font-sans">{isKhmer ? 'ខ្លាញ់ល្អមិនឆ្អែត' : passportLang === 'ko' ? '건강한 불포화지방' : 'Healthy Fats'}</span>
+                      <span className="text-[9.5px] text-slate-500 block font-sans">{isKhmer ? 'ខ្លាញ់ល្អមិនឆ្អែត' : passportLang === 'ko' ? '건강한 불포화지방' : passportLang === 'fr' ? 'Bons lipides insaturés' : 'Healthy Fats'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.saturatedFatLabel}</span>
                       <span className="font-bold text-slate-800">{packagingData.nutrition?.saturatedFat || '7.8'} g</span>
-                      <span className="text-[9.5px] text-slate-400 block font-sans">{isKhmer ? 'ខ្លាញ់ឆ្អែតធម្មជាតិ' : passportLang === 'ko' ? '천연 포화지방' : 'Naturally occurring'}</span>
+                      <span className="text-[9.5px] text-slate-400 block font-sans">{isKhmer ? 'ខ្លាញ់ឆ្អែតធម្មជាតិ' : passportLang === 'ko' ? '천연 포화지방' : passportLang === 'fr' ? 'D\'origine naturelle' : 'Naturally occurring'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.transFatLabel}</span>
                       <span className="font-bold text-slate-800">{packagingData.nutrition?.transFat || '0.0'} g</span>
-                      <span className="text-[9.5px] text-emerald-700 block font-sans">{isKhmer ? 'គ្មានខ្លាញ់ឆ្លង (០%)' : passportLang === 'ko' ? '트랜스지방 0%' : '0% Trans Fat'}</span>
+                      <span className="text-[9.5px] text-emerald-700 block font-sans">{isKhmer ? 'គ្មានខ្លាញ់ឆ្លង (០%)' : passportLang === 'ko' ? '트랜스지방 0%' : passportLang === 'fr' ? '0% Acides gras trans' : '0% Trans Fat'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.cholesterolLabel}</span>
                       <span className="font-bold text-slate-800">{packagingData.nutrition?.cholesterol || '0'} mg</span>
-                      <span className="text-[9.5px] text-emerald-700 block font-sans">{isKhmer ? 'គ្មានកូឡេស្តេរ៉ុល' : passportLang === 'ko' ? '콜레스테롤 0%' : 'Cholesterol Free'}</span>
+                      <span className="text-[9.5px] text-emerald-700 block font-sans">{isKhmer ? 'គ្មានកូឡេស្តេរ៉ុល' : passportLang === 'ko' ? '콜레스테롤 0%' : passportLang === 'fr' ? 'Sans cholestérol' : 'Cholesterol Free'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.totalCarbLabel}</span>
                       <span className="font-black text-slate-950 text-sm">{packagingData.nutrition?.totalCarb || '30.1'} g</span>
-                      <span className="text-[9.5px] text-slate-500 block font-sans">{isKhmer ? 'ថាមពលយូរអង្វែង' : passportLang === 'ko' ? '복합 탄수화물' : 'Complex Carbs'}</span>
+                      <span className="text-[9.5px] text-slate-500 block font-sans">{isKhmer ? 'ថាមពលយូរអង្វែង' : passportLang === 'ko' ? '복합 탄수화물' : passportLang === 'fr' ? 'Glucides complexes' : 'Complex Carbs'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.dietaryFiberLabel}</span>
                       <span className="font-bold text-slate-800">{packagingData.nutrition?.dietaryFiber || '3.3'} g</span>
-                      <span className="text-[9.5px] text-slate-500 block font-sans">{isKhmer ? 'ជំនួយការរំលាយអាហារ' : passportLang === 'ko' ? '장 건강 지원' : 'Digestive health'}</span>
+                      <span className="text-[9.5px] text-slate-500 block font-sans">{isKhmer ? 'ជំនួយការរំលាយអាហារ' : passportLang === 'ko' ? '장 건강 지원' : passportLang === 'fr' ? 'Santé digestive' : 'Digestive health'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.totalSugarsLabel}</span>
                       <span className="font-bold text-slate-800">{packagingData.nutrition?.totalSugars || '5.9'} g</span>
-                      <span className="text-[9.5px] text-slate-400 block font-sans">{isKhmer ? 'ស្ករធម្មជាតិពីគ្រាប់' : passportLang === 'ko' ? '견과 천연 당' : 'Natural nut sugars'}</span>
+                      <span className="text-[9.5px] text-slate-400 block font-sans">{isKhmer ? 'ស្ករធម្មជាតិពីគ្រាប់' : passportLang === 'ko' ? '견과 천연 당' : passportLang === 'fr' ? 'Sucres naturels des noix' : 'Natural nut sugars'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.addedSugarsLabel}</span>
                       <span className="font-bold text-slate-800">{packagingData.nutrition?.addedSugars || '0.0'} g</span>
-                      <span className="text-[9.5px] text-emerald-700 block font-sans">{isKhmer ? 'គ្មានស្ករបន្ថែមគីមី' : passportLang === 'ko' ? '인공 첨가당 0%' : 'No refined sugars'}</span>
+                      <span className="text-[9.5px] text-emerald-700 block font-sans">{isKhmer ? 'គ្មានស្ករបន្ថែមគីមី' : passportLang === 'ko' ? '인공 첨가당 0%' : passportLang === 'fr' ? 'Sans sucre raffiné' : 'No refined sugars'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.sodiumLabel}</span>
                       <span className="font-bold text-slate-800">{packagingData.nutrition?.sodium || '8'} mg</span>
-                      <span className="text-[9.5px] text-slate-400 block font-sans">{isKhmer ? 'កម្រិតទាប' : passportLang === 'ko' ? '저나트륨' : 'Low Sodium'}</span>
+                      <span className="text-[9.5px] text-slate-400 block font-sans">{isKhmer ? 'កម្រិតទាប' : passportLang === 'ko' ? '저나트륨' : passportLang === 'fr' ? 'Faible en sodium' : 'Low Sodium'}</span>
                     </div>
 
                     <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-0.5">
                       <span className="text-[10.5px] text-slate-500 font-sans block">{tCert.saltLabel}</span>
                       <span className="font-bold text-slate-800">{packagingData.nutrition?.salt || '0.02'} g</span>
-                      <span className="text-[9.5px] text-slate-400 block font-sans">{isKhmer ? 'អំបិលធម្មជាតិ' : passportLang === 'ko' ? '천연 식염' : 'Natural salt'}</span>
+                      <span className="text-[9.5px] text-slate-400 block font-sans">{isKhmer ? 'អំបិលធម្មជាតិ' : passportLang === 'ko' ? '천연 식염' : passportLang === 'fr' ? 'Sel marin naturel' : 'Natural salt'}</span>
                     </div>
                   </div>
                 </div>
@@ -3912,15 +4174,25 @@ export default function ProductPassport({
                     </span>
                   </div>
                   <div className="text-xs sm:text-[12px] text-slate-800 leading-relaxed font-sans whitespace-pre-line font-medium">
-                    {translateUsageToLanguage(
-                      (isFlour && (packagingData.instructionsForUse?.includes('250ml') || packagingData.instructionsForUse?.includes('៨៥°C') || !packagingData.instructionsForUse?.trim()))
-                        ? '• ធ្វើទឹកដោះគ្រាប់ស្វាយចន្ទីក្តៅ ឬត្រជាក់ (ម្សៅ ១ គីឡូក្រាម អាចធ្វើបានប្រហែល ៧ លីត្រ)\n• លាយក្នុងស្មូធី កាហ្វេ និងភេសជ្ជៈផ្សេងៗ\n• ប្រើធ្វើនំ នំប៉័ង នំប៊ីស្គីត បបរ និងម្ហូបផ្សេងៗ'
-                        : (packagingData.instructionsForUse || (isFlour
+                    {passportLang === 'fr' && packagingData.instructionsFr
+                      ? packagingData.instructionsFr
+                      : passportLang === 'ja' && packagingData.instructionsJa
+                      ? packagingData.instructionsJa
+                      : passportLang === 'ko' && packagingData.instructionsKo
+                      ? packagingData.instructionsKo
+                      : !isKhmer && passportLang === 'en' && packagingData.instructionsEn
+                      ? packagingData.instructionsEn
+                      : isKhmer && packagingData.instructionsForUse?.trim()
+                      ? packagingData.instructionsForUse
+                      : translateUsageToLanguage(
+                          (isFlour && (packagingData.instructionsForUse?.includes('250ml') || packagingData.instructionsForUse?.includes('៨៥°C') || !packagingData.instructionsForUse?.trim()))
                             ? '• ធ្វើទឹកដោះគ្រាប់ស្វាយចន្ទីក្តៅ ឬត្រជាក់ (ម្សៅ ១ គីឡូក្រាម អាចធ្វើបានប្រហែល ៧ លីត្រ)\n• លាយក្នុងស្មូធី កាហ្វេ និងភេសជ្ជៈផ្សេងៗ\n• ប្រើធ្វើនំ នំប៉័ង នំប៊ីស្គីត បបរ និងម្ហូបផ្សេងៗ'
-                            : 'អាចទទួលទានភ្លាមៗជាអាហារសម្រន់សុខភាព ឬប្រើជាគ្រឿងបន្ថែមរសជាតិលើសាឡាត់ បបរ និងម្ហូបអាហារផ្សេងៗ។ ក្រោយបើកកញ្ចប់រួច ត្រូវបិទខ្សែរូតឱ្យជិតដើម្បីរក្សាភាពស្រួយឆ្ងាញ់។')),
-                      passportLang,
-                      isFlour
-                    )}
+                            : (packagingData.instructionsForUse || (isFlour
+                                ? '• ធ្វើទឹកដោះគ្រាប់ស្វាយចន្ទីក្តៅ ឬត្រជាក់ (ម្សៅ ១ គីឡូក្រាម អាចធ្វើបានប្រហែល ៧ លីត្រ)\n• លាយក្នុងស្មូធី កាហ្វេ និងភេសជ្ជៈផ្សេងៗ\n• ប្រើធ្វើនំ នំប៉័ង នំប៊ីស្គីត បបរ និងម្ហូបផ្សេងៗ'
+                                : 'អាចទទួលទានភ្លាមៗជាអាហារសម្រន់សុខភាព ឬប្រើជាគ្រឿងបន្ថែមរសជាតិលើសាឡាត់ បបរ និងម្ហូបអាហារផ្សេងៗ។ ក្រោយបើកកញ្ចប់រួច ត្រូវបិទខ្សែរូតឱ្យជិតដើម្បីរក្សាភាពស្រួយឆ្ងាញ់។')),
+                          passportLang,
+                          isFlour
+                        )}
                   </div>
                 </div>
 
@@ -3936,7 +4208,15 @@ export default function ProductPassport({
                     </span>
                   </div>
                   <p className="text-xs sm:text-[12px] text-slate-800 leading-relaxed font-sans">
-                    {translateStorageToLanguage(packagingData.storage || (isKhmer ? 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។ ក្រោយបើកប្រើរួច ត្រូវបិទខ្សែរូត ឬគម្របឱ្យជិត។' : 'Store in a cool, dry place (< 25°C). Keep away from direct sunlight and moisture. Reseal tightly after opening.'), passportLang)}
+                    {passportLang === 'fr' && packagingData.storageFr
+                      ? packagingData.storageFr
+                      : passportLang === 'ja' && packagingData.storageJa
+                      ? packagingData.storageJa
+                      : passportLang === 'ko' && packagingData.storageKo
+                      ? packagingData.storageKo
+                      : !isKhmer && passportLang === 'en' && packagingData.storageEn
+                      ? packagingData.storageEn
+                      : translateStorageToLanguage(packagingData.storage || (isKhmer ? 'រក្សាទុកនៅកន្លែងស្ងួត ត្រជាក់ ក្រោម ២៥°C ជៀសវាងពន្លឺថ្ងៃ និងសំណើម។ ក្រោយបើកប្រើរួច ត្រូវបិទខ្សែរូត ឬគម្របឱ្យជិត។' : 'Store in a cool, dry place (< 25°C). Keep away from direct sunlight and moisture. Reseal tightly after opening.'), passportLang)}
                   </p>
                 </div>
 
@@ -3952,7 +4232,15 @@ export default function ProductPassport({
                     </span>
                   </div>
                   <p className="text-xs sm:text-[12px] text-rose-900 leading-relaxed pl-1 font-medium">
-                    {translateAllergenToLanguage(packagingData.allergen || 'Contains tree nuts: Cashew Nuts (ផ្ទុកសារធាតុអាឡែហ្ស៊ី៖ គ្រាប់ស្វាយចន្ទី)', passportLang)}
+                    {passportLang === 'fr' && packagingData.allergenFr
+                      ? packagingData.allergenFr
+                      : passportLang === 'ja' && packagingData.allergenJa
+                      ? packagingData.allergenJa
+                      : passportLang === 'ko' && packagingData.allergenKo
+                      ? packagingData.allergenKo
+                      : !isKhmer && passportLang === 'en' && packagingData.allergenEn
+                      ? packagingData.allergenEn
+                      : translateAllergenToLanguage(packagingData.allergen || 'Contains tree nuts: Cashew Nuts (ផ្ទុកសារធាតុអាឡែហ្ស៊ី៖ គ្រាប់ស្វាយចន្ទី)', passportLang)}
                   </p>
                 </div>
 
@@ -3995,17 +4283,17 @@ export default function ProductPassport({
                       <p className="font-black text-slate-950 text-base font-sans flex items-center gap-2">
                         <span>{tCert.producerName}</span>
                         <span className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 font-bold px-2 py-0.5 rounded-full font-mono">
-                          {isKhmer ? 'សហគ្រាសផលិតផ្តាច់មុខ' : passportLang === 'ko' ? '단독 공식 제조원' : 'Sole Manufacturer'}
+                          {isKhmer ? 'សហគ្រាសផលិតផ្តាច់មុខ' : passportLang === 'ko' ? '단독 공식 제조원' : passportLang === 'fr' ? 'Fabricant Exclusif' : 'Sole Manufacturer'}
                         </span>
                       </p>
                       <p className="text-[11px] text-slate-600 font-sans mt-0.5">
-                        {tCert.producerNameLabel} • {isKhmer ? 'ទទួលខុសត្រូវលើរូបមន្ត ការកែច្នៃ និងការវេចខ្ចប់ស្តង់ដារជាតិ CS 001:2000' : passportLang === 'ko' ? '국가 표준 CS 001:2000 가공 및 패키징 책임 제조 기업' : 'Responsible for Formulation, Processing & Packaging under CS 001:2000'}
+                        {tCert.producerNameLabel} • {isKhmer ? 'ទទួលខុសត្រូវលើរូបមន្ត ការកែច្នៃ និងការវេចខ្ចប់ស្តង់ដារជាតិ CS 001:2000' : passportLang === 'ko' ? '국가 표준 CS 001:2000 가공 및 패키징 책임 제조 기업' : passportLang === 'fr' ? 'Responsable de la formulation, transformation et emballage selon la norme CS 001:2000' : 'Responsible for Formulation, Processing & Packaging under CS 001:2000'}
                       </p>
                     </div>
                     <div className="px-3.5 py-2 rounded-xl bg-amber-50 border border-amber-200 text-[11px] font-sans flex items-center gap-2 text-amber-950 shrink-0">
                       <span className="text-base">🏛️</span>
                       <div>
-                        <span className="text-[10px] text-amber-800 font-medium block">{isKhmer ? 'សហគ្រាសផលិតផ្លូវការ' : 'Official Manufacturer'}</span>
+                        <span className="text-[10px] text-amber-800 font-medium block">{isKhmer ? 'សហគ្រាសផលិតផ្លូវការ' : passportLang === 'fr' ? 'Fabricant Officiel' : 'Official Manufacturer'}</span>
                         <strong className="text-amber-950 font-black">Mayany Enterprise</strong>
                       </div>
                     </div>
@@ -4109,7 +4397,7 @@ export default function ProductPassport({
                         </span>
                       </div>
                       <p className="text-sm font-black text-slate-900 font-mono">
-                        {packagingData.mfd || (isKhmer ? 'បោះលើស្លាកបន្ថែម (MTO)' : passportLang === 'ja' ? '別添ラベル打刻 (受注生産)' : passportLang === 'ko' ? '동봉 라벨 날인' : 'Printed on Companion Label (MTO)')}
+                        {packagingData.mfd || (isKhmer ? 'បោះលើស្លាកបន្ថែម (MTO)' : passportLang === 'ja' ? '別添ラベル打刻 (受注生産)' : passportLang === 'ko' ? '동봉 라벨 날인' : passportLang === 'fr' ? 'Sur étiquette d\'accompagnement (MTO)' : 'Printed on Companion Label (MTO)')}
                       </p>
                       <span className="text-[9.5px] text-slate-500 block">
                         {tCert.mfdSub}
@@ -4127,7 +4415,7 @@ export default function ProductPassport({
                         </span>
                       </div>
                       <p className="text-sm font-black text-slate-900 font-mono">
-                        {packagingData.exp || (isKhmer ? 'បោះលើស្លាកបន្ថែម (MTO)' : passportLang === 'ja' ? '別添ラベル打刻 (受注生産)' : passportLang === 'ko' ? '동봉 라벨 날인' : 'Printed on Companion Label (MTO)')}
+                        {packagingData.exp || (isKhmer ? 'បោះលើស្លាកបន្ថែម (MTO)' : passportLang === 'ja' ? '別添ラベル打刻 (受注生産)' : passportLang === 'ko' ? '동봉 라벨 날인' : passportLang === 'fr' ? 'Sur étiquette d\'accompagnement (MTO)' : 'Printed on Companion Label (MTO)')}
                       </p>
                       <span className="text-[9.5px] text-slate-600 block">
                         {tCert.shelfLifeLabel}: <strong>{packagingData.shelfLifeMonths || 6} {tCert.shelfLifeMonthsSuffix}</strong>
@@ -4154,6 +4442,8 @@ export default function ProductPassport({
                               ? '受注生産 (Make to Order - 別添ラベル参照)' 
                               : passportLang === 'ko' 
                               ? '주문 즉시 생산 (Make to Order - 동봉 라벨 확인)' 
+                              : passportLang === 'fr'
+                              ? 'Fabrication à la commande (MTO - Voir étiquette d\'accompagnement)'
                               : 'Make-to-Order (Freshly Batched on Companion Label)')
                           : packagingData.batch}
                       </p>
@@ -4165,7 +4455,7 @@ export default function ProductPassport({
 
                   <div className="flex flex-wrap items-center justify-between gap-1 pt-1 border-t border-amber-200/60 text-[10.5px] font-sans">
                     <span className="text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-                      ✓ {isKhmer ? 'អនុលោមតាមស្តង់ដារជាតិ CS 001 មាត្រា ៤.៤ & ការនាំចេញអន្តរជាតិ' : passportLang === 'ja' ? 'カンボジア国家規格 CS 001 第4.4条および国際輸出規格適合' : passportLang === 'ko' ? '캄보디아 국가 표준 CS 001 제4.4조 및 수출 규격 준수' : 'Fully Compliant with CS 001 Rule 4.4 & International Export Standard'}
+                      ✓ {isKhmer ? 'អនុលោមតាមស្តង់ដារជាតិ CS 001 មាត្រា ៤.៤ & ការនាំចេញអន្តរជាតិ' : passportLang === 'ja' ? 'カンボジア国家規格 CS 001 第4.4条および国際輸出規格適合' : passportLang === 'ko' ? '캄보디아 국가 표준 CS 001 제4.4조 및 수출 규격 준수' : passportLang === 'fr' ? 'Entièrement conforme à la norme CS 001 Règle 4.4 et aux standards d\'exportation UE/Francophonie' : 'Fully Compliant with CS 001 Rule 4.4 & International Export Standard'}
                     </span>
                     <span className="text-slate-600 font-mono">
                       REF: MISTI-CS001-2026-{packagingData.ean13 || packagingData.batch || 'MTO'}
